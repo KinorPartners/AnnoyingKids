@@ -1,0 +1,119 @@
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useCart } from '@/context/CartContext';
+
+export default function Header() {
+  const { totalItems } = useCart();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-dark-bg/80 backdrop-blur-xl border-b border-dark-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2 group">
+            <span className="text-2xl">😈</span>
+            <span className="font-bungee text-lg sm:text-xl text-white group-hover:text-neon-pink transition-colors duration-300">
+              ANNOYING
+              <span className="text-neon-pink group-hover:text-neon-green transition-colors duration-300">
+                KIDS
+              </span>
+            </span>
+          </Link>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-8">
+            <Link
+              href="/"
+              className="font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider"
+            >
+              Home
+            </Link>
+            <Link
+              href="/products"
+              className="font-space text-gray-400 hover:text-neon-green transition-colors duration-300 text-sm uppercase tracking-wider"
+            >
+              Shop
+            </Link>
+            <Link
+              href="/about"
+              className="font-space text-gray-400 hover:text-neon-blue transition-colors duration-300 text-sm uppercase tracking-wider"
+            >
+              About
+            </Link>
+          </nav>
+
+          {/* Cart + Mobile menu */}
+          <div className="flex items-center gap-4">
+            {/* Cart */}
+            <Link
+              href="/cart"
+              className="relative flex items-center gap-2 px-4 py-2 bg-dark-surface border border-dark-border rounded-lg 
+                hover:border-neon-pink/50 hover:shadow-[0_0_15px_rgba(255,45,120,0.2)] transition-all duration-300"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+              </svg>
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 w-5 h-5 bg-neon-pink rounded-full flex items-center justify-center text-white text-xs font-bungee animate-pulse">
+                  {totalItems}
+                </span>
+              )}
+            </Link>
+
+            {/* Mobile menu toggle */}
+            <button
+              className="md:hidden flex items-center justify-center w-10 h-10 text-gray-400 hover:text-white transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-dark-border py-4 space-y-3">
+            <Link
+              href="/"
+              className="block font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              href="/products"
+              className="block font-space text-gray-400 hover:text-neon-green transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Shop
+            </Link>
+            <Link
+              href="/about"
+              className="block font-space text-gray-400 hover:text-neon-blue transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              About
+            </Link>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+}
