@@ -96,6 +96,10 @@ export const MOCK_PRODUCTS: Product[] = [
   },
 ];
 
+export function getAllProducts(): Product[] {
+  return MOCK_PRODUCTS;
+}
+
 export function getProductBySlug(slug: string): Product | undefined {
   return MOCK_PRODUCTS.find((p) => p.slug === slug);
 }

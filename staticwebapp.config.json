@@ -1,7 +1,7 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/api/*", "/images/*.{png,jpg,gif,svg}", "/_next/*"]
+    "exclude": ["/api/*", "/_next/*", "/products/*"]
   },
   "routes": [
     {
@@ -11,12 +11,7 @@
   ],
   "responseOverrides": {
     "404": {
-      "rewrite": "/index.html"
+      "rewrite": "/404.html"
     }
-  },
-  "globalHeaders": {
-    "X-Frame-Options": "DENY",
-    "X-Content-Type-Options": "nosniff",
-    "Referrer-Policy": "strict-origin-when-cross-origin"
   }
 }
