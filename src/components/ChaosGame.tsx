@@ -13,7 +13,7 @@ const COLS = 15;
 const ROWS = 15;
 const CELL = 36;
 
-// 1=wall, 0=candy, 2=empty, 3=bonus
+// 1=wall, 0=candy, 2=empty, 3=bonus, 4=tunnel (wraps to other side)
 const BASE_MAZE: number[][] = [
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   [1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
@@ -22,7 +22,7 @@ const BASE_MAZE: number[][] = [
   [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1],
   [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
   [1,1,1,0,1,0,1,3,1,0,1,0,1,1,1],
-  [1,3,0,0,0,0,0,2,0,0,0,0,0,3,1],
+  [4,3,0,0,0,0,0,2,0,0,0,0,0,3,4],  // ← tunnel row
   [1,1,1,0,1,0,1,0,1,0,1,0,1,1,1],
   [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
   [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1],
@@ -36,31 +36,44 @@ const BONUS_ICONS = ['🍕','🍭','🎮','🍦','🧃','🍟','🎯','🕹️']
 const TOTAL_ITEMS = BASE_MAZE.flat().filter(c => c === 0 || c === 3).length;
 
 function cloneMaze(m: number[][]): number[][] { return m.map(r => [...r]); }
+
+// Wrap x so it always stays within [0, COLS-1]
+function wrapX(x: number): number { return ((x % COLS) + COLS) % COLS; }
+
 function isWall(m: number[][], x: number, y: number): boolean {
-  if (x < 0 || x >= COLS || y < 0 || y >= ROWS) return true;
-  return m[y][x] === 1;
+  if (y < 0 || y >= ROWS) return true;
+  return m[y][wrapX(x)] === 1;
 }
+
+// Resolve a raw position to its canonical (possibly wrapped) position
+function resolvePos(x: number, y: number): Pos { return { x: wrapX(x), y }; }
+
 function bfsStep(maze: number[][], from: Pos, to: Pos): Dir {
   if (from.x === to.x && from.y === to.y) return { x: 0, y: 0 };
   const dirs: Dir[] = [{ x:0,y:-1},{x:0,y:1},{x:-1,y:0},{x:1,y:0}];
   const visited = new Set<string>([`${from.x},${from.y}`]);
   const queue: Array<{ pos: Pos; first: Dir }> = [];
   for (const d of dirs) {
-    const nx = from.x+d.x, ny = from.y+d.y;
-    if (!isWall(maze,nx,ny)) {
-      const k=`${nx},${ny}`; if (visited.has(k)) continue; visited.add(k);
-      if (nx===to.x&&ny===to.y) return d;
-      queue.push({ pos:{x:nx,y:ny}, first:d });
+    const raw = { x: from.x+d.x, y: from.y+d.y };
+    if (!isWall(maze, raw.x, raw.y)) {
+      const np = resolvePos(raw.x, raw.y);
+      const k=`${np.x},${np.y}`; if (visited.has(k)) continue; visited.add(k);
+      if (np.x===to.x&&np.y===to.y) return d;
+      queue.push({ pos:np, first:d });
     }
   }
   while (queue.length) {
     const {pos,first}=queue.shift()!;
     for (const d of dirs) {
-      const nx=pos.x+d.x, ny=pos.y+d.y, k=`${nx},${ny}`;
-      if (!isWall(maze,nx,ny)&&!visited.has(k)) {
-        visited.add(k);
-        if (nx===to.x&&ny===to.y) return first;
-        queue.push({pos:{x:nx,y:ny},first});
+      const raw = { x: pos.x+d.x, y: pos.y+d.y };
+      if (!isWall(maze, raw.x, raw.y)) {
+        const np = resolvePos(raw.x, raw.y);
+        const k=`${np.x},${np.y}`;
+        if (!visited.has(k)) {
+          visited.add(k);
+          if (np.x===to.x&&np.y===to.y) return first;
+          queue.push({pos:np,first});
+        }
       }
     }
   }
@@ -271,10 +284,10 @@ export default function ChaosGame() {
       const kid  = kidRef.current;
       tickRef.current++;
 
-      // Move kid
+      // Move kid (with tunnel wrap)
       const tryMove = (d: Dir): Pos|null => {
         const nx=kid.x+d.x, ny=kid.y+d.y;
-        return isWall(maze,nx,ny) ? null : {x:nx,y:ny};
+        return isWall(maze,nx,ny) ? null : resolvePos(nx,ny);
       };
       let newKid = kid;
       const nextAttempt = tryMove(nextDirRef.current);
@@ -312,7 +325,7 @@ export default function ChaosGame() {
         if (Math.random() < skipChance(ch.type, level)) return ch;
         const step = bfsStep(maze, ch.pos, kidRef.current);
         const nx=ch.pos.x+step.x, ny=ch.pos.y+step.y;
-        return isWall(maze,nx,ny) ? ch : { ...ch, pos:{x:nx,y:ny} };
+        return isWall(maze,nx,ny) ? ch : { ...ch, pos: resolvePos(nx,ny) };
       });
 
       // Collision
@@ -394,6 +407,13 @@ export default function ChaosGame() {
             }}>
               {cell===0 && <div style={{width:7,height:7,borderRadius:'50%',background:'#ff2d78',boxShadow:'0 0 6px #ff2d78'}}/>}
               {cell===3 && <span style={{fontSize:CELL*0.55,lineHeight:1}}>{bonusIconsRef.current[`${x},${y}`]??'🍭'}</span>}
+              {cell===4 && (
+                <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',height:'100%',
+                  background:'linear-gradient(90deg,#1a1a6e,#0a0a1a,#1a1a6e)',
+                  borderTop:'1px dashed #00f0ff44', borderBottom:'1px dashed #00f0ff44'}}>
+                  <span style={{fontSize:10,color:'#00f0ff88'}}>{'<>'}</span>
+                </div>
+              )}
             </div>
           )))}
 
