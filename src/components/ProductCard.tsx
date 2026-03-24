@@ -29,7 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     caps: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
   };
 
-  const primaryImage = product.images.find((img) => img.startsWith('https://')) || null;
+  const primaryImage = product.images[0] || null;
   const [imgError, setImgError] = useState(false);
 
   const categoryEmoji: Record<string, string> = {
