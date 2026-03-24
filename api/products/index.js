@@ -133,6 +133,7 @@ module.exports = async function (context, req) {
     const printifyApiKey = process.env.PRINTIFY_API_KEY;
     const printifyShopId = process.env.PRINTIFY_SHOP_ID;
 
+    let lastError = '';
     if (printifyApiKey && printifyShopId) {
       try {
         const res = await fetch(
@@ -202,13 +203,14 @@ module.exports = async function (context, req) {
           'Printify API error, falling back to mock data:',
           printifyError
         );
+        lastError = printifyError.message;
       }
     }
 
     context.res = {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ products: MOCK_PRODUCTS, source: 'mock' }),
+      body: JSON.stringify({ products: MOCK_PRODUCTS, source: 'mock', _e: lastError }),
     };
   } catch (error) {
     context.log.error('Products API error:', error);
