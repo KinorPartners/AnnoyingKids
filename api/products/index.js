@@ -137,7 +137,21 @@ module.exports = async function (context, req) {
     const debug = {
       hasApiKey: !!printifyApiKey,
       hasShopId: !!printifyShopId,
+      shopIdUsed: printifyShopId,
     };
+
+    // Debug: fetch available shops to verify correct shop ID
+    if (printifyApiKey) {
+      try {
+        const shopsRes = await fetch(`${PRINTIFY_API_BASE}/shops.json`, {
+          headers: { Authorization: `Bearer ${printifyApiKey}` },
+        });
+        const shopsData = await shopsRes.json();
+        debug.availableShops = shopsData;
+      } catch (e) {
+        debug.shopsError = e.message;
+      }
+    }
 
     if (printifyApiKey && printifyShopId) {
       try {
