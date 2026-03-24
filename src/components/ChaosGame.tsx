@@ -140,7 +140,7 @@ function Kid({ size, dead }: { size: number; dead: boolean }) {
   );
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.72,lineHeight:1}}>🧒</span>
+      <span style={{fontSize:size*0.72,lineHeight:1,filter:'saturate(0.25) brightness(0.85)'}}>🧒</span>
       <div style={{position:'absolute',bottom:'14%',left:'50%',transform:'translateX(-50%)',width:size*0.18,height:size*0.16,background:'#ef4444',borderRadius:'0 0 50% 50%',boxShadow:'0 1px 4px rgba(239,68,68,0.6)',zIndex:3}}/>
     </div>
   );
@@ -149,7 +149,7 @@ function Kid({ size, dead }: { size: number; dead: boolean }) {
 function Dad({ size }: { size: number }) {
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.72,lineHeight:1}}>👨</span>
+      <span style={{fontSize:size*0.72,lineHeight:1,filter:'saturate(0.25) brightness(0.85)'}}>👨</span>
       <div style={{position:'absolute',top:'2%',left:'50%',transform:'translateX(-50%)',width:size*0.7,height:size*0.09,background:'#00f0ff',borderRadius:3,boxShadow:'0 0 6px #00f0ff',zIndex:3}}/>
       <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%) translateY(-45%)',width:size*0.42,height:size*0.18,background:'#00f0ff',borderRadius:'4px 4px 0 0',boxShadow:'0 0 6px #00f0ff',zIndex:3}}/>
     </div>
@@ -160,7 +160,7 @@ function Mom({ size }: { size: number }) {
   const w=size*0.22, h=size*0.18;
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.72,lineHeight:1}}>👩</span>
+      <span style={{fontSize:size*0.72,lineHeight:1,filter:'saturate(0.25) brightness(0.85)'}}>👩</span>
       <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%) translateY(-30%)',zIndex:3,display:'flex',alignItems:'center',gap:1}}>
         <div style={{width:w,height:h,background:'#ff2d78',borderRadius:'50% 0 50% 50%',transform:'rotate(20deg)',boxShadow:'0 0 5px #ff2d78'}}/>
         <div style={{width:size*0.1,height:size*0.1,background:'#ff69b4',borderRadius:'50%',flexShrink:0}}/>
