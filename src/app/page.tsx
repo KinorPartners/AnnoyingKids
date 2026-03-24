@@ -6,6 +6,7 @@ import ProductCard from '@/components/ProductCard';
 import FeatureCard from '@/components/FeatureCard';
 import NeonButton from '@/components/NeonButton';
 import GlitchText from '@/components/GlitchText';
+import ChaosGame from '@/components/ChaosGame';
 import { useProducts } from '@/hooks/useProducts';
 
 export default function HomePage() {
@@ -162,6 +163,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Kid Chaos Game */}
+      <div className="bg-dark-surface/50 border-t border-dark-border">
+        <ChaosGame />
+      </div>
     </div>
   );
 }
