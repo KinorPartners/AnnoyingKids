@@ -6,7 +6,7 @@ import NeonButton from './NeonButton';
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0">
         {/* Grid pattern */}
@@ -45,7 +45,7 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         {/* Small tag */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-neon-pink/10 border border-neon-pink/20 rounded-full mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-neon-pink/10 border border-neon-pink/20 rounded-full mb-4">
           <span className="w-2 h-2 bg-neon-pink rounded-full animate-pulse" />
           <span className="font-space text-neon-pink text-sm uppercase tracking-widest">
             For Professional Troublemakers
@@ -53,7 +53,7 @@ export default function HeroSection() {
         </div>
 
         {/* Main headline */}
-        <div className="mb-6">
+        <div className="mb-4">
           <GlitchText
             text="UNLEASH THE CHAOS"
             as="h1"
@@ -62,7 +62,7 @@ export default function HeroSection() {
         </div>
 
         {/* Subtext */}
-        <p className="font-space text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+        <p className="font-space text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-6 leading-relaxed">
           Merch for kids who color outside the lines, talk back to the tutorial,
           and make{' '}
           <span className="text-neon-green font-bold">main character energy</span>{' '}
@@ -77,10 +77,13 @@ export default function HeroSection() {
           <NeonButton href="/about" variant="blue" size="lg">
             Our Story
           </NeonButton>
+          <NeonButton href="/#game" variant="green" size="lg">
+            🎮 Play Kid Chaos
+          </NeonButton>
         </div>
 
         {/* Stats */}
-        <div className="flex items-center justify-center gap-8 sm:gap-12 mt-16">
+        <div className="flex items-center justify-center gap-8 sm:gap-12 mt-8">
           <div className="text-center">
             <p className="font-bungee text-neon-pink text-2xl sm:text-3xl">100%</p>
             <p className="font-space text-gray-500 text-xs sm:text-sm mt-1">
