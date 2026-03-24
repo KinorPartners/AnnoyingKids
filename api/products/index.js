@@ -140,7 +140,6 @@ module.exports = async function (context, req) {
           {
             headers: {
               Authorization: `Bearer ${printifyApiKey}`,
-              'Content-Type': 'application/json',
             },
           }
         );
