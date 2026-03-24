@@ -149,8 +149,81 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Kid Chaos game promo */}
+        <style>{`
+          @keyframes kid-run {
+            0%   { transform: translateX(-60px); }
+            100% { transform: translateX(calc(var(--chase-w, 400px) + 60px)); }
+          }
+          @keyframes dad-run {
+            0%   { transform: translateX(-100px); }
+            100% { transform: translateX(calc(var(--chase-w, 400px) + 20px)); }
+          }
+          @keyframes mom-run {
+            0%   { transform: translateX(-140px); }
+            100% { transform: translateX(calc(var(--chase-w, 400px) - 20px)); }
+          }
+          .chase-kid { animation: kid-run 2.8s linear infinite; }
+          .chase-dad { animation: dad-run 2.8s linear infinite; animation-delay: 0.55s; }
+          .chase-mom { animation: mom-run 2.8s linear infinite; animation-delay: 1.1s; }
+        `}</style>
+
+        <div className="mt-12 mb-2">
+          <Link
+            href="/#game"
+            className="group block relative overflow-hidden rounded-2xl border border-neon-pink/20 bg-dark-card/60
+              hover:border-neon-pink/50 hover:shadow-[0_0_20px_rgba(255,45,120,0.15)] transition-all duration-300 px-6 py-4"
+          >
+            {/* Label */}
+            <div className="flex items-center justify-between mb-3">
+              <span className="font-bungee text-sm text-neon-pink uppercase tracking-widest">
+                🎮 Play Kid Chaos
+              </span>
+              <span className="font-space text-gray-600 text-xs group-hover:text-gray-400 transition-colors">
+                Escape your parents →
+              </span>
+            </div>
+
+            {/* Candy dots track */}
+            <div className="relative h-9 overflow-hidden rounded-lg bg-dark-surface/50">
+              {/* Static candy dots */}
+              {[8, 13, 18, 23, 28, 33, 38, 43, 48, 53, 58, 63, 68, 73, 78, 83, 88].map((pct) => (
+                <div
+                  key={pct}
+                  style={{
+                    position: 'absolute',
+                    left: `${pct}%`,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: 5,
+                    height: 5,
+                    borderRadius: '50%',
+                    background: '#ff2d78',
+                    boxShadow: '0 0 4px #ff2d78',
+                    opacity: 0.5,
+                  }}
+                />
+              ))}
+
+              {/* Chasing emojis */}
+              <span
+                className="chase-mom absolute top-0 leading-none select-none"
+                style={{ fontSize: 26, lineHeight: '36px' }}
+              >👩</span>
+              <span
+                className="chase-dad absolute top-0 leading-none select-none"
+                style={{ fontSize: 26, lineHeight: '36px' }}
+              >👨</span>
+              <span
+                className="chase-kid absolute top-0 leading-none select-none"
+                style={{ fontSize: 26, lineHeight: '36px' }}
+              >🧒</span>
+            </div>
+          </Link>
+        </div>
+
         {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-dark-border flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-8 pt-8 border-t border-dark-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="font-space text-gray-600 text-xs">
             © {new Date().getFullYear()} AnnoyingKids. All rights reserved. Stay chaotic. 😈
           </p>

@@ -165,7 +165,7 @@ export default function HomePage() {
       </section>
 
       {/* Kid Chaos Game */}
-      <div className="bg-dark-surface/50 border-t border-dark-border">
+      <div id="game" className="bg-dark-surface/50 border-t border-dark-border">
         <ChaosGame />
       </div>
     </div>
