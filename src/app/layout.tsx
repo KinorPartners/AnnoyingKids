@@ -1,31 +1,79 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+
 export const metadata: Metadata = {
-  title: 'AnnoyingKids — Merch for Professional Troublemakers',
+  metadataBase: new URL('https://www.annoyingkids.com'),
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
+  title: {
+    default: 'AnnoyingKids — Merch for Professional Troublemakers',
+    template: '%s | AnnoyingKids',
+  },
   description:
-    'Bold, loud merch for kids 6-16 who live life at maximum volume. Tees, hoodies, mugs, stickers & more. Annoying by design, awesome by default. 😈',
+    'Bold, loud merch for kids 6-16 who live life at maximum volume. Tees, hoodies, mugs, stickers and more. Annoying by design, awesome by default.',
   keywords: [
     'kids clothing',
-    'graphic tees',
-    'hoodies',
-    'kids merch',
+    'graphic tees for kids',
+    'funny kids merch',
+    'hoodies for kids',
     'annoying kids',
-    'streetwear',
-    'neon',
-    'youth fashion',
+    'kids streetwear',
+    'neon kids fashion',
+    'youth merch',
+    'print on demand kids',
   ],
   openGraph: {
     title: 'AnnoyingKids — Merch for Professional Troublemakers',
     description:
-      'Bold, loud merch for kids 6-16 who live life at maximum volume.',
+      'Bold, loud merch for kids 6-16 who live life at maximum volume. Annoying by design, awesome by default.',
     url: 'https://www.annoyingkids.com',
     siteName: 'AnnoyingKids',
     type: 'website',
+    images: [
+      {
+        url: 'https://www.annoyingkids.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'AnnoyingKids — Merch for Professional Troublemakers',
+      },
+    ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AnnoyingKids — Merch for Professional Troublemakers',
+    description: 'Bold, loud merch for kids 6-16. Annoying by design, awesome by default.',
+    images: ['https://www.annoyingkids.com/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': -1,
+      'max-image-preview': 'large',
+    },
+  },
+  alternates: {
+    canonical: 'https://www.annoyingkids.com',
+  },
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'AnnoyingKids',
+  url: 'https://www.annoyingkids.com',
+  description: 'Bold, loud merch for kids 6-16. Print-on-demand apparel and accessories.',
+  sameAs: [],
 };
 
 export default function RootLayout({
@@ -35,7 +83,29 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+      </head>
       <body className="bg-dark-bg text-white antialiased noise-overlay">
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="gtag-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
         <CartProvider>
           <Header />
           <main className="min-h-screen pt-16 sm:pt-20">{children}</main>

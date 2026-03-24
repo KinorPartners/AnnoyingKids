@@ -3,29 +3,32 @@
 import React, { useState, useMemo } from 'react';
 import ProductCard from '@/components/ProductCard';
 import GlitchText from '@/components/GlitchText';
-import { MOCK_PRODUCTS, CATEGORIES, getProductsByCategory } from '@/lib/products';
+import { CATEGORIES } from '@/lib/products';
+import { useProducts } from '@/hooks/useProducts';
 
 export default function ProductsPage() {
+  const { products, loading } = useProducts();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc'>('default');
 
   const filteredProducts = useMemo(() => {
-    let products = getProductsByCategory(selectedCategory);
+    let list = selectedCategory === 'all'
+      ? products
+      : products.filter((p) => p.category === selectedCategory);
 
     if (sortBy === 'price-asc') {
-      products = [...products].sort((a, b) => a.price - b.price);
+      list = [...list].sort((a, b) => a.price - b.price);
     } else if (sortBy === 'price-desc') {
-      products = [...products].sort((a, b) => b.price - a.price);
+      list = [...list].sort((a, b) => b.price - a.price);
     }
 
-    return products;
-  }, [selectedCategory, sortBy]);
+    return list;
+  }, [products, selectedCategory, sortBy]);
 
   return (
     <div className="min-h-screen">
       {/* Hero banner */}
       <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Background */}
         <div className="absolute inset-0">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-pink/5 rounded-full blur-[120px]" />
         </div>
@@ -77,33 +80,50 @@ export default function ProductsPage() {
               focus:outline-none focus:border-neon-pink/30 transition-all duration-300 cursor-pointer"
           >
             <option value="default">Sort: Default</option>
-            <option value="price-asc">Price: Low → High</option>
-            <option value="price-desc">Price: High → Low</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
           </select>
         </div>
 
-        {/* Product count */}
-        <p className="font-space text-gray-600 text-sm mb-6">
-          Showing{' '}
-          <span className="text-neon-green font-bold">{filteredProducts.length}</span>{' '}
-          product{filteredProducts.length !== 1 ? 's' : ''}
-        </p>
-
-        {/* Products grid */}
-        {filteredProducts.length > 0 ? (
+        {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="bg-dark-card border border-dark-border rounded-2xl overflow-hidden animate-pulse"
+              >
+                <div className="aspect-square bg-dark-surface" />
+                <div className="p-5 space-y-3">
+                  <div className="h-4 bg-dark-surface rounded w-3/4" />
+                  <div className="h-4 bg-dark-surface rounded w-1/2" />
+                </div>
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <span className="text-6xl mb-4 inline-block">🤷</span>
-            <h3 className="font-bungee text-xl text-gray-400 mb-2">No Products Found</h3>
-            <p className="font-space text-gray-600">
-              Try a different category or check back for new drops!
+          <>
+            <p className="font-space text-gray-600 text-sm mb-6">
+              Showing{' '}
+              <span className="text-neon-green font-bold">{filteredProducts.length}</span>{' '}
+              product{filteredProducts.length !== 1 ? 's' : ''}
             </p>
-          </div>
+
+            {filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20">
+                <span className="text-6xl mb-4 inline-block">🤷</span>
+                <h3 className="font-bungee text-xl text-gray-400 mb-2">No Products Found</h3>
+                <p className="font-space text-gray-600">
+                  Try a different category or check back for new drops!
+                </p>
+              </div>
+            )}
+          </>
         )}
       </section>
     </div>

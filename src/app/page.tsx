@@ -6,10 +6,11 @@ import ProductCard from '@/components/ProductCard';
 import FeatureCard from '@/components/FeatureCard';
 import NeonButton from '@/components/NeonButton';
 import GlitchText from '@/components/GlitchText';
-import { getFeaturedProducts } from '@/lib/products';
+import { useProducts } from '@/hooks/useProducts';
 
 export default function HomePage() {
-  const featuredProducts = getFeaturedProducts();
+  const { products, loading } = useProducts();
+  const featuredProducts = products.slice(0, 4);
 
   return (
     <div>
@@ -30,11 +31,28 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className="bg-dark-card border border-dark-border rounded-2xl overflow-hidden animate-pulse"
+              >
+                <div className="aspect-square bg-dark-surface" />
+                <div className="p-5 space-y-3">
+                  <div className="h-4 bg-dark-surface rounded w-3/4" />
+                  <div className="h-4 bg-dark-surface rounded w-1/2" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
 
         <div className="text-center mt-12">
           <NeonButton href="/products" variant="green" size="lg">
@@ -45,7 +63,6 @@ export default function HomePage() {
 
       {/* Chaos by Design Section */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Background decoration */}
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-neon-pink/30 to-transparent" />
           <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-neon-blue/30 to-transparent" />
@@ -75,11 +92,31 @@ export default function HomePage() {
               accentColor="green"
             />
             <FeatureCard
-              icon="🤝"
-              title="Sharing is Optional"
-              description="We believe in bold self-expression and questionable fashion choices. Every product is a statement piece that says 'I'm here, deal with it.'"
+              icon="🖨️"
+              title="Made When You Order"
+              description="Every item is printed on demand — no warehouses, no waste. Your order goes straight from our printers to your door. Better for the planet, better for your chaos budget."
               accentColor="blue"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Badges */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 border-y border-dark-border">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              { icon: '🚚', label: 'Free US Shipping', sub: 'On all orders' },
+              { icon: '🔄', label: '30-Day Returns', sub: 'No questions asked' },
+              { icon: '🔒', label: 'Secure Checkout', sub: 'Powered by Stripe' },
+              { icon: '🖨️', label: 'Print on Demand', sub: 'Made just for you' },
+            ].map((badge) => (
+              <div key={badge.label} className="flex flex-col items-center gap-2">
+                <span className="text-3xl">{badge.icon}</span>
+                <p className="font-bungee text-white text-sm">{badge.label}</p>
+                <p className="font-space text-gray-600 text-xs">{badge.sub}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -87,11 +124,9 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto relative">
-          {/* Glow background */}
           <div className="absolute inset-0 bg-gradient-to-r from-neon-pink/10 via-neon-blue/10 to-neon-green/10 rounded-3xl blur-xl" />
 
           <div className="relative bg-dark-card border border-dark-border rounded-3xl p-12 sm:p-16 text-center overflow-hidden">
-            {/* Grid pattern inside */}
             <div
               className="absolute inset-0 opacity-5"
               style={{
@@ -112,15 +147,15 @@ export default function HomePage() {
                 MAIN CHARACTER ENERGY
               </h2>
               <p className="font-space text-gray-400 text-lg max-w-xl mx-auto mb-10">
-                Join thousands of kids who&apos;ve already unlocked their chaos
-                potential. New drops every month. Limited editions that sell out fast.
+                New designs drop regularly. Limited runs sell out fast. Grab yours before
+                the chaos runs out.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <NeonButton href="/products" variant="yellow" size="lg">
                   Shop Now 🛒
                 </NeonButton>
                 <NeonButton href="/about" variant="pink" size="lg">
-                  Learn More
+                  Our Story
                 </NeonButton>
               </div>
             </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
@@ -29,49 +30,50 @@ export default function ProductCard({ product }: ProductCardProps) {
     caps: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
   };
 
+  const primaryImage = product.images.find((img) => img.startsWith('https://')) || null;
+
+  const categoryEmoji: Record<string, string> = {
+    tees: '👕', hoodies: '🧥', mugs: '☕', stickers: '🎨', caps: '🧢',
+  };
+
   return (
     <Link href={`/products/${product.slug}`} className="group block">
       <div className="relative bg-dark-card border border-dark-border rounded-2xl overflow-hidden transition-all duration-500 hover:border-neon-pink/50 hover:shadow-[0_0_30px_rgba(255,45,120,0.2)]">
         {/* Product image */}
         <div className="relative aspect-square bg-dark-surface overflow-hidden">
-          {/* Placeholder product visual */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative">
-              {/* Animated background gradient */}
-              <div
-                className="absolute inset-0 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity duration-500"
-                style={{
-                  background: `radial-gradient(circle, ${
-                    product.category === 'tees'
-                      ? '#ff2d78'
-                      : product.category === 'hoodies'
-                      ? '#00f0ff'
-                      : product.category === 'mugs'
-                      ? '#fff200'
-                      : product.category === 'stickers'
-                      ? '#39ff14'
+          {primaryImage ? (
+            <Image
+              src={primaryImage}
+              alt={product.title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              unoptimized
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="relative">
+                <div
+                  className="absolute inset-0 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity duration-500"
+                  style={{
+                    background: `radial-gradient(circle, ${
+                      product.category === 'tees' ? '#ff2d78'
+                      : product.category === 'hoodies' ? '#00f0ff'
+                      : product.category === 'mugs' ? '#fff200'
+                      : product.category === 'stickers' ? '#39ff14'
                       : '#a855f7'
-                  } 0%, transparent 70%)`,
-                  width: '200px',
-                  height: '200px',
-                  transform: 'translate(-50%, -50%)',
-                  top: '50%',
-                  left: '50%',
-                }}
-              />
-              <span className="text-7xl relative z-10 group-hover:scale-110 transition-transform duration-300 inline-block">
-                {product.category === 'tees'
-                  ? '👕'
-                  : product.category === 'hoodies'
-                  ? '🧥'
-                  : product.category === 'mugs'
-                  ? '☕'
-                  : product.category === 'stickers'
-                  ? '🎨'
-                  : '🧢'}
-              </span>
+                    } 0%, transparent 70%)`,
+                    width: '200px', height: '200px',
+                    transform: 'translate(-50%, -50%)',
+                    top: '50%', left: '50%',
+                  }}
+                />
+                <span className="text-7xl relative z-10 group-hover:scale-110 transition-transform duration-300 inline-block">
+                  {categoryEmoji[product.category] || '📦'}
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Glitch overlay on hover */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
@@ -85,7 +87,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Category badge */}
-          <div className="absolute top-3 left-3">
+          <div className="absolute top-3 left-3 z-10">
             <span
               className={`px-3 py-1 rounded-full text-xs font-space font-bold uppercase tracking-wider border ${
                 categoryColors[product.category] || 'bg-gray-500/20 text-gray-400'

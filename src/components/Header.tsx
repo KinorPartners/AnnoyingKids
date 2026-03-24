@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 
 export default function Header() {
@@ -13,14 +14,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <span className="text-2xl">😈</span>
-            <span className="font-bungee text-lg sm:text-xl text-white group-hover:text-neon-pink transition-colors duration-300">
-              ANNOYING
-              <span className="text-neon-pink group-hover:text-neon-green transition-colors duration-300">
-                KIDS
-              </span>
-            </span>
+          <Link href="/" className="flex items-center group">
+            <Image
+              src="/logo.png"
+              alt="AnnoyingKids"
+              width={200}
+              height={48}
+              className="h-10 sm:h-12 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop nav */}

@@ -100,10 +100,10 @@ export default function Footer() {
             <ul className="space-y-3">
               {[
                 { label: 'About Us', href: '/about' },
-                { label: 'Contact', href: '#' },
-                { label: 'Shipping Info', href: '#' },
-                { label: 'Returns', href: '#' },
-                { label: 'FAQ', href: '#' },
+                { label: 'Contact', href: '/contact' },
+                { label: 'Shipping Info', href: '/shipping' },
+                { label: 'Returns', href: '/returns' },
+                { label: 'FAQ', href: '/faq' },
               ].map((link) => (
                 <li key={link.label}>
                   <Link
@@ -156,13 +156,13 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-4">
             <Link
-              href="#"
+              href="/privacy"
               className="font-space text-gray-600 text-xs hover:text-gray-400 transition-colors"
             >
               Privacy Policy
             </Link>
             <Link
-              href="#"
+              href="/terms"
               className="font-space text-gray-600 text-xs hover:text-gray-400 transition-colors"
             >
               Terms of Service

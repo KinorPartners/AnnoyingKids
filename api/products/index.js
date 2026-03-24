@@ -6,7 +6,7 @@ const MOCK_PRODUCTS = [
     title: 'Anime Girl Ramen Mug',
     slug: 'anime-girl-ramen-mug',
     description:
-      "Fuel your chaos with ramen and anime energy. This 11oz ceramic mug features a vibrant anime girl slurping ramen — because every main character needs proper fuel. Microwave and dishwasher safe. Perfect for hot chocolate, ramen broth, or whatever potion you're brewing.",
+      "Fuel your chaos with ramen and anime energy. This 11oz ceramic mug features a vibrant anime girl slurping ramen — because every main character needs proper fuel. Microwave and dishwasher safe.",
     price: 15.99,
     category: 'mugs',
     images: ['/products/mug-placeholder.svg'],
@@ -21,14 +21,14 @@ const MOCK_PRODUCTS = [
     title: 'Glitched Neon Visage Stickers',
     slug: 'glitched-neon-visage-stickers',
     description:
-      'Stick your chaos everywhere. These high-quality vinyl stickers feature a glitched-out neon portrait that looks like your face after an all-night gaming session. Waterproof, scratch-resistant, and built to survive the apocalypse (or at least a school backpack).',
+      'Stick your chaos everywhere. High-quality vinyl stickers with a glitched-out neon portrait. Waterproof, scratch-resistant, built to survive a school backpack.',
     price: 2.41,
     category: 'stickers',
     images: ['/products/sticker-placeholder.svg'],
     variants: [
-      { id: 'var_sticker_3x3', title: '3" x 3"', price: 2.41, isAvailable: true },
-      { id: 'var_sticker_4x4', title: '4" x 4"', price: 3.99, isAvailable: true },
-      { id: 'var_sticker_6x6', title: '6" x 6"', price: 5.99, isAvailable: true },
+      { id: 'var_sticker_3x3', title: '3 x 3 in', price: 2.41, isAvailable: true },
+      { id: 'var_sticker_4x4', title: '4 x 4 in', price: 3.99, isAvailable: true },
+      { id: 'var_sticker_6x6', title: '6 x 6 in', price: 5.99, isAvailable: true },
     ],
     tags: ['stickers', 'neon', 'glitch', 'vinyl'],
   },
@@ -37,7 +37,7 @@ const MOCK_PRODUCTS = [
     title: 'Glitched Portrait Fractal Hoodie',
     slug: 'glitched-portrait-fractal-hoodie',
     description:
-      "Wrap yourself in digital chaos. This premium hoodie features an all-over glitched fractal portrait that'll make people do a double-take. Ultra-soft fleece interior, kangaroo pocket for snack storage, and a hood big enough to disappear into when adults start talking about responsibilities.",
+      "Wrap yourself in digital chaos. Premium hoodie with an all-over glitched fractal portrait. Ultra-soft fleece interior, kangaroo pocket, hood big enough to disappear into.",
     price: 35.83,
     category: 'hoodies',
     images: ['/products/hoodie-placeholder.svg'],
@@ -55,7 +55,7 @@ const MOCK_PRODUCTS = [
     title: "I'm Tired Dad Cap",
     slug: 'im-tired-dad-cap',
     description:
-      "Same energy, different day. This embroidered dad cap says what everyone's thinking. Adjustable strap fits all head sizes (even the big-brained ones). Pre-curved brim for that effortlessly cool look. Wear it to school, to the mall, or just around the house while avoiding chores.",
+      "Same energy, different day. This embroidered dad cap says what everyone's thinking. Adjustable strap, pre-curved brim. Wear it everywhere while avoiding chores.",
     price: 39.75,
     category: 'caps',
     images: ['/products/cap-placeholder.svg'],
@@ -69,7 +69,7 @@ const MOCK_PRODUCTS = [
     title: 'Mama of the Birthday Dude T-Shirt',
     slug: 'mama-of-the-birthday-dude-tshirt',
     description:
-      'Because every birthday dude needs a mama repping the squad. This soft, comfy tee is perfect for birthday parties, family photos, or any occasion where you need to announce who raised the main character. Premium cotton, pre-shrunk, and ready to party.',
+      'Every birthday dude needs a mama repping the squad. Soft, comfy tee perfect for birthday parties and family photos. Premium cotton, pre-shrunk.',
     price: 32.99,
     category: 'tees',
     images: ['/products/tee-placeholder.svg'],
@@ -87,7 +87,7 @@ const MOCK_PRODUCTS = [
     title: "What's For Dinner? Tee",
     slug: 'whats-for-dinner-tee',
     description:
-      'The universal kid question, now in wearable form. This graphic tee features bold typography that captures the eternal struggle of every household. Soft ringspun cotton, classic fit, and guaranteed to make parents laugh (or cry). Either way, you win.',
+      'The universal kid question, now in wearable form. Soft ringspun cotton, classic fit. Guaranteed to make parents laugh (or cry).',
     price: 18.81,
     category: 'tees',
     images: ['/products/tee-placeholder.svg'],
@@ -102,6 +102,32 @@ const MOCK_PRODUCTS = [
   },
 ];
 
+/**
+ * Derive a category from Printify product tags and title.
+ * Must return one of: tees | hoodies | mugs | stickers | caps
+ */
+function detectCategory(product) {
+  const tags = (product.tags || []).map((t) => t.toLowerCase());
+  const title = (product.title || '').toLowerCase();
+  const combined = [...tags, title].join(' ');
+
+  if (/hoodie|sweatshirt|pullover|crewneck/.test(combined)) return 'hoodies';
+  if (/mug|cup|drinkware|tumbler/.test(combined)) return 'mugs';
+  if (/sticker|decal|vinyl|patch/.test(combined)) return 'stickers';
+  if (/cap|hat|beanie|bucket hat|dad cap|snapback/.test(combined)) return 'caps';
+  return 'tees';
+}
+
+/**
+ * Generate a URL-safe slug from a product title.
+ */
+function titleToSlug(title) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
 module.exports = async function (context, req) {
   try {
     const printifyApiKey = process.env.PRINTIFY_API_KEY;
@@ -110,7 +136,7 @@ module.exports = async function (context, req) {
     if (printifyApiKey && printifyShopId) {
       try {
         const res = await fetch(
-          `${PRINTIFY_API_BASE}/shops/${printifyShopId}/products.json`,
+          `${PRINTIFY_API_BASE}/shops/${printifyShopId}/products.json?limit=100`,
           {
             headers: {
               Authorization: `Bearer ${printifyApiKey}`,
@@ -126,38 +152,57 @@ module.exports = async function (context, req) {
         const data = await res.json();
         const printifyProducts = data.data;
 
-        const products = printifyProducts.map((pp) => ({
-          id: pp.id,
-          title: pp.title,
-          slug: pp.title
-            .toLowerCase()
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-|-$/g, ''),
-          description: pp.description || '',
-          price: pp.variants.find((v) => v.is_enabled && v.is_available)
-            ? pp.variants.find((v) => v.is_enabled && v.is_available).price / 100
-            : 0,
-          category: 'tees',
-          images: pp.images.filter((img) => img.is_default).map((img) => img.src),
-          variants: pp.variants
-            .filter((v) => v.is_enabled)
-            .map((v) => ({
-              id: String(v.id),
-              title: v.title,
-              price: v.price / 100,
-              isAvailable: v.is_available,
-            })),
-          tags: pp.tags || [],
-        }));
+        const products = printifyProducts
+          .filter((pp) => pp.visible !== false) // only published products
+          .map((pp) => {
+            const enabledVariants = pp.variants.filter(
+              (v) => v.is_enabled && v.is_available
+            );
+            const lowestPrice = enabledVariants.length
+              ? Math.min(...enabledVariants.map((v) => v.price)) / 100
+              : 0;
+
+            // Default image: prefer is_default, else first
+            const defaultImg =
+              pp.images.find((img) => img.is_default) || pp.images[0];
+
+            return {
+              id: pp.id,
+              title: pp.title,
+              slug: titleToSlug(pp.title),
+              description: pp.description || '',
+              price: lowestPrice,
+              category: detectCategory(pp),
+              images: pp.images
+                .filter((img) => img.is_default || img.position === 'front')
+                .map((img) => img.src)
+                .concat(pp.images.map((img) => img.src))
+                .filter((src, idx, arr) => arr.indexOf(src) === idx) // dedupe
+                .slice(0, 5),
+              variants: enabledVariants.map((v) => ({
+                id: String(v.id),
+                title: v.title,
+                price: v.price / 100,
+                isAvailable: v.is_available,
+              })),
+              tags: pp.tags || [],
+            };
+          });
 
         context.res = {
           status: 200,
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'public, max-age=300', // 5-minute cache
+          },
           body: JSON.stringify({ products, source: 'printify' }),
         };
         return;
       } catch (printifyError) {
-        context.log.error('Printify API error, falling back to mock data:', printifyError);
+        context.log.error(
+          'Printify API error, falling back to mock data:',
+          printifyError
+        );
       }
     }
 
