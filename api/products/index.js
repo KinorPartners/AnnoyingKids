@@ -146,7 +146,8 @@ module.exports = async function (context, req) {
         );
 
         if (!res.ok) {
-          throw new Error(`Printify API error: ${res.status} ${res.statusText}`);
+          const body = await res.text();
+          throw new Error(`Printify API error: ${res.status} ${res.statusText} — ${body}`);
         }
 
         const data = await res.json();
