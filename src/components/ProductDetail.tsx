@@ -7,6 +7,7 @@ import { useCart } from '@/context/CartContext';
 import { getRelatedProducts } from '@/lib/products';
 import ProductCard from '@/components/ProductCard';
 import NeonButton from '@/components/NeonButton';
+import ShareButton from '@/components/ShareButton';
 
 interface ProductDetailProps {
   product: Product;
@@ -224,6 +225,11 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
               >
                 {addedToCart ? '✓ Added to Cart!' : 'Add to Cart 🛒'}
               </button>
+              <ShareButton
+                title={product.title}
+                description={product.description}
+                url={`https://annoyingkids.com/products/${product.slug}`}
+              />
             </div>
 
             {/* Trust badges */}

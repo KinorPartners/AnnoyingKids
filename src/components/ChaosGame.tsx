@@ -11,7 +11,9 @@ interface Chaser { pos: Pos; type: CharType; }
 
 const COLS = 15;
 const ROWS = 15;
-const CELL = 36;
+const BASE_CELL = 36;
+const BIG_CELL  = 52;
+const TUNNEL_ROW = 7;
 
 // 1=wall, 0=candy, 2=empty, 3=bonus, 4=tunnel (wraps to other side)
 const BASE_MAZE: number[][] = [
@@ -22,7 +24,7 @@ const BASE_MAZE: number[][] = [
   [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1],
   [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
   [1,1,1,0,1,0,1,3,1,0,1,0,1,1,1],
-  [4,3,0,0,0,0,0,2,0,0,0,0,0,3,4],  // ← tunnel row
+  [4,1,1,1,1,1,1,1,1,1,1,1,1,1,4],  // ← tunnel row (walls in middle, wrap-only)
   [1,1,1,0,1,0,1,0,1,0,1,0,1,1,1],
   [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
   [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1],
@@ -253,6 +255,10 @@ export default function ChaosGame() {
   const deadTimerRef = useRef<ReturnType<typeof setTimeout>|null>(null);
   const lvlTimerRef  = useRef<ReturnType<typeof setTimeout>|null>(null);
 
+  const [bigMode, setBigMode] = useState(false);
+  const CS = bigMode ? BIG_CELL : BASE_CELL;
+  const kidTeleportRef = useRef(false);
+
   const bonusIconsRef = useRef<Record<string,string>>({});
   useEffect(() => {
     let idx = 0;
@@ -294,6 +300,13 @@ export default function ChaosGame() {
       const d = DIR_KEYS[e.key]; if (!d) return;
       e.preventDefault();
       nextDirRef.current = d;
+      // Immediately commit direction if the turn is valid right now
+      if (gameStateRef.current === 'playing') {
+        const k = kidRef.current;
+        if (!isWall(mazeRef.current, k.x + d.x, k.y + d.y)) {
+          kidDirRef.current = d;
+        }
+      }
       if (gameStateRef.current === 'idle') startGame();
     };
     window.addEventListener('keydown', onKey);
@@ -320,6 +333,8 @@ export default function ChaosGame() {
       } else {
         const curr = tryMove(kidDirRef.current); if (curr) newKid = curr;
       }
+      // Detect tunnel teleport (large horizontal jump)
+      kidTeleportRef.current = Math.abs(newKid.x - kid.x) > 1;
       kidRef.current = newKid;
 
       // Collect
@@ -381,7 +396,7 @@ export default function ChaosGame() {
         }
       }
       render();
-    }, 160);
+    }, 120);
     return () => clearInterval(interval);
   }, [render]);
 
@@ -413,6 +428,32 @@ export default function ChaosGame() {
     lvl===5 ? '👵 Grandma joins the chase!' :
     lvl===10 ? '👴 Grandpa joins the chaos!' : null;
 
+  // Swipe handling
+  const touchStartRef = useRef<{x:number;y:number}|null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStartRef.current = { x: t.clientX, y: t.clientY };
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStartRef.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStartRef.current.x;
+    const dy = t.clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return; // tap, ignore
+    let d: Dir;
+    if (Math.abs(dx) > Math.abs(dy)) {
+      d = dx > 0 ? {x:1,y:0} : {x:-1,y:0};
+    } else {
+      d = dy > 0 ? {x:0,y:1} : {x:0,y:-1};
+    }
+    nextDirRef.current = d;
+    if (gameStateRef.current === 'playing' && !isWall(mazeRef.current, kidRef.current.x+d.x, kidRef.current.y+d.y)) {
+      kidDirRef.current = d;
+    }
+    if (gameStateRef.current === 'idle') startGame();
+  };
+
   return (
     <section className="py-12 px-4">
       <div className="max-w-2xl mx-auto flex flex-col items-center gap-5">
@@ -428,7 +469,7 @@ export default function ChaosGame() {
         </div>
 
         {/* HUD */}
-        <div className="flex items-center gap-6 font-bungee">
+        <div className="flex items-center gap-4 font-bungee flex-wrap justify-center">
           <span className="text-neon-yellow text-sm border border-neon-yellow/30 px-3 py-1 rounded-lg">
             LVL {level}
           </span>
@@ -436,53 +477,63 @@ export default function ChaosGame() {
           <span>
             {Array.from({length:Math.max(0,lives)}).map((_,i)=><span key={i}>🧒</span>)}
           </span>
+          <button
+            onClick={() => setBigMode(b => !b)}
+            title={bigMode ? 'Shrink game' : 'Expand game'}
+            className="ml-2 px-3 py-1 bg-dark-surface border border-dark-border rounded-lg text-gray-400 hover:text-neon-blue hover:border-neon-blue/50 text-sm transition-all"
+          >
+            {bigMode ? '⊟ Small' : '⊞ Big'}
+          </button>
         </div>
 
         {/* Board */}
         <div
           className="relative rounded-2xl overflow-hidden border-2 border-neon-pink/30 shadow-[0_0_40px_rgba(255,45,120,0.2)]"
-          style={{ width:COLS*CELL, height:ROWS*CELL }}
+          style={{ width:COLS*CS, height:ROWS*CS }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           {/* Cells */}
           {maze.map((row,y) => row.map((cell,x) => (
             <div key={`${x}-${y}`} className="absolute" style={{
-              left:x*CELL, top:y*CELL, width:CELL, height:CELL,
+              left:x*CS, top:y*CS, width:CS, height:CS,
               background: cell===1 ? 'linear-gradient(135deg,#12124a,#1a1a6e)' : '#0a0a1a',
               border: cell===1 ? '1px solid #2d2d9f' : undefined,
               borderRadius: cell===1 ? 3 : 0,
               display:'flex', alignItems:'center', justifyContent:'center',
               boxSizing:'border-box',
+              // Tunnel entrance: glow from the edge inward
+              boxShadow: cell===4 ? (x===0 ? 'inset 6px 0 10px -4px #00f0ff55' : 'inset -6px 0 10px -4px #00f0ff55') : undefined,
             }}>
               {cell===0 && <div style={{width:7,height:7,borderRadius:'50%',background:'#ff2d78',boxShadow:'0 0 6px #ff2d78'}}/>}
-              {cell===3 && <span style={{fontSize:CELL*0.55,lineHeight:1}}>{bonusIconsRef.current[`${x},${y}`]??'🍭'}</span>}
-              {cell===4 && (
-                <div style={{display:'flex',alignItems:'center',justifyContent:'center',width:'100%',height:'100%',
-                  background:'linear-gradient(90deg,#1a1a6e,#0a0a1a,#1a1a6e)',
-                  borderTop:'1px dashed #00f0ff44', borderBottom:'1px dashed #00f0ff44'}}>
-                  <span style={{fontSize:10,color:'#00f0ff88'}}>{'<>'}</span>
-                </div>
-              )}
+              {cell===3 && <span style={{fontSize:CS*0.55,lineHeight:1}}>{bonusIconsRef.current[`${x},${y}`]??'🍭'}</span>}
             </div>
           )))}
 
           {/* Kid */}
           <div className="absolute" style={{
-            left:kid.x*CELL, top:kid.y*CELL, width:CELL, height:CELL, zIndex:20,
-            transition: gs==='playing'?'left 0.13s linear,top 0.13s linear':'none',
+            left:kid.x*CS, top:kid.y*CS, width:CS, height:CS, zIndex:20,
+            transition: kidTeleportRef.current ? 'none'
+              : gs==='playing' ? 'left 0.1s linear,top 0.1s linear,opacity 0.06s' : 'none',
+            opacity: (kid.y===TUNNEL_ROW && (kid.x===0||kid.x===COLS-1)) ? 0 : 1,
           }}>
-            <Kid size={CELL} dead={gs==='dead'} />
+            <Kid size={CS} dead={gs==='dead'} />
           </div>
 
           {/* Chasers */}
-          {chasers.map((ch, i) => (
-            <div key={`${ch.type}-${i}`} className="absolute" style={{
-              left:ch.pos.x*CELL, top:ch.pos.y*CELL, width:CELL, height:CELL, zIndex:20,
-              transition:'left 0.28s linear,top 0.28s linear',
-              filter: CHASER_GLOW[ch.type],
-            }}>
-              <ChaserChar chaser={ch} size={CELL} />
-            </div>
-          ))}
+          {chasers.map((ch, i) => {
+            const inTunnel = ch.pos.y===TUNNEL_ROW && (ch.pos.x===0||ch.pos.x===COLS-1);
+            return (
+              <div key={`${ch.type}-${i}`} className="absolute" style={{
+                left:ch.pos.x*CS, top:ch.pos.y*CS, width:CS, height:CS, zIndex:20,
+                transition:'left 0.22s linear,top 0.22s linear,opacity 0.06s',
+                opacity: inTunnel ? 0 : 1,
+                filter: CHASER_GLOW[ch.type],
+              }}>
+                <ChaserChar chaser={ch} size={CS} />
+              </div>
+            );
+          })}
 
           {/* Idle overlay */}
           {gs==='idle' && (

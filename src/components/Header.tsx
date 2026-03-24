@@ -46,6 +46,18 @@ export default function Header() {
               About
             </Link>
             <Link
+              href="/chaos-lab"
+              className="font-space text-gray-400 hover:text-neon-yellow transition-colors duration-300 text-sm uppercase tracking-wider"
+            >
+              💡 Chaos Lab
+            </Link>
+            <Link
+              href="/wall-of-chaos"
+              className="font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider"
+            >
+              📸 Wall
+            </Link>
+            <Link
               href="/#game"
               className="font-space text-neon-green hover:text-white transition-colors duration-300 text-sm uppercase tracking-wider
                 px-3 py-1 border border-neon-green/30 rounded-lg hover:bg-neon-green/10 hover:border-neon-green/60
@@ -120,6 +132,20 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               About
+            </Link>
+            <Link
+              href="/chaos-lab"
+              className="block font-space text-gray-400 hover:text-neon-yellow transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              💡 Chaos Lab
+            </Link>
+            <Link
+              href="/wall-of-chaos"
+              className="block font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              📸 Wall of Chaos
             </Link>
             <Link
               href="/#game"
