@@ -133,26 +133,6 @@ module.exports = async function (context, req) {
     const printifyApiKey = process.env.PRINTIFY_API_KEY;
     const printifyShopId = process.env.PRINTIFY_SHOP_ID;
 
-    // Debug: expose whether credentials are present (not the values)
-    const debug = {
-      hasApiKey: !!printifyApiKey,
-      hasShopId: !!printifyShopId,
-      shopIdUsed: printifyShopId,
-    };
-
-    // Debug: fetch available shops to verify correct shop ID
-    if (printifyApiKey) {
-      try {
-        const shopsRes = await fetch(`${PRINTIFY_API_BASE}/shops.json`, {
-          headers: { Authorization: `Bearer ${printifyApiKey}` },
-        });
-        const shopsData = await shopsRes.json();
-        debug.availableShops = shopsData;
-      } catch (e) {
-        debug.shopsError = e.message;
-      }
-    }
-
     if (printifyApiKey && printifyShopId) {
       try {
         const res = await fetch(
@@ -215,7 +195,7 @@ module.exports = async function (context, req) {
             'Content-Type': 'application/json',
             'Cache-Control': 'public, max-age=300', // 5-minute cache
           },
-          body: JSON.stringify({ products, source: 'printify', debug }),
+          body: JSON.stringify({ products, source: 'printify' }),
         };
         return;
       } catch (printifyError) {
@@ -223,14 +203,13 @@ module.exports = async function (context, req) {
           'Printify API error, falling back to mock data:',
           printifyError
         );
-        debug.printifyError = printifyError.message;
       }
     }
 
     context.res = {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ products: MOCK_PRODUCTS, source: 'mock', debug }),
+      body: JSON.stringify({ products: MOCK_PRODUCTS, source: 'mock' }),
     };
   } catch (error) {
     context.log.error('Products API error:', error);
