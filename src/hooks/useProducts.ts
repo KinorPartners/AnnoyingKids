@@ -45,7 +45,8 @@ function writeCache(products: Product[]) {
 
 export function useProducts(): UseProductsResult {
   const [products, setProducts] = useState<Product[]>(MOCK_PRODUCTS);
-  const [loading, setLoading] = useState(true);
+  // Start false — MOCK_PRODUCTS is available immediately; live fetch updates in background
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [source, setSource] = useState<'live' | 'mock'>('mock');
 
@@ -54,7 +55,6 @@ export function useProducts(): UseProductsResult {
     if (cached) {
       setProducts(cached);
       setSource('live');
-      setLoading(false);
       return;
     }
 
@@ -71,11 +71,7 @@ export function useProducts(): UseProductsResult {
         }
       })
       .catch((err) => {
-        // Silently fall back to mock — common in local dev without Azure Functions
         setError(err.message);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   }, []);
 
