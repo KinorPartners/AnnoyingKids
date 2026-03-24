@@ -213,6 +213,23 @@ function ChaserChar({ chaser, size }: { chaser: Chaser; size: number }) {
   }
 }
 
+// ─── Leaderboard ─────────────────────────────────────────────────────
+
+interface LeaderEntry { name: string; score: number; level: number; }
+const LB_KEY = 'ak_chaos_leaderboard';
+
+function loadLeaderboard(): LeaderEntry[] {
+  try { return JSON.parse(localStorage.getItem(LB_KEY) || '[]'); }
+  catch { return []; }
+}
+function saveLeaderboard(lb: LeaderEntry[]) {
+  try { localStorage.setItem(LB_KEY, JSON.stringify(lb)); } catch {}
+}
+function isNewRecord(score: number, lb: LeaderEntry[]): boolean {
+  if (score === 0) return false;
+  return lb.length < 10 || score > lb[lb.length - 1].score;
+}
+
 const CHASER_GLOW: Record<CharType, string> = {
   dad:     'drop-shadow(0 0 6px #00f0ff)',
   mom:     'drop-shadow(0 0 6px #ff2d78)',
@@ -246,6 +263,13 @@ export default function ChaosGame() {
 
   const [, forceRender] = useState(0);
   const render = useCallback(() => forceRender(n => n+1), []);
+
+  const [leaderboard, setLeaderboard] = useState<LeaderEntry[]>([]);
+  const [nameInput, setNameInput] = useState('');
+  const [awaitingName, setAwaitingName] = useState(false);
+  const [pendingEntry, setPendingEntry] = useState<{score:number;level:number}|null>(null);
+
+  useEffect(() => { setLeaderboard(loadLeaderboard()); }, []);
 
   const resetPositions = (level: number) => {
     kidRef.current     = { x:7, y:7 };
@@ -306,6 +330,13 @@ export default function ChaosGame() {
       // Level complete?
       if (maze.flat().filter(c=>c===0||c===3).length===0) {
         gameStateRef.current = 'levelup';
+        // Check record on level completion too (score keeps growing)
+        const lb = loadLeaderboard();
+        if (isNewRecord(scoreRef.current, lb)) {
+          setPendingEntry({ score: scoreRef.current, level: levelRef.current });
+          setAwaitingName(true);
+          setNameInput('');
+        }
         if (lvlTimerRef.current) clearTimeout(lvlTimerRef.current);
         lvlTimerRef.current = setTimeout(() => {
           levelRef.current++;
@@ -334,6 +365,12 @@ export default function ChaosGame() {
         livesRef.current--;
         if (livesRef.current<=0) {
           gameStateRef.current='gameover';
+          const lb = loadLeaderboard();
+          if (isNewRecord(scoreRef.current, lb)) {
+            setPendingEntry({ score: scoreRef.current, level: levelRef.current });
+            setAwaitingName(true);
+            setNameInput('');
+          }
         } else {
           gameStateRef.current='dead';
           if (deadTimerRef.current) clearTimeout(deadTimerRef.current);
@@ -359,6 +396,17 @@ export default function ChaosGame() {
   const setDir = (d: Dir) => {
     nextDirRef.current = d;
     if (gs==='idle') startGame();
+  };
+
+  const submitName = () => {
+    if (!pendingEntry || !nameInput.trim()) return;
+    const entry: LeaderEntry = { name: nameInput.trim().slice(0,16), score: pendingEntry.score, level: pendingEntry.level };
+    const updated = [...leaderboard, entry].sort((a,b) => b.score - a.score).slice(0, 10);
+    saveLeaderboard(updated);
+    setLeaderboard(updated);
+    setAwaitingName(false);
+    setPendingEntry(null);
+    setNameInput('');
   };
 
   const newChasersAtLevel = (lvl: number) =>
@@ -484,12 +532,32 @@ export default function ChaosGame() {
 
           {/* Game over */}
           {gs==='gameover' && (
-            <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center gap-4 z-30">
+            <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center gap-3 z-30 px-4">
               <div className="text-5xl">😅</div>
               <h3 className="font-bungee text-neon-pink text-3xl">GROUNDED!</h3>
-              <p className="font-space text-gray-300 text-sm">The whole family caught you!</p>
               <p className="font-space text-white text-lg">Score: {score} · Level {level}</p>
-              <button onClick={startGame} className="px-8 py-3 bg-neon-pink font-bungee text-white text-lg uppercase rounded-xl shadow-[0_0_20px_rgba(255,45,120,0.6)] hover:scale-105 transition-all">Try Again!</button>
+              {awaitingName ? (
+                <>
+                  <p className="font-bungee text-neon-yellow text-sm animate-pulse">🏆 NEW RECORD!</p>
+                  <p className="font-space text-gray-300 text-xs">Enter your name:</p>
+                  <input
+                    autoFocus
+                    value={nameInput}
+                    onChange={e => setNameInput(e.target.value)}
+                    onKeyDown={e => e.key==='Enter' && submitName()}
+                    maxLength={16}
+                    placeholder="Your name…"
+                    className="w-40 px-3 py-2 bg-dark-card border-2 border-neon-yellow/60 rounded-lg
+                      font-bungee text-white text-center text-sm focus:outline-none focus:border-neon-yellow"
+                  />
+                  <button onClick={submitName}
+                    className="px-6 py-2 bg-neon-yellow font-bungee text-dark-bg text-sm uppercase rounded-lg hover:scale-105 transition-all">
+                    Save Score!
+                  </button>
+                </>
+              ) : (
+                <button onClick={startGame} className="px-8 py-3 bg-neon-pink font-bungee text-white text-lg uppercase rounded-xl shadow-[0_0_20px_rgba(255,45,120,0.6)] hover:scale-105 transition-all">Try Again!</button>
+              )}
             </div>
           )}
         </div>
@@ -505,6 +573,30 @@ export default function ChaosGame() {
         </div>
 
         <p className="font-space text-gray-600 text-xs">Keyboard: Arrow keys or WASD</p>
+
+        {/* Leaderboard */}
+        {leaderboard.length > 0 && (
+          <div className="w-full max-w-sm mt-2">
+            <h3 className="font-bungee text-center text-neon-yellow text-lg mb-3">
+              🏆 TOP ESCAPEES
+            </h3>
+            <div className="bg-dark-card border border-dark-border rounded-2xl overflow-hidden">
+              {leaderboard.map((entry, i) => (
+                <div key={i} className={`flex items-center gap-3 px-4 py-2 border-b border-dark-border/50 last:border-0
+                  ${i===0 ? 'bg-neon-yellow/5' : i===1 ? 'bg-gray-400/5' : i===2 ? 'bg-amber-700/5' : ''}`}>
+                  <span className="font-bungee text-lg w-8 text-center" style={{
+                    color: i===0 ? '#fbbf24' : i===1 ? '#9ca3af' : i===2 ? '#b45309' : '#4b5563'
+                  }}>
+                    {i===0 ? '🥇' : i===1 ? '🥈' : i===2 ? '🥉' : `#${i+1}`}
+                  </span>
+                  <span className="font-bungee text-white flex-1 truncate">{entry.name}</span>
+                  <span className="font-space text-gray-500 text-xs">Lvl {entry.level}</span>
+                  <span className="font-bungee text-neon-green text-sm">{entry.score}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
