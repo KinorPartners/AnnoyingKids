@@ -53,7 +53,12 @@ export default function GamePreview() {
     setPopping(true);
     setFlashing(true);
     setTimeout(() => {
-      document.getElementById('game')?.scrollIntoView({ behavior: 'smooth' });
+      const el = document.getElementById('game');
+      el?.scrollIntoView({ behavior: 'smooth' });
+      // Auto-start the game after the scroll settles
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('chaos-game-autostart'));
+      }, 700);
     }, 320);
     setTimeout(() => { setPopping(false); setFlashing(false); }, 700);
   };

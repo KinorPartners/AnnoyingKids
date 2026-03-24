@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 
 interface WallEntry {
@@ -24,10 +24,47 @@ const MOCK_WALL: WallEntry[] = [
 
 export default function WallOfChaosPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [votes, setVotes] = useState<Record<number, number>>({});
+  const [userVotes, setUserVotes] = useState<Set<number>>(new Set());
+
+  React.useEffect(() => {
+    try {
+      const v = localStorage.getItem('ak_wall_votes');
+      if (v) setVotes(JSON.parse(v));
+      const uv = localStorage.getItem('ak_user_votes');
+      if (uv) setUserVotes(new Set(JSON.parse(uv)));
+    } catch {}
+  }, []);
+
+  const handleVote = (id: number) => {
+    if (userVotes.has(id)) return;
+    const newVotes = { ...votes, [id]: (votes[id] || 0) + 1 };
+    const newUserVotes = new Set(Array.from(userVotes).concat(id));
+    setVotes(newVotes);
+    setUserVotes(newUserVotes);
+    try {
+      localStorage.setItem('ak_wall_votes', JSON.stringify(newVotes));
+      localStorage.setItem('ak_user_votes', JSON.stringify(Array.from(newUserVotes)));
+    } catch {}
+  };
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoName, setPhotoName] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) { setPhotoPreview(null); setPhotoName(''); return; }
+    setPhotoName(file.name);
+    const reader = new FileReader();
+    reader.onload = () => setPhotoPreview(reader.result as string);
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitted(true);
+    setPhotoPreview(null);
+    setPhotoName('');
     e.currentTarget.reset();
   };
 
@@ -86,6 +123,7 @@ export default function WallOfChaosPage() {
             <form
               action="https://formsubmit.co/hello@annoyingkids.com"
               method="POST"
+              encType="multipart/form-data"
               onSubmit={handleSubmit}
               className="space-y-5"
             >
@@ -133,42 +171,49 @@ export default function WallOfChaosPage() {
                 </div>
               </div>
 
-              {/* Photo upload note */}
-              <div className="p-4 bg-neon-blue/10 border border-neon-blue/30 rounded-lg">
-                <p className="font-space text-neon-blue text-sm leading-relaxed">
-                  <strong>📸 Photo note:</strong> After submitting this form, email your photo to{' '}
-                  <a href="mailto:photos@annoyingkids.com" className="underline hover:text-white transition-colors">
-                    photos@annoyingkids.com
-                  </a>{' '}
-                  with your name in the subject line. We&apos;ll handle the rest!
-                </p>
-              </div>
-
               <div>
                 <label className="block font-bungee text-sm text-gray-400 mb-2">
-                  PHOTO <span className="text-gray-600 font-space text-xs normal-case">(attach when emailing)</span>
+                  YOUR PHOTO <span className="text-neon-pink">*</span>
                 </label>
-                <div className="w-full bg-dark-surface border border-dashed border-dark-border rounded-lg px-4 py-6 text-center">
-                  <input
-                    type="file"
-                    name="photo"
-                    accept="image/*"
-                    className="hidden"
-                    id="photo-upload"
-                  />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  name="photo"
+                  accept="image/*"
+                  required
+                  className="hidden"
+                  id="photo-upload"
+                  onChange={handlePhotoChange}
+                />
+                {photoPreview ? (
+                  <div className="relative rounded-xl overflow-hidden border-2 border-neon-pink/50">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={photoPreview}
+                      alt="Your photo preview"
+                      className="w-full max-h-64 object-cover"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 px-3 py-2 flex items-center justify-between">
+                      <span className="font-space text-white text-xs truncate">{photoName}</span>
+                      <button
+                        type="button"
+                        onClick={() => { setPhotoPreview(null); setPhotoName(''); if (fileInputRef.current) fileInputRef.current.value = ''; }}
+                        className="text-neon-pink font-bungee text-xs hover:text-white transition-colors ml-2 flex-shrink-0"
+                      >
+                        ✕ Remove
+                      </button>
+                    </div>
+                  </div>
+                ) : (
                   <label
                     htmlFor="photo-upload"
-                    className="cursor-pointer flex flex-col items-center gap-2"
+                    className="cursor-pointer flex flex-col items-center gap-3 w-full bg-dark-surface border-2 border-dashed border-dark-border rounded-xl px-4 py-8 hover:border-neon-pink/50 hover:bg-neon-pink/5 transition-all"
                   >
-                    <span className="text-3xl">📷</span>
-                    <span className="font-space text-gray-500 text-sm">
-                      Click to select a photo (optional preview)
-                    </span>
-                    <span className="font-space text-gray-600 text-xs">
-                      Remember: send the actual photo by email!
-                    </span>
+                    <span className="text-4xl">📷</span>
+                    <span className="font-bungee text-gray-400 text-sm">Click to upload your photo</span>
+                    <span className="font-space text-gray-600 text-xs">JPG, PNG, GIF up to 10MB</span>
                   </label>
-                </div>
+                )}
               </div>
 
               <div>
@@ -271,6 +316,20 @@ export default function WallOfChaosPage() {
                 <p className="font-space text-gray-400 text-sm italic leading-relaxed">
                   &ldquo;{entry.caption}&rdquo;
                 </p>
+                <div className="mt-4 flex items-center justify-between">
+                  <button
+                    onClick={() => handleVote(entry.id)}
+                    disabled={userVotes.has(entry.id)}
+                    className={`flex items-center gap-2 px-4 py-1.5 rounded-full font-bungee text-xs transition-all
+                      ${userVotes.has(entry.id)
+                        ? 'bg-dark-surface border border-dark-border text-gray-500 cursor-default'
+                        : 'border border-neon-pink/40 text-neon-pink hover:bg-neon-pink/10 hover:border-neon-pink/80 active:scale-95'}`}
+                  >
+                    <span>{userVotes.has(entry.id) ? '❤️' : '🤍'}</span>
+                    <span>{votes[entry.id] || 0}</span>
+                    <span>{userVotes.has(entry.id) ? 'Vibed' : 'Vibe'}</span>
+                  </button>
+                </div>
               </div>
             </div>
           ))}

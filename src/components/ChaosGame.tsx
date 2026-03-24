@@ -24,7 +24,7 @@ const BASE_MAZE: number[][] = [
   [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1],
   [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
   [1,1,1,0,1,0,1,3,1,0,1,0,1,1,1],
-  [4,1,1,1,1,1,1,1,1,1,1,1,1,1,4],  // ← tunnel row (walls in middle, wrap-only)
+  [4,2,2,2,1,1,1,2,1,1,1,2,2,2,4],  // ← tunnel row: open corridors left(x1-3)/right(x11-13) + center(x7)
   [1,1,1,0,1,0,1,0,1,0,1,0,1,1,1],
   [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
   [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1],
@@ -294,6 +294,15 @@ export default function ChaosGame() {
     gameStateRef.current = 'playing';
     render();
   }, [render]);
+
+  // Auto-start when triggered from GamePreview hero click
+  useEffect(() => {
+    const handler = () => {
+      if (gameStateRef.current === 'idle') startGame();
+    };
+    window.addEventListener('chaos-game-autostart', handler);
+    return () => window.removeEventListener('chaos-game-autostart', handler);
+  }, [startGame]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
