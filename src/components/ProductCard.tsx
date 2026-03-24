@@ -1,7 +1,6 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
@@ -31,6 +30,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   const primaryImage = product.images.find((img) => img.startsWith('https://')) || null;
+  const [imgError, setImgError] = useState(false);
 
   const categoryEmoji: Record<string, string> = {
     tees: '👕', hoodies: '🧥', mugs: '☕', stickers: '🎨', caps: '🧢',
@@ -41,14 +41,13 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="relative bg-dark-card border border-dark-border rounded-2xl overflow-hidden transition-all duration-500 hover:border-neon-pink/50 hover:shadow-[0_0_30px_rgba(255,45,120,0.2)]">
         {/* Product image */}
         <div className="relative aspect-square bg-dark-surface overflow-hidden">
-          {primaryImage ? (
-            <Image
+          {primaryImage && !imgError ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={primaryImage}
               alt={product.title}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              unoptimized
+              onError={() => setImgError(true)}
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
