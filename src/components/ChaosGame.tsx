@@ -322,7 +322,19 @@ export default function ChaosGame() {
   const lvlTimerRef  = useRef<ReturnType<typeof setTimeout>|null>(null);
 
   const [bigMode, setBigMode] = useState(false);
-  const CS = bigMode ? BIG_CELL : BASE_CELL;
+  const [windowWidth, setWindowWidth] = useState(0);
+  useEffect(() => {
+    const update = () => setWindowWidth(window.innerWidth);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+  const isMobile = windowWidth > 0 && windowWidth < 640;
+  // On mobile: auto-fit board to screen width (minus 32px padding)
+  // On desktop: respect big mode toggle
+  const CS = isMobile
+    ? Math.max(20, Math.floor((windowWidth - 32) / COLS))
+    : (bigMode ? BIG_CELL : BASE_CELL);
   const kidTeleportRef = useRef(false);
 
   const bonusIconsRef = useRef<Record<string,string>>({});
@@ -552,13 +564,15 @@ export default function ChaosGame() {
           <span>
             {Array.from({length:Math.max(0,lives)}).map((_,i)=><span key={i}>🧒</span>)}
           </span>
-          <button
-            onClick={() => setBigMode(b => !b)}
-            title={bigMode ? 'Shrink game' : 'Expand game'}
-            className="ml-2 px-3 py-1 bg-dark-surface border border-dark-border rounded-lg text-gray-400 hover:text-neon-blue hover:border-neon-blue/50 text-sm transition-all"
-          >
-            {bigMode ? '⊟ Small' : '⊞ Big'}
-          </button>
+          {!isMobile && (
+            <button
+              onClick={() => setBigMode(b => !b)}
+              title={bigMode ? 'Shrink game' : 'Expand game'}
+              className="ml-2 px-3 py-1 bg-dark-surface border border-dark-border rounded-lg text-gray-400 hover:text-neon-blue hover:border-neon-blue/50 text-sm transition-all"
+            >
+              {bigMode ? '⊟ Small' : '⊞ Big'}
+            </button>
+          )}
         </div>
 
         {/* Board */}
@@ -627,7 +641,7 @@ export default function ChaosGame() {
                 className="px-8 py-3 bg-neon-pink font-bungee text-white text-lg uppercase rounded-xl shadow-[0_0_20px_rgba(255,45,120,0.6)] hover:scale-105 transition-all">
                 Play!
               </button>
-              <p className="font-space text-gray-500 text-xs">Arrow keys · WASD · buttons below</p>
+              <p className="font-space text-gray-500 text-xs">{isMobile ? 'Swipe or tap buttons below' : 'Arrow keys · WASD · buttons below'}</p>
             </div>
           )}
 
@@ -688,17 +702,19 @@ export default function ChaosGame() {
           )}
         </div>
 
-        {/* Mobile controls */}
+        {/* D-pad controls */}
         <div className="flex flex-col items-center gap-2 select-none">
-          <button className="w-14 h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:0,y:-1})}>▲</button>
+          <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl sm:text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:0,y:-1})}>▲</button>
           <div className="flex gap-2">
-            <button className="w-14 h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:-1,y:0})}>◄</button>
-            <button className="w-14 h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:0,y:1})}>▼</button>
-            <button className="w-14 h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:1,y:0})}>►</button>
+            <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl sm:text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:-1,y:0})}>◄</button>
+            <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl sm:text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:0,y:1})}>▼</button>
+            <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl sm:text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:1,y:0})}>►</button>
           </div>
         </div>
 
-        <p className="font-space text-gray-600 text-xs">Keyboard: Arrow keys or WASD</p>
+        <p className="font-space text-gray-600 text-xs">
+          {isMobile ? 'Swipe on board or tap buttons above' : 'Keyboard: Arrow keys or WASD'}
+        </p>
 
         {/* Leaderboard */}
         {leaderboard.length > 0 && (
