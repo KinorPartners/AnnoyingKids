@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import { Product } from '@/types';
 import { MOCK_PRODUCTS } from '@/lib/products';
 import ProductDetail from '@/components/ProductDetail';
@@ -10,7 +11,10 @@ interface ProductDetailClientProps {
   slug: string;
 }
 
-export default function ProductDetailClient({ slug }: ProductDetailClientProps) {
+export default function ProductDetailClient({ slug: propSlug }: ProductDetailClientProps) {
+  // Always prefer the live URL slug so any HTML shell works for any product
+  const params = useParams();
+  const slug = (params?.slug as string) || propSlug;
   const [product, setProduct] = useState<Product | null>(null);
   const [allProducts, setAllProducts] = useState<Product[]>(MOCK_PRODUCTS);
   const [loading, setLoading] = useState(true);
