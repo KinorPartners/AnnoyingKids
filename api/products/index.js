@@ -188,15 +188,20 @@ module.exports = async function (context, req) {
             };
           });
 
-        context.res = {
-          status: 200,
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'public, max-age=300', // 5-minute cache
-          },
-          body: JSON.stringify({ products, source: 'printify' }),
-        };
-        return;
+        // If shop has no published products yet, fall back to mock placeholders
+        if (products.length === 0) {
+          context.log.warn('Printify shop has 0 published products, using mock data');
+        } else {
+          context.res = {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json',
+              'Cache-Control': 'public, max-age=300',
+            },
+            body: JSON.stringify({ products, source: 'printify' }),
+          };
+          return;
+        }
       } catch (printifyError) {
         context.log.error(
           'Printify API error, falling back to mock data:',
