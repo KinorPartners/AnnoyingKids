@@ -16,6 +16,28 @@ const BIG_CELL  = 52;
 const TUNNEL_ROW = 7;
 
 // 1=wall, 0=candy, 2=empty, 3=bonus, 4=tunnel (wraps to other side)
+// Row 7 = tunnel row. Kid always starts at (7,7) = type 2 in all mazes.
+
+// Levels 1-2: wide open, few walls, easy to learn
+const MAZE_EASY: number[][] = [
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,1,0,0,0,0,0,0,0,0,0,1,0,1],
+  [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
+  [1,0,0,1,0,0,0,0,0,0,0,1,0,0,1],
+  [1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
+  [1,0,0,0,0,1,0,3,0,1,0,0,0,0,1],
+  [4,2,2,2,2,2,2,2,2,2,2,2,2,2,4],
+  [1,0,0,0,0,1,0,0,0,1,0,0,0,0,1],
+  [1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
+  [1,0,0,1,0,0,0,0,0,0,0,1,0,0,1],
+  [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
+  [1,0,1,0,0,0,0,0,0,0,0,0,1,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+];
+
+// Levels 3-5: moderate — current classic layout
 const BASE_MAZE: number[][] = [
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
   [1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
@@ -24,7 +46,7 @@ const BASE_MAZE: number[][] = [
   [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1],
   [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
   [1,1,1,0,1,0,1,3,1,0,1,0,1,1,1],
-  [4,2,2,2,1,1,1,2,1,1,1,2,2,2,4],  // ← tunnel row: open corridors left(x1-3)/right(x11-13) + center(x7)
+  [4,2,2,2,1,1,1,2,1,1,1,2,2,2,4],
   [1,1,1,0,1,0,1,0,1,0,1,0,1,1,1],
   [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
   [1,0,1,0,1,1,0,1,0,1,1,0,1,0,1],
@@ -34,8 +56,52 @@ const BASE_MAZE: number[][] = [
   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 ];
 
+// Levels 6-9: hard — dead ends, blocked corners, tight corridors
+const MAZE_HARD: number[][] = [
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,0,0,1,0,0,1,0,1,0,0,1,0,0,1],
+  [1,0,1,1,1,0,1,0,1,0,1,1,1,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,1,1,0,1,1,0,1,0,1,1,0,1,1,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,1,1,1,0,1,3,1,0,1,1,1,0,1],
+  [4,2,2,2,1,1,1,2,1,1,1,2,2,2,4],
+  [1,0,1,1,1,0,1,0,1,0,1,1,1,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,1,1,0,1,1,0,1,0,1,1,0,1,1,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,1,1,1,0,1,0,1,0,1,1,1,0,1],
+  [1,0,0,1,0,0,1,0,1,0,0,1,0,0,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+];
+
+// Levels 10+: expert — narrow paths, lots of dead ends, maximum chaos
+const MAZE_EXPERT: number[][] = [
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,0,1,0,1,0,0,0,0,0,1,0,1,0,1],
+  [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,1,1,1,1,0,1,0,1,1,1,1,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,1,1,1,0,1,0,3,0,1,0,1,1,1,1],
+  [4,2,2,2,1,1,1,2,1,1,1,2,2,2,4],
+  [1,1,1,1,0,1,0,0,0,1,0,1,1,1,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,1,1,1,1,0,1,0,1,1,1,1,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+  [1,0,1,0,1,0,0,0,0,0,1,0,1,0,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+];
+
+function getMazeForLevel(level: number): number[][] {
+  if (level <= 2) return MAZE_EASY;
+  if (level <= 5) return BASE_MAZE;
+  if (level <= 9) return MAZE_HARD;
+  return MAZE_EXPERT;
+}
+
 const BONUS_ICONS = ['🍕','🍭','🎮','🍦','🧃','🍟','🎯','🕹️'];
-const TOTAL_ITEMS = BASE_MAZE.flat().filter(c => c === 0 || c === 3).length;
 
 function cloneMaze(m: number[][]): number[][] { return m.map(r => [...r]); }
 
@@ -286,7 +352,7 @@ export default function ChaosGame() {
   };
 
   const startGame = useCallback(() => {
-    mazeRef.current      = cloneMaze(BASE_MAZE);
+    mazeRef.current      = cloneMaze(getMazeForLevel(1));
     levelRef.current     = 1;
     scoreRef.current     = 0;
     livesRef.current     = 3;
@@ -364,7 +430,7 @@ export default function ChaosGame() {
         if (lvlTimerRef.current) clearTimeout(lvlTimerRef.current);
         lvlTimerRef.current = setTimeout(() => {
           levelRef.current++;
-          mazeRef.current = cloneMaze(BASE_MAZE);
+          mazeRef.current = cloneMaze(getMazeForLevel(levelRef.current));
           resetPositions(levelRef.current);
           gameStateRef.current = 'playing';
           render();
@@ -498,7 +564,7 @@ export default function ChaosGame() {
         {/* Board */}
         <div
           className="relative rounded-2xl overflow-hidden border-2 border-neon-pink/30 shadow-[0_0_40px_rgba(255,45,120,0.2)]"
-          style={{ width:COLS*CS, height:ROWS*CS }}
+          style={{ width:COLS*CS, height:ROWS*CS, touchAction:'none' }}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
