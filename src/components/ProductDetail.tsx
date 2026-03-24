@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
@@ -28,6 +27,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   const selectedVariant = product.variants[selectedVariantIndex];
 
@@ -77,14 +77,13 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
           {/* Product Image */}
           <div className="relative">
             <div className="aspect-square bg-dark-card border border-dark-border rounded-2xl overflow-hidden flex items-center justify-center relative group">
-              {primaryImage ? (
-                <Image
+              {primaryImage && !imgError ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
                   src={primaryImage}
                   alt={product.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  unoptimized
+                  onError={() => setImgError(true)}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               ) : (
                 <>
