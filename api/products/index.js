@@ -133,11 +133,10 @@ module.exports = async function (context, req) {
     const printifyApiKey = process.env.PRINTIFY_API_KEY;
     const printifyShopId = process.env.PRINTIFY_SHOP_ID;
 
-    let lastError = '';
     if (printifyApiKey && printifyShopId) {
       try {
         const res = await fetch(
-          `${PRINTIFY_API_BASE}/shops/${printifyShopId}/products.json?limit=100`,
+          `${PRINTIFY_API_BASE}/shops/${printifyShopId}/products.json?limit=50`,
           {
             headers: {
               Authorization: `Bearer ${printifyApiKey}`,
@@ -146,8 +145,7 @@ module.exports = async function (context, req) {
         );
 
         if (!res.ok) {
-          const body = await res.text();
-          throw new Error(`Printify API error: ${res.status} ${res.statusText} — ${body}`);
+          throw new Error(`Printify API error: ${res.status} ${res.statusText}`);
         }
 
         const data = await res.json();
@@ -204,14 +202,13 @@ module.exports = async function (context, req) {
           'Printify API error, falling back to mock data:',
           printifyError
         );
-        lastError = printifyError.message;
       }
     }
 
     context.res = {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ products: MOCK_PRODUCTS, source: 'mock', _e: lastError }),
+      body: JSON.stringify({ products: MOCK_PRODUCTS, source: 'mock' }),
     };
   } catch (error) {
     context.log.error('Products API error:', error);
