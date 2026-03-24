@@ -10,7 +10,7 @@
     },
     {
       "route": "/products/*",
-      "serve": "/products/im-tired-dad-cap/index.html",
+      "serve": "/products/im-tired-dad-cap.html",
       "statusCode": 200
     }
   ],
