@@ -7,7 +7,6 @@ import FeatureCard from '@/components/FeatureCard';
 import NeonButton from '@/components/NeonButton';
 import GlitchText from '@/components/GlitchText';
 import ChaosGame from '@/components/ChaosGame';
-import GamePreview from '@/components/GamePreview';
 import { useProducts } from '@/hooks/useProducts';
 
 export default function HomePage() {
@@ -19,12 +18,9 @@ export default function HomePage() {
       {/* Hero */}
       <HeroSection />
 
-      {/* Game Preview */}
-      <GamePreview />
-
       {/* Featured Products */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+      <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center mb-8">
           <span className="font-space text-neon-green text-sm uppercase tracking-widest">
             Hot Drops 🔥
           </span>
