@@ -27,20 +27,57 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim();
 }
 
-// Given a product and selected variant index, find the best matching image.
-// Extracts color from "Color / Size" title, counts unique colors, returns image at that color's index.
+// Extract the Printify variant ID embedded in a mockup image URL.
+// URL format: https://images.printify.com/mockup/{product_id}/{variant_id}/{blueprint_id}/...
+function urlVariantId(url: string): string | null {
+  try {
+    const seg = url.split('/')[5];
+    return seg && /^\d+$/.test(seg) ? seg : null;
+  } catch { return null; }
+}
+
+// Find the best image for a selected variant.
+// Strategy 1 — direct: image URL variant ID exists in variants list AND shares the same color.
+// Strategy 2 — proximity: image URL variant ID is numerically closest to a variant of the same color.
+// Strategy 3 — fallback: use unique color index position.
 function getImageForVariant(product: Product, variantIndex: number): string | null {
   const { images, variants } = product;
   if (!images.length) return null;
   const variant = variants[variantIndex];
   if (!variant) return images[0];
 
-  const parts = variant.title.split('/');
-  if (parts.length < 2) {
-    return images[variantIndex] || images[0];
+  const color = variant.title.split('/')[0].trim().toLowerCase();
+
+  // Strategy 1: direct match — image's embedded variant ID belongs to same color
+  for (const img of images) {
+    const uvid = urlVariantId(img);
+    if (!uvid) continue;
+    const imgVariant = variants.find(v => v.id === uvid);
+    if (imgVariant && imgVariant.title.split('/')[0].trim().toLowerCase() === color) {
+      return img;
+    }
   }
 
-  const color = parts[0].trim().toLowerCase();
+  // Strategy 2: numeric proximity — image variant ID closest to any variant of this color
+  const colorIds = variants
+    .filter(v => v.title.split('/')[0].trim().toLowerCase() === color)
+    .map(v => parseInt(v.id, 10))
+    .filter(n => !isNaN(n));
+
+  if (colorIds.length > 0) {
+    let bestImg: string | null = null;
+    let bestDiff = Infinity;
+    for (const img of images) {
+      const uvid = urlVariantId(img);
+      const unum = parseInt(uvid ?? '', 10);
+      if (isNaN(unum)) continue;
+      const diff = Math.min(...colorIds.map(id => Math.abs(id - unum)));
+      if (diff < bestDiff) { bestDiff = diff; bestImg = img; }
+    }
+    if (bestImg && bestDiff < 500) return bestImg;
+  }
+
+  // Strategy 3: unique color index
   const seenColors: string[] = [];
   for (const v of variants) {
     const c = v.title.split('/')[0].trim().toLowerCase();
@@ -335,6 +372,17 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
                   </div>
                 </div>
               )
+            )}
+
+            {/* SKU */}
+            {selectedVariant && (
+              <div className="mb-6 flex items-center gap-2">
+                <span className="font-space text-gray-600 text-xs uppercase tracking-wider">SKU:</span>
+                <span className="font-space text-gray-400 text-xs font-mono bg-dark-surface border border-dark-border rounded px-2 py-0.5">
+                  {selectedVariant.id}
+                </span>
+                <span className="font-space text-gray-600 text-xs">{selectedVariant.title}</span>
+              </div>
             )}
 
             {/* Quantity */}
