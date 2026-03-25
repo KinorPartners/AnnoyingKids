@@ -104,12 +104,20 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
 
   const uniqueSizes = useMemo(() => {
     if (!hasColorSize) return [];
+    const SIZE_ORDER = ['3"×3"','4"×4"','6"×6"','One size','One Size','XS','S','M','L','XL','2XL','3XL','4XL','5XL','6XL','7XL'];
     const seen: string[] = [];
     for (const v of product.variants) {
       const s = v.title.split('/')[1]?.trim() || '';
       if (s && !seen.includes(s)) seen.push(s);
     }
-    return seen;
+    return seen.sort((a, b) => {
+      const ai = SIZE_ORDER.findIndex(s => s.toLowerCase() === a.toLowerCase());
+      const bi = SIZE_ORDER.findIndex(s => s.toLowerCase() === b.toLowerCase());
+      if (ai !== -1 && bi !== -1) return ai - bi;
+      if (ai !== -1) return -1;
+      if (bi !== -1) return 1;
+      return a.localeCompare(b);
+    });
   }, [product.variants, hasColorSize]);
 
   const [selectedColor, setSelectedColor] = useState(() =>
