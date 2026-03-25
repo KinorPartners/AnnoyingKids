@@ -13,6 +13,11 @@ export const metadata: Metadata = {
     icon: '/favicon.png',
     apple: '/favicon.png',
   },
+  verification: {
+    other: {
+      'msvalidate.01': '3C176DEAB58B624C2461ACA33A256011',
+    },
+  },
   title: {
     default: 'AnnoyingKids — Merch for Professional Troublemakers',
     template: '%s | AnnoyingKids',
