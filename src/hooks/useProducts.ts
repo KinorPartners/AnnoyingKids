@@ -58,7 +58,7 @@ export function useProducts(): UseProductsResult {
       return;
     }
 
-    fetch('/api/products')
+    fetch('https://annoyingkids.com/api/products')
       .then(async (res) => {
         if (!res.ok) throw new Error(`API returned ${res.status}`);
         return res.json();

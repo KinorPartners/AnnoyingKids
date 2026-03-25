@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
@@ -29,8 +29,14 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(false);
 
   const selectedVariant = product.variants[selectedVariantIndex];
+
+  // Truncate description to ~10 words for the collapsed state
+  const descWords = product.description.split(' ');
+  const shortDesc = descWords.slice(0, 10).join(' ');
+  const hasLongDesc = descWords.length > 10;
 
   // Use live products for related items if provided, otherwise fall back to static mock
   const relatedProducts = allProducts
@@ -53,7 +59,8 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
     setTimeout(() => setAddedToCart(false), 2000);
   };
 
-  const primaryImage = product.images.find((img) => img.startsWith('https://')) || null;
+  // Show the image matching the selected variant index (if available), otherwise first image
+  const primaryImage = product.images[selectedVariantIndex] || product.images[0] || null;
 
   return (
     <div className="min-h-screen">
@@ -153,9 +160,19 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
               )}
             </div>
 
-            <p className="font-space text-gray-400 leading-relaxed mb-8">
-              {product.description}
-            </p>
+            <div className="font-space text-gray-400 leading-relaxed mb-8">
+              <span>
+                {hasLongDesc && !descExpanded ? shortDesc + '…' : product.description}
+              </span>
+              {hasLongDesc && (
+                <button
+                  onClick={() => setDescExpanded(e => !e)}
+                  className="ml-2 text-neon-pink text-sm hover:underline focus:outline-none"
+                >
+                  {descExpanded ? 'See less' : 'See more'}
+                </button>
+              )}
+            </div>
 
             {/* Variant selector */}
             {product.variants.length > 1 && (
@@ -167,7 +184,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
                   {product.variants.map((variant, index) => (
                     <button
                       key={variant.id}
-                      onClick={() => setSelectedVariantIndex(index)}
+                      onClick={() => { setSelectedVariantIndex(index); setImgError(false); }}
                       disabled={!variant.isAvailable}
                       className={`px-4 py-2 rounded-lg font-space text-sm transition-all duration-300 ${
                         selectedVariantIndex === index

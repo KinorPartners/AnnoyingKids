@@ -116,6 +116,28 @@ function isWall(m: number[][], x: number, y: number): boolean {
 // Resolve a raw position to its canonical (possibly wrapped) position
 function resolvePos(x: number, y: number): Pos { return { x: wrapX(x), y }; }
 
+// Pick a random valid move from pos, preferring the current direction (momentum)
+function randomStep(maze: number[][], pos: Pos, lastDir: Dir): Dir {
+  const dirs: Dir[] = [{x:0,y:-1},{x:0,y:1},{x:-1,y:0},{x:1,y:0}];
+  // Try to continue in the same direction first (50% bias)
+  if ((lastDir.x!==0||lastDir.y!==0) && Math.random()<0.5) {
+    const nx=pos.x+lastDir.x, ny=pos.y+lastDir.y;
+    if (!isWall(maze,nx,ny)) return lastDir;
+  }
+  // Shuffle and pick first valid direction (excluding reverse if possible)
+  const reverse = {x:-lastDir.x, y:-lastDir.y};
+  const shuffled = dirs.sort(()=>Math.random()-0.5);
+  const nonReverse = shuffled.filter(d=>!(d.x===reverse.x&&d.y===reverse.y));
+  for (const d of nonReverse) {
+    if (!isWall(maze,pos.x+d.x,pos.y+d.y)) return d;
+  }
+  // Fallback: allow reverse
+  for (const d of shuffled) {
+    if (!isWall(maze,pos.x+d.x,pos.y+d.y)) return d;
+  }
+  return {x:0,y:0};
+}
+
 function bfsStep(maze: number[][], from: Pos, to: Pos): Dir {
   if (from.x === to.x && from.y === to.y) return { x: 0, y: 0 };
   const dirs: Dir[] = [{ x:0,y:-1},{x:0,y:1},{x:-1,y:0},{x:1,y:0}];
@@ -337,6 +359,9 @@ export default function ChaosGame() {
     : (bigMode ? BIG_CELL : BASE_CELL);
   const kidTeleportRef = useRef(false);
 
+  // Track last direction per chaser for natural-looking wandering momentum
+  const chaserLastDirRef = useRef<Record<string,Dir>>({});
+
   const bonusIconsRef = useRef<Record<string,string>>({});
   useEffect(() => {
     let idx = 0;
@@ -373,10 +398,11 @@ export default function ChaosGame() {
     render();
   }, [render]);
 
-  // Auto-start when triggered from GamePreview hero click
+  // Auto-start when triggered from GamePreview hero click (works from any non-playing state)
   useEffect(() => {
     const handler = () => {
-      if (gameStateRef.current === 'idle') startGame();
+      const s = gameStateRef.current;
+      if (s === 'idle' || s === 'gameover' || s === 'won') startGame();
     };
     window.addEventListener('chaos-game-autostart', handler);
     return () => window.removeEventListener('chaos-game-autostart', handler);
@@ -455,10 +481,18 @@ export default function ChaosGame() {
       chasersRef.current = chasersRef.current.map(ch => {
         const every = moveEvery(ch.type, level);
         if (tickRef.current % every !== 0) return ch;
-        if (Math.random() < skipChance(ch.type, level)) return ch;
-        const step = bfsStep(maze, ch.pos, kidRef.current);
+        const lastDir = chaserLastDirRef.current[ch.type] ?? {x:0,y:0};
+        let step: Dir;
+        if (Math.random() < skipChance(ch.type, level)) {
+          // Wander randomly instead of chasing
+          step = randomStep(maze, ch.pos, lastDir);
+        } else {
+          step = bfsStep(maze, ch.pos, kidRef.current);
+        }
         const nx=ch.pos.x+step.x, ny=ch.pos.y+step.y;
-        return isWall(maze,nx,ny) ? ch : { ...ch, pos: resolvePos(nx,ny) };
+        if (isWall(maze,nx,ny)) return ch;
+        chaserLastDirRef.current[ch.type] = step;
+        return { ...ch, pos: resolvePos(nx,ny) };
       });
 
       // Collision
@@ -702,18 +736,23 @@ export default function ChaosGame() {
           )}
         </div>
 
-        {/* D-pad controls */}
-        <div className="flex flex-col items-center gap-2 select-none">
-          <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl sm:text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:0,y:-1})}>▲</button>
-          <div className="flex gap-2">
-            <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl sm:text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:-1,y:0})}>◄</button>
-            <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl sm:text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:0,y:1})}>▼</button>
-            <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl sm:text-xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:1,y:0})}>►</button>
+        {/* D-pad controls — proper cross layout */}
+        <div className="grid select-none" style={{ gridTemplateColumns:'repeat(3,1fr)', gap:8 }}>
+          <div />
+          <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:0,y:-1})}>▲</button>
+          <div />
+          <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:-1,y:0})}>◄</button>
+          <div className="w-16 h-16 sm:w-14 sm:h-14 rounded-xl bg-dark-surface/30 border-2 border-dark-border/30 flex items-center justify-center">
+            <span className="text-gray-700 text-xs font-bungee">D-PAD</span>
           </div>
+          <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:1,y:0})}>►</button>
+          <div />
+          <button className="w-16 h-16 sm:w-14 sm:h-14 bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all" onPointerDown={()=>setDir({x:0,y:1})}>▼</button>
+          <div />
         </div>
 
         <p className="font-space text-gray-600 text-xs">
-          {isMobile ? 'Swipe on board or tap buttons above' : 'Keyboard: Arrow keys or WASD'}
+          {isMobile ? 'Swipe on board or tap D-pad above' : 'Keyboard: Arrow keys or WASD'}
         </p>
 
         {/* Leaderboard */}

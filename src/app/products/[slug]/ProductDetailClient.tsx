@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { Product } from '@/types';
 import { MOCK_PRODUCTS } from '@/lib/products';
@@ -23,7 +23,7 @@ export default function ProductDetailClient({ slug: propSlug }: ProductDetailCli
   useEffect(() => {
     if (!slug) return;
 
-    fetch('/api/products')
+    fetch('https://annoyingkids.com/api/products')
       .then(async (res) => {
         if (!res.ok) throw new Error('API error');
         return res.json();
