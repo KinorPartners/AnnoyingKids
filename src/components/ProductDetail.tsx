@@ -22,19 +22,100 @@ const categoryEmoji: Record<string, string> = {
   caps: '🧢',
 };
 
+// Strip HTML tags from a string (Printify descriptions contain raw HTML)
+function stripHtml(html: string): string {
+  return html.replace(/<[^>]*>/g, ' ').replace(/\s{2,}/g, ' ').trim();
+}
+
+// Given a product and selected variant index, find the best matching image.
+// Extracts color from "Color / Size" title, counts unique colors, returns image at that color's index.
+function getImageForVariant(product: Product, variantIndex: number): string | null {
+  const { images, variants } = product;
+  if (!images.length) return null;
+  const variant = variants[variantIndex];
+  if (!variant) return images[0];
+
+  const parts = variant.title.split('/');
+  if (parts.length < 2) {
+    return images[variantIndex] || images[0];
+  }
+
+  const color = parts[0].trim().toLowerCase();
+  const seenColors: string[] = [];
+  for (const v of variants) {
+    const c = v.title.split('/')[0].trim().toLowerCase();
+    if (!seenColors.includes(c)) seenColors.push(c);
+  }
+  const colorIdx = seenColors.indexOf(color);
+  return images[colorIdx >= 0 ? colorIdx : 0] || images[0];
+}
+
 export default function ProductDetail({ product, allProducts }: ProductDetailProps) {
   const { addItem } = useCart();
 
+  // Parse variants into color + size dimensions if applicable
+  const hasColorSize = product.variants.length > 0 && product.variants[0].title.includes('/');
+  const uniqueColors = useMemo(() => {
+    if (!hasColorSize) return [];
+    const seen: string[] = [];
+    for (const v of product.variants) {
+      const c = v.title.split('/')[0].trim();
+      if (!seen.includes(c)) seen.push(c);
+    }
+    return seen;
+  }, [product.variants, hasColorSize]);
+
+  const uniqueSizes = useMemo(() => {
+    if (!hasColorSize) return [];
+    const seen: string[] = [];
+    for (const v of product.variants) {
+      const s = v.title.split('/')[1]?.trim() || '';
+      if (s && !seen.includes(s)) seen.push(s);
+    }
+    return seen;
+  }, [product.variants, hasColorSize]);
+
+  const [selectedColor, setSelectedColor] = useState(() =>
+    hasColorSize ? (product.variants[0].title.split('/')[0].trim()) : ''
+  );
+  const [selectedSize, setSelectedSize] = useState(() =>
+    hasColorSize ? (product.variants[0].title.split('/')[1]?.trim() || '') : ''
+  );
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [descExpanded, setDescExpanded] = useState(false);
 
+  // Sync color+size selection back to variantIndex
+  const syncVariant = (color: string, size: string) => {
+    const title = `${color} / ${size}`;
+    const idx = product.variants.findIndex(v => v.title === title);
+    setSelectedVariantIndex(idx >= 0 ? idx : 0);
+    setImgError(false);
+  };
+
+  const handleColorSelect = (color: string) => {
+    setSelectedColor(color);
+    // Pick first available size for this color, or keep current if valid
+    const sizesForColor = product.variants
+      .filter(v => v.title.split('/')[0].trim() === color)
+      .map(v => v.title.split('/')[1]?.trim() || '');
+    const newSize = sizesForColor.includes(selectedSize) ? selectedSize : sizesForColor[0] || '';
+    setSelectedSize(newSize);
+    syncVariant(color, newSize);
+  };
+
+  const handleSizeSelect = (size: string) => {
+    setSelectedSize(size);
+    syncVariant(selectedColor, size);
+  };
+
   const selectedVariant = product.variants[selectedVariantIndex];
 
-  // Truncate description to ~10 words for the collapsed state
-  const descWords = product.description.split(' ');
+  // Strip HTML from description, then truncate by words
+  const plainDesc = stripHtml(product.description);
+  const descWords = plainDesc.split(' ').filter(Boolean);
   const shortDesc = descWords.slice(0, 10).join(' ');
   const hasLongDesc = descWords.length > 10;
 
@@ -59,8 +140,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
     setTimeout(() => setAddedToCart(false), 2000);
   };
 
-  // Show the image matching the selected variant index (if available), otherwise first image
-  const primaryImage = product.images[selectedVariantIndex] || product.images[0] || null;
+  const primaryImage = getImageForVariant(product, selectedVariantIndex);
 
   return (
     <div className="min-h-screen">
@@ -162,7 +242,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
 
             <div className="font-space text-gray-400 leading-relaxed mb-8">
               <span>
-                {hasLongDesc && !descExpanded ? shortDesc + '…' : product.description}
+                {hasLongDesc && !descExpanded ? shortDesc + '…' : plainDesc}
               </span>
               {hasLongDesc && (
                 <button
@@ -176,29 +256,85 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
 
             {/* Variant selector */}
             {product.variants.length > 1 && (
-              <div className="mb-8">
-                <label className="font-bungee text-sm text-gray-400 mb-3 block">
-                  Option
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {product.variants.map((variant, index) => (
-                    <button
-                      key={variant.id}
-                      onClick={() => { setSelectedVariantIndex(index); setImgError(false); }}
-                      disabled={!variant.isAvailable}
-                      className={`px-4 py-2 rounded-lg font-space text-sm transition-all duration-300 ${
-                        selectedVariantIndex === index
-                          ? 'bg-neon-pink text-white shadow-[0_0_15px_rgba(255,45,120,0.4)] border border-neon-pink'
-                          : 'bg-dark-card border border-dark-border text-gray-400 hover:border-neon-pink/30'
-                      } ${
-                        !variant.isAvailable ? 'opacity-30 cursor-not-allowed' : ''
-                      }`}
-                    >
-                      {variant.title}
-                    </button>
-                  ))}
+              hasColorSize ? (
+                <div className="mb-8 space-y-5">
+                  {/* Color picker */}
+                  {uniqueColors.length > 0 && (
+                    <div>
+                      <label className="font-bungee text-sm text-gray-400 mb-3 block">
+                        Color: <span className="text-neon-pink">{selectedColor}</span>
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {uniqueColors.map((color) => (
+                          <button
+                            key={color}
+                            onClick={() => handleColorSelect(color)}
+                            className={`px-4 py-2 rounded-lg font-space text-sm transition-all duration-300 ${
+                              selectedColor === color
+                                ? 'bg-neon-pink text-white shadow-[0_0_15px_rgba(255,45,120,0.4)] border border-neon-pink'
+                                : 'bg-dark-card border border-dark-border text-gray-400 hover:border-neon-pink/30'
+                            }`}
+                          >
+                            {color}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {/* Size picker */}
+                  {uniqueSizes.length > 0 && (
+                    <div>
+                      <label className="font-bungee text-sm text-gray-400 mb-3 block">
+                        Size: <span className="text-neon-blue">{selectedSize}</span>
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {uniqueSizes.map((size) => {
+                          const matchingVariant = product.variants.find(
+                            v => v.title === `${selectedColor} / ${size}`
+                          );
+                          const available = matchingVariant?.isAvailable ?? false;
+                          return (
+                            <button
+                              key={size}
+                              onClick={() => handleSizeSelect(size)}
+                              disabled={!available}
+                              className={`px-4 py-2 rounded-lg font-space text-sm transition-all duration-300 ${
+                                selectedSize === size
+                                  ? 'bg-neon-blue text-dark-bg shadow-[0_0_15px_rgba(0,240,255,0.4)] border border-neon-blue'
+                                  : 'bg-dark-card border border-dark-border text-gray-400 hover:border-neon-blue/30'
+                              } ${!available ? 'opacity-30 cursor-not-allowed line-through' : ''}`}
+                            >
+                              {size}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              ) : (
+                <div className="mb-8">
+                  <label className="font-bungee text-sm text-gray-400 mb-3 block">
+                    Option
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {product.variants.map((variant, index) => (
+                      <button
+                        key={variant.id}
+                        onClick={() => { setSelectedVariantIndex(index); setImgError(false); }}
+                        disabled={!variant.isAvailable}
+                        className={`px-4 py-2 rounded-lg font-space text-sm transition-all duration-300 ${
+                          selectedVariantIndex === index
+                            ? 'bg-neon-pink text-white shadow-[0_0_15px_rgba(255,45,120,0.4)] border border-neon-pink'
+                            : 'bg-dark-card border border-dark-border text-gray-400 hover:border-neon-pink/30'
+                        } ${!variant.isAvailable ? 'opacity-30 cursor-not-allowed' : ''}`}
+                      >
+                        {variant.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )
             )}
 
             {/* Quantity */}
