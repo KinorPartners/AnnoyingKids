@@ -180,23 +180,25 @@ function getInitialChasers(level: number): Chaser[] {
   return c;
 }
 
-// How often (in ticks) each chaser moves — decreases as level rises
+// How often (in ticks) each chaser moves — starts slow, speeds up each level
+// Tick = 120ms. Base goes 7→6→5→4→3→2→1 ticking up every 2 levels.
 function moveEvery(type: CharType, level: number): number {
-  const speed = Math.max(1, 3 - Math.floor(level / 4)); // 3→2→1 at levels 1,4,8
+  const base = Math.max(1, 7 - Math.floor((level - 1) / 2));
   switch (type) {
-    case 'dad':     return speed;
-    case 'mom':     return speed;
-    case 'grandma': return Math.max(1, speed + 1);
-    case 'grandpa': return Math.max(1, speed + 2);
+    case 'dad':     return base;
+    case 'mom':     return Math.max(1, base + 1); // mom slightly slower than dad
+    case 'grandma': return Math.max(1, base + 3); // grandma noticeably slower
+    case 'grandpa': return Math.max(1, base + 4); // grandpa slowest
   }
 }
-// Chance grandma/grandpa wander randomly instead of chasing
+// Chance each chaser wanders randomly instead of BFS-chasing the kid.
+// High at early levels (very distractable), drops as levels rise.
 function skipChance(type: CharType, level: number): number {
   switch (type) {
-    case 'dad':     return 0;
-    case 'mom':     return Math.max(0.05, 0.22 - level*0.015);
-    case 'grandma': return Math.max(0.05, 0.40 - level*0.025);
-    case 'grandpa': return Math.max(0.10, 0.50 - (level-10)*0.03);
+    case 'dad':     return Math.max(0,    0.70 - level * 0.06); // level 1: 64% → 0% by level 12
+    case 'mom':     return Math.max(0.05, 0.80 - level * 0.07); // level 1: 73% → 5% floor
+    case 'grandma': return Math.max(0.15, 0.90 - level * 0.06); // mostly wanders early
+    case 'grandpa': return Math.max(0.20, 0.95 - (Math.max(0,level-10)) * 0.05);
   }
 }
 
@@ -221,7 +223,7 @@ function Kid({ size, dead }: { size: number; dead: boolean }) {
         .ck-tl2{animation:tl2 0.7s ease-in infinite;animation-delay:0.35s}
         .ck-tr2{animation:tr2 0.7s ease-in infinite;animation-delay:0.45s}
       `}</style>
-      <span style={{fontSize:size*0.72,lineHeight:1,zIndex:2,position:'relative'}}>😢</span>
+      <span style={{fontSize:size*0.864,lineHeight:1,zIndex:2,position:'relative'}}>😢</span>
       <div className="ck-tl"  style={{position:'absolute',top:'38%',left:'22%',width:5,height:7,background:'#3b82f6',borderRadius:'50% 50% 50% 50%/40% 40% 60% 60%',zIndex:3}}/>
       <div className="ck-tl2" style={{position:'absolute',top:'38%',left:'17%',width:4,height:6,background:'#60a5fa',borderRadius:'50% 50% 50% 50%/40% 40% 60% 60%',zIndex:3}}/>
       <div className="ck-tr"  style={{position:'absolute',top:'38%',right:'22%',width:5,height:7,background:'#3b82f6',borderRadius:'50% 50% 50% 50%/40% 40% 60% 60%',zIndex:3}}/>
@@ -230,7 +232,7 @@ function Kid({ size, dead }: { size: number; dead: boolean }) {
   );
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.72,lineHeight:1,filter:'saturate(0.25) brightness(0.85)'}}>🧒</span>
+      <span style={{fontSize:size*0.864,lineHeight:1,filter:'saturate(0.25) brightness(0.85)'}}>🧒</span>
       <div style={{position:'absolute',bottom:'14%',left:'50%',transform:'translateX(-50%)',width:size*0.18,height:size*0.16,background:'#ef4444',borderRadius:'0 0 50% 50%',boxShadow:'0 1px 4px rgba(239,68,68,0.6)',zIndex:3}}/>
     </div>
   );
@@ -239,7 +241,7 @@ function Kid({ size, dead }: { size: number; dead: boolean }) {
 function Dad({ size }: { size: number }) {
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.72,lineHeight:1,filter:'saturate(0.25) brightness(0.85)'}}>👨</span>
+      <span style={{fontSize:size*0.864,lineHeight:1,filter:'saturate(0.25) brightness(0.85)'}}>👨</span>
       <div style={{position:'absolute',top:'2%',left:'50%',transform:'translateX(-50%)',width:size*0.7,height:size*0.09,background:'#00f0ff',borderRadius:3,boxShadow:'0 0 6px #00f0ff',zIndex:3}}/>
       <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%) translateY(-45%)',width:size*0.42,height:size*0.18,background:'#00f0ff',borderRadius:'4px 4px 0 0',boxShadow:'0 0 6px #00f0ff',zIndex:3}}/>
     </div>
@@ -250,7 +252,7 @@ function Mom({ size }: { size: number }) {
   const w=size*0.22, h=size*0.18;
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.72,lineHeight:1,filter:'saturate(0.25) brightness(0.85)'}}>👩</span>
+      <span style={{fontSize:size*0.864,lineHeight:1,filter:'saturate(0.25) brightness(0.85)'}}>👩</span>
       <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%) translateY(-30%)',zIndex:3,display:'flex',alignItems:'center',gap:1}}>
         <div style={{width:w,height:h,background:'#ff2d78',borderRadius:'50% 0 50% 50%',transform:'rotate(20deg)',boxShadow:'0 0 5px #ff2d78'}}/>
         <div style={{width:size*0.1,height:size*0.1,background:'#ff69b4',borderRadius:'50%',flexShrink:0}}/>
@@ -263,7 +265,7 @@ function Mom({ size }: { size: number }) {
 function Grandma({ size }: { size: number }) {
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.72,lineHeight:1}}>👵</span>
+      <span style={{fontSize:size*0.864,lineHeight:1}}>👵</span>
       {/* White hair puff */}
       <div style={{position:'absolute',top:'3%',left:'50%',transform:'translateX(-50%)',width:size*0.6,height:size*0.22,background:'radial-gradient(ellipse,#ffffff 0%,#e0e0e0 60%,transparent 100%)',borderRadius:'50%',zIndex:3,opacity:0.95}}/>
       {/* Cane vertical */}
@@ -277,7 +279,7 @@ function Grandma({ size }: { size: number }) {
 function Grandpa({ size }: { size: number }) {
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.72,lineHeight:1}}>👴</span>
+      <span style={{fontSize:size*0.864,lineHeight:1}}>👴</span>
       {/* Cigar body */}
       <div style={{position:'absolute',bottom:'28%',right:'8%',width:size*0.38,height:size*0.1,background:'linear-gradient(90deg,#7B3F00,#A0522D)',borderRadius:'2px 4px 4px 2px',transform:'rotate(-18deg)',transformOrigin:'right center',zIndex:3}}/>
       {/* Ash tip */}
@@ -452,8 +454,8 @@ export default function ChaosGame() {
 
       // Collect
       const cell = maze[newKid.y][newKid.x];
-      if (cell===0) { maze[newKid.y][newKid.x]=2; scoreRef.current+=10; }
-      else if (cell===3) { maze[newKid.y][newKid.x]=2; scoreRef.current+=50; }
+      if (cell===0) { maze[newKid.y][newKid.x]=2; scoreRef.current+=10*levelRef.current; }
+      else if (cell===3) { maze[newKid.y][newKid.x]=2; scoreRef.current+=50*levelRef.current; }
 
       // Level complete?
       if (maze.flat().filter(c=>c===0||c===3).length===0) {
@@ -595,6 +597,7 @@ export default function ChaosGame() {
             LVL {level}
           </span>
           <span className="text-neon-green">🍭 {score}</span>
+          <span className="text-gray-600 text-xs font-space">{level*10}pts/candy</span>
           <span>
             {Array.from({length:Math.max(0,lives)}).map((_,i)=><span key={i}>🧒</span>)}
           </span>
@@ -662,9 +665,9 @@ export default function ChaosGame() {
           {gs==='idle' && (
             <div className="absolute inset-0 bg-black/75 flex flex-col items-center justify-center gap-4 z-30">
               <div className="flex items-center gap-1">
-                <Grandpa size={46}/><Grandma size={46}/><Mom size={46}/><Dad size={46}/>
+                <Grandpa size={55}/><Grandma size={55}/><Mom size={55}/><Dad size={55}/>
                 <span className="text-gray-500 mx-2 font-bungee text-lg">vs</span>
-                <Kid size={46} dead={false}/>
+                <Kid size={55} dead={false}/>
               </div>
               <h3 className="font-bungee text-white text-2xl">KID <span className="text-neon-pink">CHAOS</span></h3>
               <p className="font-space text-gray-300 text-xs text-center px-8 leading-relaxed">
