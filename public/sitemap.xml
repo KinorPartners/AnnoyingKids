@@ -18,6 +18,28 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- ── FEATURES ── -->
+  <url>
+    <loc>https://www.annoyingkids.com/game/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.annoyingkids.com/chaos-lab/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.annoyingkids.com/wall-of-chaos/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://www.annoyingkids.com/stories/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
   <!-- ── SUPPORT PAGES ── -->
   <url>
     <loc>https://www.annoyingkids.com/faq/</loc>
@@ -52,34 +74,34 @@
     <priority>0.3</priority>
   </url>
 
-  <!-- ── PRODUCT PAGES (add new slugs here as you publish products in Printify) ── -->
+  <!-- ── PRODUCT PAGES ── -->
   <url>
-    <loc>https://www.annoyingkids.com/products/anime-girl-ramen-mug/</loc>
+    <loc>https://www.annoyingkids.com/products/i-m-tired-dad-cap-minimal-embroidered-white-baseball-hat/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/glitched-neon-visage-stickers/</loc>
+    <loc>https://www.annoyingkids.com/products/glitched-portrait-fractal-hoodie-chromatic-aberration-glitch-art/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/glitched-portrait-fractal-hoodie/</loc>
+    <loc>https://www.annoyingkids.com/products/glitched-neon-visage-kiss-cut-stickers-fractal-glitch-art-chromatic-aberration/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/im-tired-dad-cap/</loc>
+    <loc>https://www.annoyingkids.com/products/mama-of-the-birthday-dude-t-shirt/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/mama-of-the-birthday-dude-tshirt/</loc>
+    <loc>https://www.annoyingkids.com/products/anime-girl-ramen-mug-what-s-for-dinner-cute-kawaii-coffee-cup-11-15oz/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/whats-for-dinner-tee/</loc>
+    <loc>https://www.annoyingkids.com/products/unisex-jersey-short-sleeve-tee/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
