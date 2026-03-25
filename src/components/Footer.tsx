@@ -173,7 +173,7 @@ export default function Footer() {
 
         <div className="mt-12 mb-2">
           <Link
-            href="/#game"
+            href="/game"
             className="group block relative overflow-hidden rounded-2xl border border-neon-pink/20 bg-dark-card/60
               hover:border-neon-pink/50 hover:shadow-[0_0_20px_rgba(255,45,120,0.15)] transition-all duration-300 px-6 py-4"
           >

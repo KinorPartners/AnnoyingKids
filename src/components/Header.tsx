@@ -58,7 +58,7 @@ export default function Header() {
               📸 Wall
             </Link>
             <Link
-              href="/#game"
+              href="/game"
               className="font-space text-neon-green hover:text-white transition-colors duration-300 text-sm uppercase tracking-wider
                 px-3 py-1 border border-neon-green/30 rounded-lg hover:bg-neon-green/10 hover:border-neon-green/60
                 hover:shadow-[0_0_10px_rgba(57,255,20,0.3)]"
@@ -148,7 +148,7 @@ export default function Header() {
               📸 Wall of Chaos
             </Link>
             <Link
-              href="/#game"
+              href="/game"
               className="block font-space text-neon-green text-sm uppercase tracking-wider py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >

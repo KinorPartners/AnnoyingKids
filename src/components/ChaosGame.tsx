@@ -331,7 +331,7 @@ const CHASER_GLOW: Record<CharType, string> = {
 
 // ─── Main component ────────────────────────────────────────────────────
 
-export default function ChaosGame() {
+export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) {
   const mazeRef      = useRef(cloneMaze(BASE_MAZE));
   const kidRef       = useRef<Pos>({ x:7, y:7 });
   const chasersRef   = useRef<Chaser[]>(getInitialChasers(1));
@@ -347,18 +347,27 @@ export default function ChaosGame() {
 
   const [bigMode, setBigMode] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  const [windowHeight, setWindowHeight] = useState(0);
   useEffect(() => {
-    const update = () => setWindowWidth(window.innerWidth);
+    const update = () => { setWindowWidth(window.innerWidth); setWindowHeight(window.innerHeight); };
     update();
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
   }, []);
   const isMobile = windowWidth > 0 && windowWidth < 640;
-  // On mobile: auto-fit board to screen width (minus 32px padding)
-  // On desktop: respect big mode toggle
-  const CS = isMobile
-    ? Math.max(20, Math.floor((windowWidth - 32) / COLS))
-    : (bigMode ? BIG_CELL : BASE_CELL);
+  // Full-page mode: fit board to viewport (both width and height constrained)
+  // Mobile: auto-fit to screen width. Desktop: respect big mode toggle.
+  const CS = (() => {
+    if (windowWidth === 0) return BASE_CELL;
+    const widthCS = Math.max(20, Math.floor((windowWidth - 32) / COLS));
+    if (fullPage && windowHeight > 0) {
+      // Reserve ~240px for header + HUD + controls + labels
+      const heightCS = Math.max(20, Math.floor((windowHeight - 240) / ROWS));
+      return Math.min(widthCS, heightCS);
+    }
+    if (isMobile) return widthCS;
+    return bigMode ? BIG_CELL : BASE_CELL;
+  })();
   const kidTeleportRef = useRef(false);
 
   // Track last direction per chaser for natural-looking wandering momentum
@@ -547,6 +556,13 @@ export default function ChaosGame() {
     setNameInput('');
   };
 
+  const resetToIdle = useCallback(() => {
+    gameStateRef.current = 'idle';
+    setAwaitingName(false);
+    setPendingEntry(null);
+    render();
+  }, [render]);
+
   const newChasersAtLevel = (lvl: number) =>
     lvl===5 ? '👵 Grandma joins the chase!' :
     lvl===10 ? '👴 Grandpa joins the chaos!' : null;
@@ -578,8 +594,11 @@ export default function ChaosGame() {
   };
 
   return (
-    <section className="py-12 px-4">
-      <div className="max-w-2xl mx-auto flex flex-col items-center gap-5">
+    <section className={fullPage
+      ? 'flex flex-col items-center justify-center min-h-[calc(100dvh-5rem)] px-2 py-3 gap-3'
+      : 'py-12 px-4'
+    }>
+      <div className={fullPage ? 'flex flex-col items-center gap-3 w-full' : 'max-w-2xl mx-auto flex flex-col items-center gap-5'}>
 
         {/* Title */}
         <div className="text-center">
@@ -700,6 +719,10 @@ export default function ChaosGame() {
           {/* Won */}
           {gs==='won' && (
             <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center gap-4 z-30">
+              <button onClick={resetToIdle} aria-label="Close"
+                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-base transition-all">
+                ✕
+              </button>
               <div className="text-5xl animate-bounce">🎉</div>
               <h3 className="font-bungee text-neon-green text-3xl">YOU ESCAPED!</h3>
               <p className="font-space text-white text-lg">Score: {score}</p>
@@ -710,6 +733,10 @@ export default function ChaosGame() {
           {/* Game over */}
           {gs==='gameover' && (
             <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center gap-3 z-30 px-4">
+              <button onClick={resetToIdle} aria-label="Close"
+                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-base transition-all">
+                ✕
+              </button>
               <div className="text-5xl">😅</div>
               <h3 className="font-bungee text-neon-pink text-3xl">GROUNDED!</h3>
               <p className="font-space text-white text-lg">Score: {score} · Level {level}</p>
