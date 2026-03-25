@@ -87,8 +87,29 @@ function getImageForVariant(product: Product, variantIndex: number): string | nu
   return images[colorIdx >= 0 ? colorIdx : 0] || images[0];
 }
 
+const SIZE_GUIDE: Record<string, { headers: string[]; rows: string[][] }> = {
+  tees: {
+    headers: ['Size', 'Chest (in)', 'Length (in)'],
+    rows: [['XS','30–32','26'],['S','34–36','27'],['M','38–40','28'],['L','42–44','29'],['XL','46–48','30'],['2XL','50–52','31'],['3XL','54–56','32']],
+  },
+  hoodies: {
+    headers: ['Size', 'Chest (in)', 'Length (in)', 'Sleeve (in)'],
+    rows: [['XS','32–34','24','32'],['S','36–38','25','33'],['M','40–42','26','34'],['L','44–46','27','35'],['XL','48–50','28','36'],['2XL','52–54','29','37'],['3XL','56–58','30','38']],
+  },
+  caps: {
+    headers: ['Style', 'Circumference'],
+    rows: [['One Size (adjustable)', '21–23 in / 53–58 cm']],
+  },
+  mugs: {
+    headers: ['Size', 'Volume', 'Height'],
+    rows: [['11oz','325 ml','3.8 in'],['15oz','444 ml','4.7 in']],
+  },
+};
+
 export default function ProductDetail({ product, allProducts }: ProductDetailProps) {
   const { addItem } = useCart();
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const sizeGuide = SIZE_GUIDE[product.category];
 
   // Parse variants into color + size dimensions if applicable
   const hasColorSize = product.variants.length > 0 && product.variants[0].title.includes('/');
@@ -329,9 +350,19 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
                   {/* Size picker */}
                   {uniqueSizes.length > 0 && (
                     <div>
-                      <label className="font-bungee text-sm text-gray-400 mb-3 block">
-                        Size: <span className="text-neon-blue">{selectedSize}</span>
-                      </label>
+                      <div className="flex items-center justify-between mb-3">
+                        <label className="font-bungee text-sm text-gray-400">
+                          Size: <span className="text-neon-blue">{selectedSize}</span>
+                        </label>
+                        {sizeGuide && (
+                          <button
+                            onClick={() => setSizeGuideOpen(true)}
+                            className="font-space text-xs text-gray-500 hover:text-neon-blue underline transition-colors"
+                          >
+                            Size guide
+                          </button>
+                        )}
+                      </div>
                       <div className="flex flex-wrap gap-2">
                         {uniqueSizes.map((size) => {
                           const matchingVariant = product.variants.find(
@@ -494,6 +525,50 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
           </NeonButton>
         </div>
       </section>
+
+      {/* Size guide modal */}
+      {sizeGuideOpen && sizeGuide && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          onClick={() => setSizeGuideOpen(false)}
+        >
+          <div
+            className="bg-dark-card border border-dark-border rounded-2xl p-6 max-w-lg w-full shadow-[0_0_40px_rgba(0,240,255,0.15)]"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="font-bungee text-white text-xl">Size Guide</h3>
+              <button
+                onClick={() => setSizeGuideOpen(false)}
+                className="w-8 h-8 rounded-full bg-dark-surface hover:bg-dark-border flex items-center justify-center text-gray-400 hover:text-white transition-all"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full font-space text-sm">
+                <thead>
+                  <tr className="border-b border-dark-border">
+                    {sizeGuide.headers.map(h => (
+                      <th key={h} className="text-left py-2 pr-4 text-gray-400 font-bold uppercase text-xs tracking-wider">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {sizeGuide.rows.map((row, i) => (
+                    <tr key={i} className="border-b border-dark-border/40 hover:bg-dark-surface/50">
+                      {row.map((cell, j) => (
+                        <td key={j} className={`py-2 pr-4 ${j === 0 ? 'font-bold text-neon-blue' : 'text-gray-300'}`}>{cell}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="font-space text-gray-600 text-xs mt-4">Measurements are approximate. When in doubt, size up.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

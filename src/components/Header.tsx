@@ -46,6 +46,12 @@ export default function Header() {
               About
             </Link>
             <Link
+              href="/blog"
+              className="font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider"
+            >
+              📝 Blog
+            </Link>
+            <Link
               href="/chaos-lab"
               className="font-space text-gray-400 hover:text-neon-yellow transition-colors duration-300 text-sm uppercase tracking-wider"
             >
@@ -132,6 +138,13 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               About
+            </Link>
+            <Link
+              href="/blog"
+              className="block font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              📝 Blog
             </Link>
             <Link
               href="/chaos-lab"

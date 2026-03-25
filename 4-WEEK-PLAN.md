@@ -78,13 +78,13 @@ Publish 5-6 gift guide articles before the next gifting season = likely double o
 
 | Status | Task | Priority |
 |---|---|---|
-| [ ] | Add `/blog` route and article template page | 🔴 High |
-| [ ] | Publish article: "The 10 Greatest School Pranks That Are Actually Allowed" | 🔴 High |
-| [ ] | Publish article: "How to Survive the Most Boring Lesson Ever" | 🔴 High |
-| [ ] | Publish article: "The 9 Types of Annoying Kids — Which One Are You?" | 🔴 High |
-| [ ] | Verify homepage product images load from live Printify API | 🔴 High |
-| [ ] | Add basic meta/OG tags to Stories and Chaos Lab pages | 🟡 Medium |
-| [ ] | Mobile QA: verify game board fits all common screen sizes | 🟡 Medium |
+| [x] | Add `/blog` route and article template page | 🔴 High |
+| [x] | Publish article: "The 10 Greatest School Pranks That Are Actually Allowed" | 🔴 High |
+| [x] | Publish article: "How to Survive the Most Boring Lesson Ever" | 🔴 High |
+| [x] | Publish article: "The 9 Types of Annoying Kids — Which One Are You?" | 🔴 High |
+| [x] | Verify homepage product images load from live Printify API | 🔴 High |
+| [x] | Add basic meta/OG tags to Stories and Chaos Lab pages | 🟡 Medium |
+| [x] | Mobile QA: verify game board fits all common screen sizes | 🟡 Medium |
 
 ---
 
@@ -98,7 +98,7 @@ Publish 5-6 gift guide articles before the next gifting season = likely double o
 | [ ] | Publish article: "Top 10 Birthday Gifts for 10-Year-Old Boys Obsessed with Gaming" | 🔴 High |
 | [ ] | Add product CTAs within articles linking to relevant merch | 🔴 High |
 | [ ] | Build Prank Generator (static form + canned outputs + shareable result URL) | 🟡 Medium |
-| [ ] | Add Blog link to Header navigation | 🟡 Medium |
+| [x] | Add Blog link to Header navigation | 🟡 Medium |
 | [ ] | Build `/for-parents` Parent Zone page with gift guides + sizing info | 🟡 Medium |
 
 ---
@@ -127,7 +127,7 @@ Publish 5-6 gift guide articles before the next gifting season = likely double o
 | [ ] | Build Design Your Own Tee preview tool with "send to parent" share button | 🔴 High |
 | [ ] | Publish remaining seasonal articles (April Fools, Summer, Back to School) | 🔴 High |
 | [ ] | Add product star rating display on product cards and detail pages | 🟡 Medium |
-| [ ] | Add size guide modal on product detail pages | 🟡 Medium |
+| [x] | Add size guide modal on product detail pages | 🟡 Medium |
 | [ ] | Full mobile QA pass: game, forms, product pages, checkout | 🟡 Medium |
 | [ ] | Set up Google Search Console + Analytics tracking | 🟢 Nice |
 | [ ] | Review and update leaderboard / Chaos Lab with real user submissions | 🟢 Nice |

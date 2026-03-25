@@ -100,6 +100,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {[
                 { label: 'About Us', href: '/about' },
+                { label: '📝 Blog', href: '/blog' },
                 { label: '💡 Chaos Lab', href: '/chaos-lab' },
                 { label: '📸 Wall of Chaos', href: '/wall-of-chaos' },
                 { label: '📖 Stories', href: '/stories' },
