@@ -1,10 +1,10 @@
 import React from 'react';
+import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
 import ProductCard from '@/components/ProductCard';
 import FeatureCard from '@/components/FeatureCard';
 import NeonButton from '@/components/NeonButton';
 import GlitchText from '@/components/GlitchText';
-import ChaosGame from '@/components/ChaosGame';
 import { getProductsForBuild } from '@/lib/products';
 
 export default async function HomePage() {
@@ -145,10 +145,29 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Kid Chaos Game */}
-      <div id="game" className="bg-dark-surface/50 border-t border-dark-border">
-        <ChaosGame />
-      </div>
+      {/* Kid Chaos Game — teaser linking to dedicated page */}
+      <section id="game" className="py-16 px-4 sm:px-6 lg:px-8 border-t border-dark-border bg-dark-surface/50">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-1 mb-4 text-5xl">
+            <span>👴</span><span>👵</span><span>👩</span><span>👨</span>
+            <span className="mx-3 font-bungee text-gray-500 text-2xl">vs</span>
+            <span>🧒</span>
+          </div>
+          <h2 className="font-bungee text-3xl sm:text-4xl text-white mb-2">
+            KID <span className="text-neon-pink">CHAOS</span>
+          </h2>
+          <p className="font-space text-gray-400 text-sm mb-6">
+            Escape your family · Collect candy · Dodge your parents!<br />
+            🐕 Dog power-up · ❤️ Extra lives · 👵 Grandma joins at Level 3
+          </p>
+          <Link
+            href="/game"
+            className="inline-block px-10 py-4 bg-neon-pink font-bungee text-white text-xl uppercase rounded-xl shadow-[0_0_30px_rgba(255,45,120,0.5)] hover:scale-105 hover:shadow-[0_0_40px_rgba(255,45,120,0.7)] transition-all"
+          >
+            🎮 Play Now!
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
