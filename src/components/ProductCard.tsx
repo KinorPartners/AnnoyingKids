@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
@@ -32,6 +32,16 @@ export default function ProductCard({ product }: ProductCardProps) {
   const primaryImage = product.images[0] || null;
   const [imgError, setImgError] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Catch images already loaded from cache (onLoad won't fire for those)
+  useEffect(() => {
+    if (imgRef.current?.complete && !imgRef.current.naturalWidth) {
+      setImgError(true);
+    } else if (imgRef.current?.complete) {
+      setImgLoaded(true);
+    }
+  }, []);
 
   const categoryEmoji: Record<string, string> = {
     tees: '👕', hoodies: '🧥', mugs: '☕', stickers: '🎨', caps: '🧢',
@@ -49,6 +59,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                ref={imgRef}
                 src={primaryImage}
                 alt={product.title}
                 loading="lazy"

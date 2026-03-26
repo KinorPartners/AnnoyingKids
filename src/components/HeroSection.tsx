@@ -59,6 +59,13 @@ export default function HeroSection() {
               <NeonButton href="/game" variant="green" size="lg">
                 🎮 Play the Game
               </NeonButton>
+              <span
+                className="text-4xl animate-jump inline-block select-none"
+                style={{ animationDelay: '0.6s', filter: 'drop-shadow(0 0 8px rgba(255,45,120,0.7))' }}
+                aria-hidden="true"
+              >
+                🧒
+              </span>
             </div>
 
             {/* Compact stats */}

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const MC = 24; // mini cell size px
 
@@ -47,18 +48,14 @@ const PATH_CSS = `
 export default function GamePreview() {
   const [popping, setPopping] = useState(false);
   const [flashing, setFlashing] = useState(false);
+  const router = useRouter();
 
   const handleClick = () => {
     if (popping) return;
     setPopping(true);
     setFlashing(true);
     setTimeout(() => {
-      const el = document.getElementById('game');
-      el?.scrollIntoView({ behavior: 'smooth' });
-      // Auto-start the game after the scroll settles
-      setTimeout(() => {
-        window.dispatchEvent(new CustomEvent('chaos-game-autostart'));
-      }, 700);
+      router.push('/game');
     }, 320);
     setTimeout(() => { setPopping(false); setFlashing(false); }, 700);
   };
@@ -81,7 +78,7 @@ export default function GamePreview() {
       <div className="flex flex-col items-center gap-3 py-6">
         {/* Label */}
         <p className="font-space text-gray-500 text-xs uppercase tracking-widest">
-          ↓ click to play ↓
+          🎮 click to play
         </p>
 
         {/* Preview card */}

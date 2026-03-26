@@ -29,8 +29,17 @@ const config: Config = {
         'scanline': 'scanline 8s linear infinite',
         'float': 'float 3s ease-in-out infinite',
         'neon-flicker': 'neon-flicker 1.5s ease-in-out infinite',
+        'jump': 'jump 1.4s cubic-bezier(0.33,0,0.66,0) infinite',
       },
       keyframes: {
+        jump: {
+          '0%, 100%': { transform: 'translateY(0) scaleY(1) scaleX(1)' },
+          '10%':       { transform: 'translateY(0) scaleY(0.85) scaleX(1.15)' },
+          '30%':       { transform: 'translateY(-40px) scaleY(1.1) scaleX(0.9)' },
+          '55%':       { transform: 'translateY(-50px) scaleY(1) scaleX(1)' },
+          '75%':       { transform: 'translateY(-10px) scaleY(1) scaleX(1)' },
+          '90%':       { transform: 'translateY(0) scaleY(0.9) scaleX(1.1)' },
+        },
         glitch: {
           '0%': { transform: 'translate(0)' },
           '20%': { transform: 'translate(-2px, 2px)' },
