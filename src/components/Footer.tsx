@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { Kid, Dad, Mom, Grandma, Grandpa } from '@/components/Characters';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -183,8 +184,8 @@ export default function Footer() {
               </span>
             </div>
 
-            {/* Candy dots track */}
-            <div className="relative h-9 overflow-hidden rounded-lg bg-dark-surface/50">
+            {/* Candy dots track — extra height so hats/ribbons above characters are visible */}
+            <div className="relative rounded-lg bg-dark-surface/50" style={{ height: 56, overflowX: 'hidden', overflowY: 'visible' }}>
               {/* Static candy dots */}
               {[5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95].map((pct) => (
                 <div
@@ -192,7 +193,7 @@ export default function Footer() {
                   style={{
                     position: 'absolute',
                     left: `${pct}%`,
-                    top: '50%',
+                    top: '60%',
                     transform: 'translateY(-50%)',
                     width: 5,
                     height: 5,
@@ -204,13 +205,13 @@ export default function Footer() {
                 />
               ))}
 
-              {/* Chasing emojis — kid leads, dog and parents chase */}
-              <span className="chase-grandpa absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👴</span>
-              <span className="chase-grandma absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👵</span>
-              <span className="chase-mom    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👩🏽</span>
-              <span className="chase-dad    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👨🏽</span>
-              <span className="chase-dog    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>🐕</span>
-              <span className="chase-kid    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>🧒🏽</span>
+              {/* Chasing characters — kid leads, dog and parents chase */}
+              <div className="chase-grandpa absolute select-none" style={{ top: 10 }}><Grandpa size={36} /></div>
+              <div className="chase-grandma absolute select-none" style={{ top: 10 }}><Grandma size={36} /></div>
+              <div className="chase-mom     absolute select-none" style={{ top: 14 }}><Mom size={36} /></div>
+              <div className="chase-dad     absolute select-none" style={{ top: 10 }}><Dad size={36} /></div>
+              <span className="chase-dog    absolute select-none" style={{ fontSize: 30, lineHeight: 1, top: 12 }}>🐕</span>
+              <div className="chase-kid     absolute select-none" style={{ top: 10 }}><Kid size={36} /></div>
             </div>
           </Link>
         </div>

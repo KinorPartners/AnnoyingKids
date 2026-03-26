@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Dad as DadChar, Mom as MomChar, Grandma as GrandmaChar, Grandpa as GrandpaChar } from '@/components/Characters';
 
 type Pos = { x: number; y: number };
 type Dir = { x: number; y: number };
@@ -256,57 +257,10 @@ function Kid({ size, dead }: { size: number; dead: boolean }) {
   );
 }
 
-function Dad({ size }: { size: number }) {
-  return (
-    <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.864,lineHeight:1,filter:'brightness(1)'}}>👨🏽</span>
-      <div style={{position:'absolute',top:'2%',left:'50%',transform:'translateX(-50%)',width:size*0.7,height:size*0.09,background:'#00f0ff',borderRadius:3,boxShadow:'0 0 6px #00f0ff',zIndex:3}}/>
-      <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%) translateY(-45%)',width:size*0.42,height:size*0.18,background:'#00f0ff',borderRadius:'4px 4px 0 0',boxShadow:'0 0 6px #00f0ff',zIndex:3}}/>
-    </div>
-  );
-}
-
-function Mom({ size }: { size: number }) {
-  const w=size*0.22, h=size*0.18;
-  return (
-    <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.864,lineHeight:1,filter:'brightness(1)'}}>👩🏽</span>
-      <div style={{position:'absolute',top:0,left:'50%',transform:'translateX(-50%) translateY(-30%)',zIndex:3,display:'flex',alignItems:'center',gap:1}}>
-        <div style={{width:w,height:h,background:'#ff2d78',borderRadius:'50% 0 50% 50%',transform:'rotate(20deg)',boxShadow:'0 0 5px #ff2d78'}}/>
-        <div style={{width:size*0.1,height:size*0.1,background:'#ff69b4',borderRadius:'50%',flexShrink:0}}/>
-        <div style={{width:w,height:h,background:'#ff2d78',borderRadius:'0 50% 50% 50%',transform:'rotate(-20deg)',boxShadow:'0 0 5px #ff2d78'}}/>
-      </div>
-    </div>
-  );
-}
-
-function Grandma({ size }: { size: number }) {
-  return (
-    <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.864,lineHeight:1}}>👵</span>
-      <div style={{position:'absolute',top:'3%',left:'50%',transform:'translateX(-50%)',width:size*0.6,height:size*0.22,background:'radial-gradient(ellipse,#ffffff 0%,#e0e0e0 60%,transparent 100%)',borderRadius:'50%',zIndex:3,opacity:0.95}}/>
-      <div style={{position:'absolute',right:'10%',top:'40%',width:3,height:size*0.42,background:'#6B3A2A',borderRadius:2,zIndex:3}}/>
-      <div style={{position:'absolute',right:'10%',top:'38%',width:size*0.16,height:3,background:'#6B3A2A',borderRadius:'3px 3px 0 0',zIndex:3,transformOrigin:'right center',transform:'translateX(-85%)'}}/>
-    </div>
-  );
-}
-
-function Grandpa({ size }: { size: number }) {
-  return (
-    <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.864,lineHeight:1}}>👴</span>
-      <div style={{position:'absolute',bottom:'28%',right:'8%',width:size*0.38,height:size*0.1,background:'linear-gradient(90deg,#7B3F00,#A0522D)',borderRadius:'2px 4px 4px 2px',transform:'rotate(-18deg)',transformOrigin:'right center',zIndex:3}}/>
-      <div style={{position:'absolute',bottom:'32%',right:'6%',width:size*0.09,height:size*0.08,background:'#ccc',borderRadius:'0 3px 3px 0',transform:'rotate(-18deg)',transformOrigin:'right center',zIndex:3}}/>
-      <style>{`
-        @keyframes smoke{0%{transform:translateY(0);opacity:0.7}100%{transform:translateY(-8px);opacity:0}}
-        .gp-smoke{animation:smoke 1.2s ease-out infinite}
-        .gp-smoke2{animation:smoke 1.2s ease-out infinite;animation-delay:0.6s}
-      `}</style>
-      <div className="gp-smoke"  style={{position:'absolute',bottom:'55%',right:'4%',width:5,height:5,background:'rgba(210,210,210,0.7)',borderRadius:'50%',zIndex:3}}/>
-      <div className="gp-smoke2" style={{position:'absolute',bottom:'55%',right:'8%',width:4,height:4,background:'rgba(210,210,210,0.5)',borderRadius:'50%',zIndex:3}}/>
-    </div>
-  );
-}
+const Dad = DadChar;
+const Mom = MomChar;
+const Grandma = GrandmaChar;
+const Grandpa = GrandpaChar;
 
 function ChaserChar({ chaser, size }: { chaser: Chaser; size: number }) {
   switch (chaser.type) {

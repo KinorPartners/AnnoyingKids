@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';
 import ProductCard from '@/components/ProductCard';
+import { Kid, Dad, Mom, Grandma, Grandpa } from '@/components/Characters';
 import FeatureCard from '@/components/FeatureCard';
 import NeonButton from '@/components/NeonButton';
 import GlitchText from '@/components/GlitchText';
@@ -150,10 +151,13 @@ export default async function HomePage() {
       {/* Kid Chaos Game — teaser linking to dedicated page */}
       <section id="game" className="py-16 px-4 sm:px-6 lg:px-8 border-t border-dark-border bg-dark-surface/50">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-1 mb-4 text-5xl">
-            <span>👴</span><span>👵</span><span>👩🏽</span><span>👨🏽</span>
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Grandpa size={52} />
+            <Grandma size={52} />
+            <Mom size={52} />
+            <Dad size={52} />
             <span className="mx-3 font-bungee text-gray-500 text-2xl">vs</span>
-            <span>🧒🏽</span>
+            <Kid size={52} />
           </div>
           <h2 className="font-bungee text-3xl sm:text-4xl text-white mb-2">
             KID <span className="text-neon-pink">CHAOS</span>

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Kid, Dad, Mom } from '@/components/Characters';
 
 const MC = 24; // mini cell size px
 
@@ -115,12 +116,15 @@ export default function GamePreview() {
               )))}
 
               {/* Animated characters */}
-              <span className="mini-mom absolute" style={{ fontSize: MC*0.78, lineHeight:1, zIndex:10,
-                filter:'drop-shadow(0 0 4px #ff2d78)' }}>👩🏽</span>
-              <span className="mini-dad absolute" style={{ fontSize: MC*0.78, lineHeight:1, zIndex:10,
-                filter:'drop-shadow(0 0 4px #00f0ff)' }}>👨🏽</span>
-              <span className="mini-kid absolute" style={{ fontSize: MC*0.78, lineHeight:1, zIndex:11,
-                filter:'drop-shadow(0 0 5px rgba(255,255,255,0.6))' }}>🧒🏽</span>
+              <div className="mini-mom absolute" style={{ zIndex:10, filter:'drop-shadow(0 0 4px #ff2d78)' }}>
+                <Mom size={MC} />
+              </div>
+              <div className="mini-dad absolute" style={{ zIndex:10, filter:'drop-shadow(0 0 4px #00f0ff)' }}>
+                <Dad size={MC} />
+              </div>
+              <div className="mini-kid absolute" style={{ zIndex:11, filter:'drop-shadow(0 0 5px rgba(255,255,255,0.6))' }}>
+                <Kid size={MC} />
+              </div>
             </div>
 
             {/* Right: text */}
