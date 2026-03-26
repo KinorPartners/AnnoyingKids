@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 import React from 'react';
 import Link from 'next/link';
 import HeroSection from '@/components/HeroSection';

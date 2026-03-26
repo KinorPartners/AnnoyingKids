@@ -75,7 +75,7 @@ export async function fetchPrintifyProducts(): Promise<Product[]> {
   while (true) {
     const res = await fetch(
       `${API_BASE}/shops/${shopId}/products.json?limit=100&page=${page}`,
-      { headers: { Authorization: `Bearer ${token}` }, cache: 'force-cache' }
+      { headers: { Authorization: `Bearer ${token}` }, cache: 'no-store' }
     );
 
     if (!res.ok) {

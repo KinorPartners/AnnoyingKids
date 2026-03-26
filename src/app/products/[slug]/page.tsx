@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 import type { Metadata } from 'next';
 import { getProductsForBuild } from '@/lib/products';
 import ProductDetailClient from './ProductDetailClient';

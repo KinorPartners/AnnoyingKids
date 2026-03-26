@@ -31,6 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const primaryImage = product.images[0] || null;
   const [imgError, setImgError] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
 
   const categoryEmoji: Record<string, string> = {
     tees: '👕', hoodies: '🧥', mugs: '☕', stickers: '🎨', caps: '🧢',
@@ -42,13 +43,21 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Product image */}
         <div className="relative aspect-square bg-dark-surface overflow-hidden">
           {primaryImage && !imgError ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={primaryImage}
-              alt={product.title}
-              onError={() => setImgError(true)}
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
+            <>
+              {!imgLoaded && (
+                <div className="absolute inset-0 bg-gradient-to-br from-dark-surface to-dark-card animate-pulse" />
+              )}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={primaryImage}
+                alt={product.title}
+                loading="lazy"
+                decoding="async"
+                onLoad={() => setImgLoaded(true)}
+                onError={() => setImgError(true)}
+                className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+              />
+            </>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative">
