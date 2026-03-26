@@ -116,11 +116,11 @@ export default function GamePreview() {
 
               {/* Animated characters */}
               <span className="mini-mom absolute" style={{ fontSize: MC*0.78, lineHeight:1, zIndex:10,
-                filter:'drop-shadow(0 0 4px #ff2d78)' }}>👩</span>
+                filter:'drop-shadow(0 0 4px #ff2d78)' }}>👩🏽</span>
               <span className="mini-dad absolute" style={{ fontSize: MC*0.78, lineHeight:1, zIndex:10,
-                filter:'drop-shadow(0 0 4px #00f0ff)' }}>👨</span>
+                filter:'drop-shadow(0 0 4px #00f0ff)' }}>👨🏽</span>
               <span className="mini-kid absolute" style={{ fontSize: MC*0.78, lineHeight:1, zIndex:11,
-                filter:'drop-shadow(0 0 5px rgba(255,255,255,0.6))' }}>🧒</span>
+                filter:'drop-shadow(0 0 5px rgba(255,255,255,0.6))' }}>🧒🏽</span>
             </div>
 
             {/* Right: text */}

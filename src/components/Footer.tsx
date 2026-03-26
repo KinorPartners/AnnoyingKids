@@ -207,10 +207,10 @@ export default function Footer() {
               {/* Chasing emojis — kid leads, dog and parents chase */}
               <span className="chase-grandpa absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👴</span>
               <span className="chase-grandma absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👵</span>
-              <span className="chase-mom    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👩</span>
-              <span className="chase-dad    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👨</span>
+              <span className="chase-mom    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👩🏽</span>
+              <span className="chase-dad    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👨🏽</span>
               <span className="chase-dog    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>🐕</span>
-              <span className="chase-kid    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>🧒</span>
+              <span className="chase-kid    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>🧒🏽</span>
             </div>
           </Link>
         </div>

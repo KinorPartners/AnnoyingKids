@@ -64,7 +64,7 @@ export default function HeroSection() {
                 style={{ animationDelay: '0.6s', filter: 'drop-shadow(0 0 8px rgba(255,45,120,0.7))' }}
                 aria-hidden="true"
               >
-                🧒
+                🧒🏽
               </span>
             </div>
 

@@ -151,9 +151,9 @@ export default async function HomePage() {
       <section id="game" className="py-16 px-4 sm:px-6 lg:px-8 border-t border-dark-border bg-dark-surface/50">
         <div className="max-w-2xl mx-auto text-center">
           <div className="flex items-center justify-center gap-1 mb-4 text-5xl">
-            <span>👴</span><span>👵</span><span>👩</span><span>👨</span>
+            <span>👴</span><span>👵</span><span>👩🏽</span><span>👨🏽</span>
             <span className="mx-3 font-bungee text-gray-500 text-2xl">vs</span>
-            <span>🧒</span>
+            <span>🧒🏽</span>
           </div>
           <h2 className="font-bungee text-3xl sm:text-4xl text-white mb-2">
             KID <span className="text-neon-pink">CHAOS</span>
