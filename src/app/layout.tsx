@@ -4,6 +4,7 @@ import './globals.css';
 import { CartProvider } from '@/context/CartContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CookieConsent from '@/components/CookieConsent';
 
 const GA_ID = 'G-RE32GFCT3H';
 
@@ -103,14 +104,21 @@ export default function RootLayout({
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', { analytics_storage: 'denied' });
             gtag('js', new Date());
             gtag('config', '${GA_ID}');
+            // Restore granted consent if previously accepted
+            try {
+              var c = localStorage.getItem('ak_cookie_consent');
+              if (c === 'granted') gtag('consent', 'update', { analytics_storage: 'granted' });
+            } catch(e) {}
           `}
         </Script>
         <CartProvider>
           <Header />
           <main className="min-h-screen pt-16 sm:pt-20">{children}</main>
           <Footer />
+          <CookieConsent />
         </CartProvider>
       </body>
     </html>

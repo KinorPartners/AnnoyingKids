@@ -4,20 +4,39 @@ import type { Metadata } from 'next';
 import { getProductsForBuild } from '@/lib/products';
 import ProductDetailClient from './ProductDetailClient';
 
+interface ProductPageProps {
+  params: Promise<{ slug: string }>;
+}
+
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
   const products = await getProductsForBuild();
   const product = products.find((p) => p.slug === slug);
   if (!product) return { title: 'Product Not Found' };
+
+  const imageUrl = product.images[0];
+
   return {
     title: product.title,
     description: product.description?.slice(0, 155),
     alternates: { canonical: `https://www.annoyingkids.com/products/${slug}` },
+    openGraph: {
+      title: product.title,
+      description: product.description?.slice(0, 155) ?? '',
+      url: `https://www.annoyingkids.com/products/${slug}`,
+      siteName: 'AnnoyingKids',
+      type: 'website',
+      images: imageUrl
+        ? [{ url: imageUrl, width: 800, height: 800, alt: product.title }]
+        : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: product.title,
+      description: product.description?.slice(0, 155) ?? '',
+      images: imageUrl ? [imageUrl] : undefined,
+    },
   };
-}
-
-interface ProductPageProps {
-  params: Promise<{ slug: string }>;
 }
 
 // Pre-generate a static page for every product in Printify (+ fallback mocks)
@@ -29,6 +48,37 @@ export async function generateStaticParams() {
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params;
   const products = await getProductsForBuild();
-  const product  = products.find((p) => p.slug === slug) ?? null;
-  return <ProductDetailClient product={product} allProducts={products} />;
+  const product = products.find((p) => p.slug === slug) ?? null;
+
+  const productSchema = product
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: product.title,
+        description: product.description,
+        image: product.images.slice(0, 3),
+        url: `https://www.annoyingkids.com/products/${slug}`,
+        brand: { '@type': 'Brand', name: 'AnnoyingKids' },
+        offers: {
+          '@type': 'Offer',
+          price: product.price.toFixed(2),
+          priceCurrency: 'USD',
+          availability: 'https://schema.org/InStock',
+          url: `https://www.annoyingkids.com/products/${slug}`,
+          seller: { '@type': 'Organization', name: 'AnnoyingKids' },
+        },
+      }
+    : null;
+
+  return (
+    <>
+      {productSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+      )}
+      <ProductDetailClient product={product} allProducts={products} />
+    </>
+  );
 }
