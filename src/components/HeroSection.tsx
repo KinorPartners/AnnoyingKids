@@ -52,16 +52,25 @@ export default function HeroSection() {
               look easy.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
-              <NeonButton href="/products" variant="pink" size="lg">
-                Shop the Chaos
-              </NeonButton>
-              <NeonButton href="/game" variant="green" size="lg">
-                🎮 Play the Game
-              </NeonButton>
+            <div className="relative inline-flex flex-col items-center lg:items-start w-full">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                <NeonButton href="/products" variant="pink" size="lg">
+                  Shop the Chaos
+                </NeonButton>
+                <NeonButton href="/game" variant="green" size="lg">
+                  🎮 Play the Game
+                </NeonButton>
+              </div>
+              {/* Bouncing kid — absolutely positioned so it never affects button centering */}
               <span
-                className="text-4xl animate-jump inline-block select-none"
-                style={{ animationDelay: '0.6s', filter: 'drop-shadow(0 0 8px rgba(255,45,120,0.7))' }}
+                className="text-4xl animate-jump select-none pointer-events-none hidden sm:block"
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  bottom: '100%',
+                  animationDelay: '0.6s',
+                  filter: 'drop-shadow(0 0 8px rgba(255,45,120,0.7))',
+                }}
                 aria-hidden="true"
               >
                 🧒🏽

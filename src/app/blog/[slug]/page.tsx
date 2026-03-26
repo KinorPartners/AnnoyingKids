@@ -28,29 +28,94 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Render plain text content — bold (**text**) and paragraphs
+const CARD_COLORS = [
+  { bg: 'rgba(255,45,120,0.12)',  border: 'rgba(255,45,120,0.3)',  text: '#ff2d78',  num: '#ff2d78'  },
+  { bg: 'rgba(0,240,255,0.10)',   border: 'rgba(0,240,255,0.3)',   text: '#00f0ff',  num: '#00f0ff'  },
+  { bg: 'rgba(57,255,20,0.10)',   border: 'rgba(57,255,20,0.3)',   text: '#39ff14',  num: '#39ff14'  },
+  { bg: 'rgba(255,242,0,0.10)',   border: 'rgba(255,242,0,0.3)',   text: '#fff200',  num: '#fff200'  },
+  { bg: 'rgba(168,85,247,0.12)',  border: 'rgba(168,85,247,0.3)',  text: '#a855f7',  num: '#a855f7'  },
+];
+
+// Render article content with infographic-style numbered cards
 function renderContent(content: string) {
-  return content.split('\n\n').map((para, i) => {
-    // Heading: starts with **text** on its own line
+  const paragraphs = content.split('\n\n');
+  const nodes: React.ReactNode[] = [];
+  let cardIndex = 0;
+  let i = 0;
+
+  while (i < paragraphs.length) {
+    const para = paragraphs[i];
+
+    // Numbered heading like **1. Title** or **Stage 1: Title**
+    const numberedHeading = para.match(/^\*\*(\d+)[.:]\s*(.+)\*\*$/);
+    if (numberedHeading) {
+      const num = numberedHeading[1];
+      const title = numberedHeading[2];
+      const body = paragraphs[i + 1] && !paragraphs[i + 1].startsWith('**') ? paragraphs[i + 1] : '';
+      const col = CARD_COLORS[cardIndex % CARD_COLORS.length];
+      cardIndex++;
+
+      nodes.push(
+        <div
+          key={i}
+          className="rounded-2xl p-5 flex gap-4 items-start mb-4"
+          style={{ background: col.bg, border: `1px solid ${col.border}` }}
+        >
+          {/* Number badge */}
+          <div
+            className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center font-bungee text-xl"
+            style={{ background: col.bg, border: `2px solid ${col.border}`, color: col.num, boxShadow: `0 0 12px ${col.border}` }}
+          >
+            {num}
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <p className="font-bungee text-white text-base leading-snug mb-2" style={{ textShadow: `0 0 12px ${col.text}55` }}>
+              {title}
+            </p>
+            {body && (
+              <p className="font-space text-gray-300 text-sm leading-relaxed">
+                {inlineBold(body, col.text)}
+              </p>
+            )}
+          </div>
+        </div>
+      );
+
+      i += body ? 2 : 1;
+      continue;
+    }
+
+    // Non-numbered heading **Some Title**
     if (para.startsWith('**') && para.endsWith('**') && !para.slice(2).includes('**')) {
-      return (
-        <h3 key={i} className="font-bungee text-neon-pink text-lg mt-8 mb-2">
+      nodes.push(
+        <h3 key={i} className="font-bungee text-neon-pink text-lg mt-8 mb-3">
           {para.slice(2, -2)}
         </h3>
       );
+      i++;
+      continue;
     }
-    // Paragraph with inline bold
-    const parts = para.split(/(\*\*[^*]+\*\*)/g);
-    return (
-      <p key={i} className="font-space text-gray-300 leading-relaxed mb-4">
-        {parts.map((part, j) =>
-          part.startsWith('**') && part.endsWith('**')
-            ? <strong key={j} className="text-white font-bold">{part.slice(2, -2)}</strong>
-            : part
-        )}
+
+    // Plain paragraph (intro / outro)
+    nodes.push(
+      <p key={i} className="font-space text-gray-300 leading-relaxed mb-5 text-base">
+        {inlineBold(para, '#ff2d78')}
       </p>
     );
-  });
+    i++;
+  }
+
+  return nodes;
+}
+
+function inlineBold(text: string, color: string): React.ReactNode {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, j) =>
+    part.startsWith('**') && part.endsWith('**')
+      ? <strong key={j} style={{ color, fontWeight: 700 }}>{part.slice(2, -2)}</strong>
+      : part
+  );
 }
 
 export default async function ArticlePage({ params }: Props) {
@@ -87,7 +152,7 @@ export default async function ArticlePage({ params }: Props) {
         <div className="h-px bg-gradient-to-r from-transparent via-neon-pink/40 to-transparent mb-10" />
       </div>
 
-      {/* Article body */}
+      {/* Article body — infographic style */}
       <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         {renderContent(article.content)}
       </article>
