@@ -12,7 +12,7 @@ export interface Article {
 export const ARTICLES: Article[] = [
   {
     slug: 'greatest-school-pranks-actually-allowed',
-    title: 'The 10 Greatest School Pranks That Are Actually Allowed',
+    title: '10 School Pranks That Are Actually Allowed',
     date: '2026-03-25',
     category: 'Pranks & Chaos',
     excerpt: 'Want to be legendary at school without getting detention? These pranks are technically within the rules — barely.',
@@ -54,7 +54,7 @@ The golden rule: the best prank makes everyone — including the target — laug
   },
   {
     slug: 'survive-most-boring-lesson-ever',
-    title: 'How to Survive the Most Boring Lesson Ever (Without Getting Caught)',
+    title: 'How to Survive a Boring Lesson Without Getting Caught',
     date: '2026-03-25',
     category: 'School Survival',
     excerpt: 'It\'s double geography. The clock has stopped. The teacher is reading from a slide. Here\'s how to survive.',

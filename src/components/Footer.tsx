@@ -155,21 +155,16 @@ export default function Footer() {
 
         {/* Kid Chaos game promo */}
         <style>{`
-          @keyframes kid-run {
+          @keyframes chase-across {
             0%   { transform: translateX(-60px); }
-            100% { transform: translateX(calc(var(--chase-w, 400px) + 60px)); }
+            100% { transform: translateX(calc(100vw + 80px)); }
           }
-          @keyframes dad-run {
-            0%   { transform: translateX(-100px); }
-            100% { transform: translateX(calc(var(--chase-w, 400px) + 20px)); }
-          }
-          @keyframes mom-run {
-            0%   { transform: translateX(-140px); }
-            100% { transform: translateX(calc(var(--chase-w, 400px) - 20px)); }
-          }
-          .chase-kid { animation: kid-run 2.8s linear infinite; }
-          .chase-dad { animation: dad-run 2.8s linear infinite; animation-delay: 0.55s; }
-          .chase-mom { animation: mom-run 2.8s linear infinite; animation-delay: 1.1s; }
+          .chase-kid     { animation: chase-across 3.2s linear infinite; animation-delay: 0s; }
+          .chase-dog     { animation: chase-across 3.2s linear infinite; animation-delay: 0.35s; }
+          .chase-dad     { animation: chase-across 3.2s linear infinite; animation-delay: 0.7s; }
+          .chase-mom     { animation: chase-across 3.2s linear infinite; animation-delay: 1.1s; }
+          .chase-grandma { animation: chase-across 3.8s linear infinite; animation-delay: 1.6s; }
+          .chase-grandpa { animation: chase-across 4.4s linear infinite; animation-delay: 2.2s; }
         `}</style>
 
         <div className="mt-12 mb-2">
@@ -191,7 +186,7 @@ export default function Footer() {
             {/* Candy dots track */}
             <div className="relative h-9 overflow-hidden rounded-lg bg-dark-surface/50">
               {/* Static candy dots */}
-              {[8, 13, 18, 23, 28, 33, 38, 43, 48, 53, 58, 63, 68, 73, 78, 83, 88].map((pct) => (
+              {[5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95].map((pct) => (
                 <div
                   key={pct}
                   style={{
@@ -209,19 +204,13 @@ export default function Footer() {
                 />
               ))}
 
-              {/* Chasing emojis */}
-              <span
-                className="chase-mom absolute top-0 leading-none select-none"
-                style={{ fontSize: 26, lineHeight: '36px' }}
-              >👩</span>
-              <span
-                className="chase-dad absolute top-0 leading-none select-none"
-                style={{ fontSize: 26, lineHeight: '36px' }}
-              >👨</span>
-              <span
-                className="chase-kid absolute top-0 leading-none select-none"
-                style={{ fontSize: 26, lineHeight: '36px' }}
-              >🧒</span>
+              {/* Chasing emojis — kid leads, dog and parents chase */}
+              <span className="chase-grandpa absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👴</span>
+              <span className="chase-grandma absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👵</span>
+              <span className="chase-mom    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👩</span>
+              <span className="chase-dad    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>👨</span>
+              <span className="chase-dog    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>🐕</span>
+              <span className="chase-kid    absolute top-0 leading-none select-none" style={{ fontSize: 26, lineHeight: '36px' }}>🧒</span>
             </div>
           </Link>
         </div>

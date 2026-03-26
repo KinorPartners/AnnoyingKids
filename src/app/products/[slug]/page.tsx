@@ -1,38 +1,32 @@
-import { MOCK_PRODUCTS } from '@/lib/products';
+import type { Metadata } from 'next';
+import { getProductsForBuild } from '@/lib/products';
 import ProductDetailClient from './ProductDetailClient';
 
-// Pre-generate static pages for all products at build time.
-// Fetches live Printify products first; falls back to mock slugs.
-export async function generateStaticParams() {
-  try {
-    const res = await fetch('https://annoyingkids.com/api/products', {
-      cache: 'no-store',
-    });
-    if (res.ok) {
-      const data = await res.json();
-      const products: Array<{ slug: string }> = data.products ?? [];
-      if (products.length > 0) {
-        // Include both live and mock slugs so nothing breaks
-        const liveslugs = products.map((p) => ({ slug: p.slug }));
-        const mockSlugs = MOCK_PRODUCTS.map((p) => ({ slug: p.slug }));
-        const all = [...liveslugs];
-        for (const m of mockSlugs) {
-          if (!all.find((s) => s.slug === m.slug)) all.push(m);
-        }
-        return all;
-      }
-    }
-  } catch {
-    // Build-time fetch failed — fall through to mock slugs
-  }
-  return MOCK_PRODUCTS.map((p) => ({ slug: p.slug }));
+export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const products = await getProductsForBuild();
+  const product = products.find((p) => p.slug === slug);
+  if (!product) return { title: 'Product Not Found' };
+  return {
+    title: product.title,
+    description: product.description?.slice(0, 155),
+    alternates: { canonical: `https://www.annoyingkids.com/products/${slug}` },
+  };
 }
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
+// Pre-generate a static page for every product in Printify (+ fallback mocks)
+export async function generateStaticParams() {
+  const products = await getProductsForBuild();
+  return products.map((p) => ({ slug: p.slug }));
+}
+
 export default async function ProductDetailPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  return <ProductDetailClient slug={slug} />;
+  const products = await getProductsForBuild();
+  const product  = products.find((p) => p.slug === slug) ?? null;
+  return <ProductDetailClient product={product} allProducts={products} />;
 }

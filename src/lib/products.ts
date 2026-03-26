@@ -78,6 +78,24 @@ export const MOCK_PRODUCTS: Product[] = [
     tags: ['tee', 'birthday', 'mama', 'family'],
   },
   {
+    id: 'prod_garment_dyed_sweatshirt',
+    title: 'Unisex Garment-Dyed Sweatshirt',
+    slug: 'unisex-garment-dyed-sweatshirt',
+    description: 'Soft, broken-in vibes from day one. This unisex garment-dyed sweatshirt is washed for a lived-in feel and rich, faded color that only gets better over time. Heavy fleece interior keeps you cozy during all-night gaming sessions or sneaky midnight snack runs. Relaxed fit, ribbed cuffs and waistband, and zero adult supervision required.',
+    price: 44.99,
+    category: 'hoodies',
+    images: ['/products/hoodie-placeholder.svg'],
+    variants: [
+      { id: 'var_gds_s',   title: 'S',   price: 44.99, isAvailable: true },
+      { id: 'var_gds_m',   title: 'M',   price: 44.99, isAvailable: true },
+      { id: 'var_gds_l',   title: 'L',   price: 44.99, isAvailable: true },
+      { id: 'var_gds_xl',  title: 'XL',  price: 44.99, isAvailable: true },
+      { id: 'var_gds_2xl', title: '2XL', price: 47.99, isAvailable: true },
+      { id: 'var_gds_3xl', title: '3XL', price: 47.99, isAvailable: true },
+    ],
+    tags: ['sweatshirt', 'garment-dyed', 'unisex', 'fleece', 'streetwear'],
+  },
+  {
     id: 'prod_dinner_tee',
     title: "What's For Dinner? Tee",
     slug: 'whats-for-dinner-tee',
@@ -98,6 +116,17 @@ export const MOCK_PRODUCTS: Product[] = [
 
 export function getAllProducts(): Product[] {
   return MOCK_PRODUCTS;
+}
+
+/**
+ * Server-only: fetch live products from Printify at build time.
+ * Falls back to MOCK_PRODUCTS if the API is unavailable.
+ * Only call this from server components (page.tsx / generateStaticParams).
+ */
+export async function getProductsForBuild(): Promise<Product[]> {
+  const { fetchPrintifyProducts } = await import('./printify');
+  const live = await fetchPrintifyProducts();
+  return live.length > 0 ? live : MOCK_PRODUCTS;
 }
 
 export function getProductBySlug(slug: string): Product | undefined {

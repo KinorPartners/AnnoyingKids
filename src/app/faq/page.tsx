@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'FAQ — AnnoyingKids',
+  title: 'Frequently Asked Questions',
   description:
     'Answers to the most common questions about AnnoyingKids merch — shipping, sizing, returns, printing, and more.',
   alternates: { canonical: 'https://www.annoyingkids.com/faq' },

@@ -103,14 +103,7 @@ export default function WallOfChaosPage() {
                 YOU&apos;RE IN THE QUEUE!
               </p>
               <p className="font-space text-gray-400 leading-relaxed">
-                Thanks! Email your photo to{' '}
-                <a
-                  href="mailto:photos@annoyingkids.com"
-                  className="text-neon-blue hover:underline"
-                >
-                  photos@annoyingkids.com
-                </a>{' '}
-                with your name. We&apos;ll add you to the wall! 📸
+                Thanks!
               </p>
               <button
                 onClick={() => setSubmitted(false)}

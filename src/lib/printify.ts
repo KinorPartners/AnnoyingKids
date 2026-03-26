@@ -1,101 +1,101 @@
-import { PrintifyProduct, PrintifyOrder } from '@/types';
+/**
+ * Printify API client — server-only, used at build time.
+ * Never import this from client components.
+ */
+import { Product, PrintifyProduct, PrintifyVariant } from '@/types';
 
-const PRINTIFY_API_BASE = 'https://api.printify.com/v1';
+const API_BASE = 'https://api.printify.com/v1';
 
-function getHeaders(): HeadersInit {
-  const apiKey = process.env.PRINTIFY_API_KEY;
-  if (!apiKey) {
-    throw new Error('PRINTIFY_API_KEY is not set.');
-  }
+function slugify(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function inferCategory(tags: string[], title: string): Product['category'] {
+  const text = [...tags, title].join(' ').toLowerCase();
+  if (text.includes('mug') || text.includes('cup') || text.includes('tumbler')) return 'mugs';
+  if (text.includes('sticker') || text.includes('decal')) return 'stickers';
+  if (text.includes('cap') || text.includes('hat') || text.includes('beanie') || text.includes('snapback')) return 'caps';
+  if (
+    text.includes('hoodie') || text.includes('sweatshirt') || text.includes('pullover') ||
+    text.includes('crewneck') || text.includes('fleece') || text.includes('zip-up')
+  ) return 'hoodies';
+  return 'tees';
+}
+
+export function printifyToProduct(p: PrintifyProduct): Product {
+  const enabled: PrintifyVariant[] = p.variants.filter(v => v.is_enabled && v.is_available);
+  const prices = enabled.map(v => v.price / 100);
+  const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
+
+  const defaultImgs = p.images.filter(img => img.is_default).map(img => img.src);
+  const frontImgs   = p.images.filter(img => img.position === 'front' && !img.is_default).map(img => img.src);
+  const restImgs    = p.images.filter(img => !img.is_default && img.position !== 'front').map(img => img.src);
+  const images = [...defaultImgs, ...frontImgs, ...restImgs];
+
+  const description = p.description
+    .replace(/<br\s*\/?>/gi, ' ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
   return {
-    Authorization: `Bearer ${apiKey}`,
-    'Content-Type': 'application/json',
+    id: p.id,
+    title: p.title,
+    slug: slugify(p.title),
+    description,
+    price: minPrice,
+    category: inferCategory(p.tags, p.title),
+    images: images.length > 0 ? images : ['/products/hoodie-placeholder.svg'],
+    variants: enabled.map(v => ({
+      id: String(v.id),
+      title: v.title,
+      price: v.price / 100,
+      isAvailable: v.is_available,
+    })),
+    tags: p.tags,
   };
 }
 
-function getShopId(): string {
+export async function fetchPrintifyProducts(): Promise<Product[]> {
+  const token  = process.env.PRINTIFY_API_KEY;
   const shopId = process.env.PRINTIFY_SHOP_ID;
-  if (!shopId) {
-    throw new Error('PRINTIFY_SHOP_ID is not set.');
-  }
-  return shopId;
-}
 
-export function isPrintifyConfigured(): boolean {
-  return Boolean(process.env.PRINTIFY_API_KEY && process.env.PRINTIFY_SHOP_ID);
-}
-
-export async function fetchProducts(): Promise<PrintifyProduct[]> {
-  const shopId = getShopId();
-  const res = await fetch(`${PRINTIFY_API_BASE}/shops/${shopId}/products.json`, {
-    headers: getHeaders(),
-    next: { revalidate: 300 }, // Cache for 5 minutes
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch products: ${res.status} ${res.statusText}`);
+  if (!token || !shopId) {
+    console.warn('[Printify] PRINTIFY_API_KEY or PRINTIFY_SHOP_ID not set — falling back to static products');
+    return [];
   }
 
-  const data = await res.json();
-  return data.data as PrintifyProduct[];
-}
+  const products: Product[] = [];
+  let page = 1;
 
-export async function fetchProduct(productId: string): Promise<PrintifyProduct> {
-  const shopId = getShopId();
-  const res = await fetch(
-    `${PRINTIFY_API_BASE}/shops/${shopId}/products/${productId}.json`,
-    {
-      headers: getHeaders(),
-      next: { revalidate: 300 },
-    }
-  );
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch product: ${res.status} ${res.statusText}`);
-  }
-
-  return (await res.json()) as PrintifyProduct;
-}
-
-export async function createOrder(order: PrintifyOrder): Promise<{ id: string }> {
-  const shopId = getShopId();
-  const res = await fetch(
-    `${PRINTIFY_API_BASE}/shops/${shopId}/orders.json`,
-    {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify(order),
-    }
-  );
-
-  if (!res.ok) {
-    const errorBody = await res.text();
-    throw new Error(
-      `Failed to create Printify order: ${res.status} ${res.statusText} - ${errorBody}`
+  while (true) {
+    const res = await fetch(
+      `${API_BASE}/shops/${shopId}/products.json?limit=100&page=${page}`,
+      { headers: { Authorization: `Bearer ${token}` }, cache: 'force-cache' }
     );
-  }
 
-  return (await res.json()) as { id: string };
-}
-
-export async function publishProduct(productId: string): Promise<void> {
-  const shopId = getShopId();
-  const res = await fetch(
-    `${PRINTIFY_API_BASE}/shops/${shopId}/products/${productId}/publish.json`,
-    {
-      method: 'POST',
-      headers: getHeaders(),
-      body: JSON.stringify({
-        title: true,
-        description: true,
-        images: true,
-        variants: true,
-        tags: true,
-      }),
+    if (!res.ok) {
+      console.error(`[Printify] API returned ${res.status} on page ${page}`);
+      break;
     }
-  );
 
-  if (!res.ok) {
-    throw new Error(`Failed to publish product: ${res.status} ${res.statusText}`);
+    const data = await res.json();
+    const raw: PrintifyProduct[] = data.data ?? [];
+
+    products.push(
+      ...raw
+        .filter(p => p.variants.some(v => v.is_enabled && v.is_available))
+        .map(printifyToProduct)
+    );
+
+    if (raw.length < 100) break;
+    page++;
   }
+
+  console.log(`[Printify] Loaded ${products.length} products from shop ${shopId}`);
+  return products;
 }

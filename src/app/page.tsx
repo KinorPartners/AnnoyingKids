@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import HeroSection from '@/components/HeroSection';
 import ProductCard from '@/components/ProductCard';
@@ -7,10 +5,10 @@ import FeatureCard from '@/components/FeatureCard';
 import NeonButton from '@/components/NeonButton';
 import GlitchText from '@/components/GlitchText';
 import ChaosGame from '@/components/ChaosGame';
-import { useProducts } from '@/hooks/useProducts';
+import { getProductsForBuild } from '@/lib/products';
 
-export default function HomePage() {
-  const { products, loading } = useProducts();
+export default async function HomePage() {
+  const products = await getProductsForBuild();
   const featuredProducts = products.slice(0, 4);
 
   return (
@@ -32,28 +30,11 @@ export default function HomePage() {
           </p>
         </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[...Array(4)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-dark-card border border-dark-border rounded-2xl overflow-hidden animate-pulse"
-              >
-                <div className="aspect-square bg-dark-surface" />
-                <div className="p-5 space-y-3">
-                  <div className="h-4 bg-dark-surface rounded w-3/4" />
-                  <div className="h-4 bg-dark-surface rounded w-1/2" />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featuredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
 
         <div className="text-center mt-12">
           <NeonButton href="/products" variant="green" size="lg">
