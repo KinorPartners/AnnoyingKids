@@ -56,7 +56,7 @@ export default function HeroSection() {
               <NeonButton href="/products" variant="pink" size="lg">
                 Shop the Chaos
               </NeonButton>
-              <NeonButton href="/#game" variant="green" size="lg">
+              <NeonButton href="/game" variant="green" size="lg">
                 🎮 Play the Game
               </NeonButton>
             </div>

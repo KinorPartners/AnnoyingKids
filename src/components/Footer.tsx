@@ -159,12 +159,12 @@ export default function Footer() {
             0%   { transform: translateX(-60px); }
             100% { transform: translateX(calc(100vw + 80px)); }
           }
-          .chase-kid     { animation: chase-across 3.2s linear infinite; animation-delay: 0s; }
-          .chase-dog     { animation: chase-across 3.2s linear infinite; animation-delay: 0.35s; }
-          .chase-dad     { animation: chase-across 3.2s linear infinite; animation-delay: 0.7s; }
-          .chase-mom     { animation: chase-across 3.2s linear infinite; animation-delay: 1.1s; }
-          .chase-grandma { animation: chase-across 3.8s linear infinite; animation-delay: 1.6s; }
-          .chase-grandpa { animation: chase-across 4.4s linear infinite; animation-delay: 2.2s; }
+          .chase-kid     { animation: chase-across 4.8s linear infinite; animation-delay: 0s; }
+          .chase-dog     { animation: chase-across 4.8s linear infinite; animation-delay: 0.5s; }
+          .chase-dad     { animation: chase-across 4.8s linear infinite; animation-delay: 1.05s; }
+          .chase-mom     { animation: chase-across 4.8s linear infinite; animation-delay: 1.65s; }
+          .chase-grandma { animation: chase-across 5.7s linear infinite; animation-delay: 2.4s; }
+          .chase-grandpa { animation: chase-across 6.6s linear infinite; animation-delay: 3.3s; }
         `}</style>
 
         <div className="mt-12 mb-2">
