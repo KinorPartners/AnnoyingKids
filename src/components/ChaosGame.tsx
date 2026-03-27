@@ -3,12 +3,12 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Dad as DadChar, Mom as MomChar, Grandma as GrandmaChar, Grandpa as GrandpaChar } from '@/components/Characters';
+import { Dad as DadChar, Mom as MomChar, Grandma as GrandmaChar, Grandpa as GrandpaChar, Dinosaur as DinoChar } from '@/components/Characters';
 
 type Pos = { x: number; y: number };
 type Dir = { x: number; y: number };
 type GameState = 'idle' | 'playing' | 'dead' | 'levelup' | 'won' | 'gameover';
-type CharType = 'dad' | 'mom' | 'grandma' | 'grandpa';
+type CharType = 'dad' | 'mom' | 'grandma' | 'grandpa' | 'dinosaur';
 type DogState = 'available' | 'chasing' | 'done';
 
 interface Chaser { pos: Pos; type: CharType; stunned?: boolean; }
@@ -133,6 +133,8 @@ const PARENT_QUOTES = [
   "It's shower time!",
 ];
 
+const DINO_QUOTES = ['ROAR! 🦖', 'RAWR!!', 'CHOMP!', 'NOM NOM!', 'GRRR!'];
+
 const DOG_SPAWN_TICKS = 25;
 
 function cloneMaze(m: number[][]): number[][] { return m.map(r => [...r]); }
@@ -193,31 +195,41 @@ function bfsStep(maze: number[][], from: Pos, to: Pos): Dir {
 }
 
 function getInitialChasers(level: number): Chaser[] {
+  // Level 11+: 3 random distinct chasers from the full roster
+  if (level >= 11) {
+    const roster: CharType[] = ['dad', 'mom', 'grandma', 'grandpa', 'dinosaur'];
+    const shuffled = [...roster].sort(() => Math.random() - 0.5);
+    const picked = shuffled.slice(0, 3);
+    const spawns: Pos[] = [{x:1,y:1}, {x:13,y:1}, {x:7,y:13}];
+    return picked.map((type, i) => ({ pos: spawns[i], type }));
+  }
   const c: Chaser[] = [
     { pos:{x:1,y:1},   type:'dad' },
     { pos:{x:13,y:1},  type:'mom' },
   ];
   if (level >= 3)  c.push({ pos:{x:1,y:13},  type:'grandma' });
   if (level >= 5)  c.push({ pos:{x:13,y:13}, type:'grandpa' });
+  if (level >= 10) c.push({ pos:{x:7,y:13},  type:'dinosaur' });
   return c;
 }
 
+// Base ticks between moves per character type (higher = slower)
+const BASE_TICKS: Record<CharType, number> = {
+  dad: 6, mom: 7, grandma: 9, grandpa: 10, dinosaur: 5,
+};
+
 function moveEvery(type: CharType, level: number): number {
-  const base = Math.max(1, 7 - Math.floor((level - 1) / 2));
-  switch (type) {
-    case 'dad':     return base;
-    case 'mom':     return Math.max(1, base + 1);
-    case 'grandma': return Math.max(1, base + 3);
-    case 'grandpa': return Math.max(1, base + 4);
-  }
+  // 5% faster every level: ticks = base / 1.05^(level-1)
+  return Math.max(1, Math.floor(BASE_TICKS[type] * Math.pow(1 / 1.05, level - 1)));
 }
 
 function skipChance(type: CharType, level: number): number {
   switch (type) {
-    case 'dad':     return Math.max(0,    0.70 - level * 0.06);
-    case 'mom':     return Math.max(0.05, 0.80 - level * 0.07);
-    case 'grandma': return Math.max(0.15, 0.90 - level * 0.06);
-    case 'grandpa': return Math.max(0.20, 0.95 - (Math.max(0,level-10)) * 0.05);
+    case 'dad':      return Math.max(0,    0.70 - level * 0.06);
+    case 'mom':      return Math.max(0.05, 0.80 - level * 0.07);
+    case 'grandma':  return Math.max(0.15, 0.90 - level * 0.06);
+    case 'grandpa':  return Math.max(0.20, 0.95 - (Math.max(0, level - 10)) * 0.05);
+    case 'dinosaur': return Math.max(0.05, 0.50 - level * 0.05); // aggressive tracker
   }
 }
 
@@ -261,13 +273,15 @@ const Dad = DadChar;
 const Mom = MomChar;
 const Grandma = GrandmaChar;
 const Grandpa = GrandpaChar;
+const Dinosaur = DinoChar;
 
 function ChaserChar({ chaser, size }: { chaser: Chaser; size: number }) {
   switch (chaser.type) {
-    case 'dad':     return <Dad size={size} />;
-    case 'mom':     return <Mom size={size} />;
-    case 'grandma': return <Grandma size={size} />;
-    case 'grandpa': return <Grandpa size={size} />;
+    case 'dad':      return <Dad size={size} />;
+    case 'mom':      return <Mom size={size} />;
+    case 'grandma':  return <Grandma size={size} />;
+    case 'grandpa':  return <Grandpa size={size} />;
+    case 'dinosaur': return <Dinosaur size={size} />;
   }
 }
 
@@ -289,10 +303,11 @@ function isNewRecord(score: number, lb: LeaderEntry[]): boolean {
 }
 
 const CHASER_GLOW: Record<CharType, string> = {
-  dad:     'drop-shadow(0 0 6px #00f0ff)',
-  mom:     'drop-shadow(0 0 6px #ff2d78)',
-  grandma: 'drop-shadow(0 0 6px #a855f7)',
-  grandpa: 'drop-shadow(0 0 6px #f59e0b)',
+  dad:      'drop-shadow(0 0 6px #00f0ff)',
+  mom:      'drop-shadow(0 0 6px #ff2d78)',
+  grandma:  'drop-shadow(0 0 6px #a855f7)',
+  grandpa:  'drop-shadow(0 0 6px #f59e0b)',
+  dinosaur: 'drop-shadow(0 0 8px #ef4444) drop-shadow(0 0 4px #ff6500)',
 };
 
 // ─── Main component ────────────────────────────────────────────────────
@@ -559,13 +574,14 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
       // Speech bubbles — staggered show/hide cycle per chaser
       chasersRef.current.forEach(ch => {
         if (ch.stunned) return;
-        const stagger = ch.type==='dad'?8 : ch.type==='mom'?18 : ch.type==='grandma'?28 : 38;
+        const stagger = ch.type==='dad'?8 : ch.type==='mom'?18 : ch.type==='grandma'?28 : ch.type==='grandpa'?38 : 48;
         const cur = chaserBubblesRef.current[ch.type];
         if (!cur) {
           chaserBubblesRef.current[ch.type] = { quote:'', showUntilTick: stagger };
         } else if (tickRef.current >= cur.showUntilTick) {
           if (cur.quote==='') {
-            const q = PARENT_QUOTES[Math.floor(Math.random()*PARENT_QUOTES.length)];
+            const pool = ch.type === 'dinosaur' ? DINO_QUOTES : PARENT_QUOTES;
+            const q = pool[Math.floor(Math.random()*pool.length)];
             chaserBubblesRef.current[ch.type] = { quote:q, showUntilTick:tickRef.current+22 };
           } else {
             chaserBubblesRef.current[ch.type] = { quote:'', showUntilTick:tickRef.current+18 };
@@ -610,8 +626,9 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
   }, [render]);
 
   const newChasersAtLevel = (lvl: number) =>
-    lvl===3 ? '👵 Grandma joins the chase!' :
-    lvl===5 ? '👴 Grandpa joins the chaos!' : null;
+    lvl===3  ? '👵 Grandma joins the chase!' :
+    lvl===5  ? '👴 Grandpa joins the chaos!' :
+    lvl===10 ? '🦖 DINOSAUR joins the hunt!' : null;
 
   const touchStartRef = useRef<{x:number;y:number}|null>(null);
   const handleTouchStart = (e: React.TouchEvent) => {

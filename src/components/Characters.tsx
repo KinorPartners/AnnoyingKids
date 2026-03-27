@@ -54,6 +54,14 @@ export function Grandma({ size }: { size: number }) {
   );
 }
 
+export function Dinosaur({ size }: { size: number }) {
+  return (
+    <div style={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontSize: size * 0.88, lineHeight: 1, filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.9)) drop-shadow(0 0 3px rgba(255,100,0,0.7))' }}>🦖</span>
+    </div>
+  );
+}
+
 export function Grandpa({ size }: { size: number }) {
   return (
     <div style={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
