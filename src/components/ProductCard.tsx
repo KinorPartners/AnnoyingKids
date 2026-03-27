@@ -128,7 +128,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             </span>
             <button
               onClick={handleAddToCart}
-              className="px-4 py-2 bg-neon-pink/10 border border-neon-pink/30 rounded-lg text-neon-pink text-xs font-bungee uppercase
+              aria-label={`Add ${product.title} to cart`}
+            className="px-4 py-2 bg-neon-pink/10 border border-neon-pink/30 rounded-lg text-neon-pink text-xs font-bungee uppercase
                 hover:bg-neon-pink hover:text-white transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,45,120,0.5)]"
             >
               Add to Cart

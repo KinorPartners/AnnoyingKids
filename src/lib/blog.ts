@@ -11,6 +11,113 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+    slug: 'best-gifts-for-annoying-kids',
+    title: 'Best Gifts for Kids Who Have Too Much Energy (and Too Many Ideas)',
+    date: '2026-03-27',
+    category: 'Gift Guides',
+    excerpt: 'Shopping for a kid who does everything at full volume? Here\'s what actually works — and what ends up forgotten under the bed.',
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Browse the merch →', href: '/products' },
+    content: `Shopping for a kid who is basically a human tornado is harder than it sounds. You want something they\'ll actually use. Something that matches their energy. Something that won\'t be forgotten by Tuesday.
+
+Here\'s what actually works.
+
+**1. Merch That Matches Their Personality**
+A kid who has opinions — loud, frequent, well-argued opinions — deserves a wardrobe that matches. Bold graphic tees, hoodies with personality, something that says "I\'m here and I have thoughts." It gets worn. Every day. Sometimes twice.
+
+**2. A Creative Outlet That Can\'t Break**
+Sketchbooks, sticker sets, blank notebooks. Give an energetic kid a place to put their ideas and they\'ll fill it in a week. These are the gifts that stay in use for months, not days.
+
+**3. Anything They Can Build, Break, or Reassemble**
+LEGO, robotics kits, puzzle-adjacent toys. If it has pieces and instructions they can ignore, you\'ve found the sweet spot. The goal isn\'t the finished product — it\'s the ninety minutes of focused chaos in the middle.
+
+**4. A Game They Can Play Right Now**
+Browser games, card games, anything that starts in under thirty seconds. High-energy kids don\'t have patience for setup. If they\'re playing within two minutes of unwrapping, you\'ve won.
+
+**5. Something That Makes Them the Main Character**
+Custom items. Personalised gear. Anything with their name, their face, or their vibe on it. Kids who feel like the star of the room tend to light up when a gift reflects that back at them.
+
+**6. An Experience, Not a Thing**
+Escape rooms. Trampoline parks. Pottery classes. Comedy clubs for kids. These are the gifts they\'ll talk about for a year. Harder to wrap, but worth it.
+
+**7. The Gift They Didn\'t Know They Wanted**
+The best kid gifts are often slightly unexpected. Not the most popular thing. Not what everyone else is getting. Something that makes them go "wait — this is amazing" after a two-second pause. That pause is gold.
+
+The common thread: match the gift to the kid, not to what you think kids like. A kid who loves chaos deserves a gift that embraces it.`,
+  },
+  {
+    slug: 'why-annoying-kids-succeed',
+    title: 'Why the Most Annoying Kid in the Room Usually Wins Later',
+    date: '2026-03-27',
+    category: 'Personality & Identity',
+    excerpt: 'The kid who asks too many questions, argues every point, and refuses to sit still? They\'re building skills adults spend years trying to develop.',
+    readingTime: '5 min read',
+    relatedProduct: { label: 'Merch for the main character →', href: '/products' },
+    content: `There is a certain kind of kid who exhausts every adult in the room. They ask why after every answer. They argue rules they don\'t agree with. They have opinions about everything and share all of them, constantly, at volume.
+
+Adults call them a handful. History calls them founders, scientists, and comedians.
+
+Here\'s what\'s actually happening when an annoying kid does the thing they do.
+
+**1. Questioning Everything = Critical Thinking**
+The kid who won\'t accept "because I said so" is not being difficult. They are building the habit of demanding evidence. This is the foundation of good decision-making, scientific reasoning, and not getting scammed as an adult. Annoying now. Valuable later.
+
+**2. Arguing Every Point = Persuasion Skills**
+A kid who argues is a kid who is learning to construct a case, anticipate counterarguments, and hold their ground under pressure. The ones who can do this comfortably at age ten are the ones running meetings at thirty-five.
+
+**3. Refusing to Sit Still = High Drive**
+Restlessness isn\'t a malfunction. It\'s a signal that the environment isn\'t keeping up with them. The kids who can\'t sit through boring things are often the ones who, when they find something they love, go after it completely.
+
+**4. Too Many Ideas = Creative Output**
+A kid who can\'t stop suggesting things — games, plans, schemes, experiments — is a kid whose brain is running fast. The filtering comes later. The raw volume of ideas is the engine. You want that engine.
+
+**5. Talking Too Much = Communication Confidence**
+The kid who never stops talking is, structurally, practicing communication constantly. They\'re learning how to hold a room, how to tell a story, how to keep people engaged. That\'s not nothing. That\'s a skill most people wish they had.
+
+**6. Taking Up Space = Self-Belief**
+A kid who walks into a room like they belong there — who takes up space, who introduces themselves, who doesn\'t apologise for existing — has something a lot of adults work very hard to rebuild. Don\'t fix it.
+
+**7. Making Chaos = Risk Tolerance**
+The kid who tries things, breaks things, and tries again has a relationship with failure that most adults never develop. They know things go wrong. They do it anyway. That\'s not recklessness. That\'s resilience.
+
+The annoying kid in the room is usually the most interesting person in it. They just need time, direction, and ideally — a wardrobe that matches the energy.`,
+  },
+  {
+    slug: 'how-to-get-what-you-want-without-nagging',
+    title: 'How to Get What You Want — Without Nagging (A Guide for Kids)',
+    date: '2026-03-27',
+    category: 'School Survival',
+    excerpt: 'Asking once and getting ignored. Asking again and being told "we\'ll see." There\'s a better way — and it actually works.',
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Dress like you mean it →', href: '/products' },
+    content: `You want something. You\'ve asked. You\'ve been told "maybe." You\'ve asked again. You\'ve been told "we\'ll see." You\'ve asked a third time and now you\'re in trouble for asking too much.
+
+There is a better way.
+
+**1. Make the Case Before You Ask**
+Adults respond well to reasoning. Before you ask, think about: why do you want it? Why is now a good time? What\'s your plan if they say no? Walking in with answers to these questions already prepared is more effective than just asking louder.
+
+**2. Pick the Right Moment**
+Timing is everything. Asking when someone is stressed, tired, or mid-conversation is setting yourself up to fail. Find a calm moment. After dinner. On a weekend morning. When everyone is in a good mood. The same request lands completely differently depending on when you make it.
+
+**3. Ask Once, Clearly**
+Vague requests get vague answers. "Can I maybe possibly get..." is not a request. "I\'d really like X because Y, and here\'s how I\'d make it work" is a request. Be specific. Be calm. Be clear.
+
+**4. Give It Time**
+After asking, stop asking. Give it a day or two. Adults often need to think things through without pressure. Following up too quickly makes it feel like nagging and puts them on the defensive. Patient waiting is a power move.
+
+**5. Show You\'re Ready for the Responsibility**
+If you want more independence, demonstrate it somewhere else first. If you want something expensive, show you look after your existing things. Adults are much more likely to say yes to someone who\'s already proving they can handle it.
+
+**6. Offer Something in Return**
+Not a bribe — a trade. "If you let me do X, I\'ll do Y without being asked." This shows maturity and gives them something to work with. It also usually works.
+
+**7. Accept No Gracefully**
+This one is the hardest and the most important. When the answer is no, accepting it calmly — without arguing, sulking, or disappearing dramatically — builds trust faster than almost anything else. The next ask will go better because of how you handled this one.
+
+The secret is that none of this is manipulation. It\'s just communication. The adults in your life are more reasonable than they sometimes seem — they just need the request framed in a way they can work with.`,
+  },
+  {
     slug: 'greatest-school-pranks-actually-allowed',
     title: '10 School Pranks That Are Actually Allowed',
     date: '2026-03-25',

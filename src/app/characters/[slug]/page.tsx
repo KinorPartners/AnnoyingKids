@@ -180,6 +180,25 @@ export default async function CharacterPage({ params }: Props) {
         </div>
       </section>
 
+      {/* Merch CTA */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div className="bg-dark-card border border-neon-pink/20 rounded-2xl p-6 flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <p className="font-bungee text-white text-lg">Rep the chaos 😈</p>
+            <p className="font-space text-gray-400 text-sm mt-1">
+              Wear the energy. Browse the full AnnoyingKids merch collection.
+            </p>
+          </div>
+          <Link
+            href="/products"
+            className="px-6 py-3 bg-neon-pink font-bungee text-white text-sm uppercase rounded-lg
+              hover:shadow-[0_0_20px_rgba(255,45,120,0.5)] transition-all duration-300 hover:scale-105 whitespace-nowrap"
+          >
+            Shop the Merch →
+          </Link>
+        </div>
+      </section>
+
       {/* Other characters */}
       <section className="border-t border-dark-border bg-dark-surface/30 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">

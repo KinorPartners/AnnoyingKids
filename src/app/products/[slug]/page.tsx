@@ -17,11 +17,11 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const imageUrl = product.images[0];
 
   return {
-    title: product.title,
+    title: `${product.title} — AnnoyingKids`,
     description: product.description?.slice(0, 155),
     alternates: { canonical: `https://www.annoyingkids.com/products/${slug}` },
     openGraph: {
-      title: product.title,
+      title: `${product.title} — AnnoyingKids`,
       description: product.description?.slice(0, 155) ?? '',
       url: `https://www.annoyingkids.com/products/${slug}`,
       siteName: 'AnnoyingKids',
