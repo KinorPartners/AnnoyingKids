@@ -64,6 +64,12 @@ export default function Header() {
               📸 Wall
             </Link>
             <Link
+              href="/characters"
+              className="font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider"
+            >
+              🎮 The Gang
+            </Link>
+            <Link
               href="/game"
               className="font-space text-neon-green hover:text-white transition-colors duration-300 text-sm uppercase tracking-wider
                 px-3 py-1 border border-neon-green/30 rounded-lg hover:bg-neon-green/10 hover:border-neon-green/60
@@ -159,6 +165,13 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               📸 Wall of Chaos
+            </Link>
+            <Link
+              href="/characters"
+              className="block font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              🎮 The Gang
             </Link>
             <Link
               href="/game"
