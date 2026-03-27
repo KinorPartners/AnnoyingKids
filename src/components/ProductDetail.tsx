@@ -426,7 +426,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
 
             {/* Quantity */}
             <div className="mb-8">
-              <label className="font-bungee text-sm text-gray-400 mb-3 block">
+              <label className="font-bungee text-sm text-gray-400 mb-3 mt-2 block">
                 Quantity
               </label>
               <div className="flex items-center gap-3">
