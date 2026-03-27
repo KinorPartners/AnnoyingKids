@@ -4,7 +4,7 @@ import { CHARACTERS } from '@/lib/characters';
 import { Kid, Dad, Mom, Grandma, Grandpa, Dinosaur } from '@/components/Characters';
 
 export const metadata: Metadata = {
-  title: 'Meet the Gang',
+  title: 'Meet the Gang — Kid Chaos Characters',
   description: 'Guy, Buddy, Pap, Mal, Mimi, Barry — the cast behind Kid Chaos. Origin stories, fun facts, and the full chaos family.',
   alternates: { canonical: 'https://www.annoyingkids.com/characters' },
 };
@@ -122,7 +122,7 @@ export default function CharactersPage() {
                 </div>
                 <div>
                   <p className="font-space text-xs uppercase tracking-widest mb-1 text-red-400">Uninvited Guest</p>
-                  <h2 className="font-bungee text-white text-2xl leading-none">???</h2>
+                  <h2 className="font-bungee text-white text-2xl leading-none">Rex</h2>
                   <p className="font-space text-gray-500 text-xs mt-1">Age: Old. Very old.</p>
                 </div>
               </div>

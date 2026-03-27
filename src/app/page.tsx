@@ -164,7 +164,7 @@ export default async function HomePage() {
           </h2>
           <p className="font-space text-gray-400 text-sm mb-6">
             Escape your family · Collect candy · Dodge your parents!<br />
-            🐕 Dog power-up · ❤️ Extra lives · 👵 Grandma joins at Level 3
+            🐕 Dog power-up · ❤️ Extra lives · 🦖 Rex joins at Level 10
           </p>
           <Link
             href="/game"

@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import ChaosGame from '@/components/ChaosGame';
 
 export const metadata: Metadata = {
-  title: 'Kid Chaos — Play the Game',
-  description: 'Escape your family, collect candy and bonus items. The AnnoyingKids arcade game.',
+  title: 'Kid Chaos — Free Browser Game for Kids',
+  description: 'Play Kid Chaos free in your browser — escape parents, dodge Grandma, outrun Rex the dinosaur. Levels get harder. How far can Guy run?',
+  alternates: { canonical: 'https://www.annoyingkids.com/game' },
 };
 
 export default function GamePage() {

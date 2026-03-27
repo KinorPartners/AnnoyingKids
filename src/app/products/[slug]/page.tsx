@@ -58,7 +58,9 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         description: product.description,
         image: product.images.slice(0, 3),
         url: `https://www.annoyingkids.com/products/${slug}`,
+        sku: product.variants[0]?.id,
         brand: { '@type': 'Brand', name: 'AnnoyingKids' },
+        audience: { '@type': 'PeopleAudience', suggestedMinAge: 6, suggestedMaxAge: 16 },
         offers: {
           '@type': 'Offer',
           price: product.price.toFixed(2),
@@ -70,12 +72,30 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
       }
     : null;
 
+  const breadcrumbSchema = product
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home',     item: 'https://www.annoyingkids.com' },
+          { '@type': 'ListItem', position: 2, name: 'Products', item: 'https://www.annoyingkids.com/products' },
+          { '@type': 'ListItem', position: 3, name: product.title, item: `https://www.annoyingkids.com/products/${slug}` },
+        ],
+      }
+    : null;
+
   return (
     <>
       {productSchema && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+      )}
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
       )}
       <ProductDetailClient product={product} allProducts={products} />

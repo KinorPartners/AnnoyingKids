@@ -18,12 +18,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: article.title,
     description: article.excerpt,
+    alternates: { canonical: `https://www.annoyingkids.com/blog/${article.slug}` },
     openGraph: {
       title: article.title,
       description: article.excerpt,
       type: 'article',
       publishedTime: article.date,
       url: `https://www.annoyingkids.com/blog/${article.slug}`,
+      siteName: 'AnnoyingKids',
     },
   };
 }
@@ -123,8 +125,28 @@ export default async function ArticlePage({ params }: Props) {
   const article = getArticle(slug);
   if (!article) notFound();
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.excerpt,
+    datePublished: article.date,
+    url: `https://www.annoyingkids.com/blog/${article.slug}`,
+    publisher: {
+      '@type': 'Organization',
+      name: 'AnnoyingKids',
+      url: 'https://www.annoyingkids.com',
+      logo: 'https://www.annoyingkids.com/logo.png',
+    },
+    mainEntityOfPage: `https://www.annoyingkids.com/blog/${article.slug}`,
+  };
+
   return (
     <div className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       {/* Header */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
         <Link href="/blog" className="font-space text-gray-500 text-sm hover:text-neon-pink transition-colors">

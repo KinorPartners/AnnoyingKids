@@ -628,7 +628,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
   const newChasersAtLevel = (lvl: number) =>
     lvl===3  ? '👵 Grandma joins the chase!' :
     lvl===5  ? '👴 Grandpa joins the chaos!' :
-    lvl===10 ? '🦖 DINOSAUR joins the hunt!' : null;
+    lvl===10 ? '🦖 Rex joins the hunt!' : null;
 
   const touchStartRef = useRef<{x:number;y:number}|null>(null);
   const handleTouchStart = (e: React.TouchEvent) => {

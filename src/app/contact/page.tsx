@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact Us',
+  title: 'Contact AnnoyingKids — We Actually Respond',
   description:
     'Get in touch with AnnoyingKids — order questions, returns, wholesale inquiries, or just to say hi.',
   alternates: { canonical: 'https://www.annoyingkids.com/contact' },

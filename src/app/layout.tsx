@@ -78,8 +78,23 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'AnnoyingKids',
   url: 'https://www.annoyingkids.com',
+  logo: 'https://www.annoyingkids.com/logo.png',
   description: 'Bold, loud merch for kids 6-16. Print-on-demand apparel and accessories.',
   sameAs: [],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer service',
+    url: 'https://www.annoyingkids.com/contact',
+    availableLanguage: 'English',
+  },
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'AnnoyingKids',
+  url: 'https://www.annoyingkids.com',
+  description: 'Bold, loud merch for kids 6-16 who live life at maximum volume.',
 };
 
 export default function RootLayout({
@@ -94,6 +109,11 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <meta property="og:locale" content="en_US" />
       </head>
       <body className="bg-dark-bg text-white antialiased noise-overlay">
         <Script
