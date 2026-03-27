@@ -474,7 +474,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
 
             {/* Trust badges */}
             <div className="mt-6 flex flex-wrap gap-3">
-              {['🚚 Free US Shipping', '🔄 30-Day Returns', '🔒 Secure Checkout'].map((badge) => (
+              {['🚚 US & Intl Shipping', '🔄 30-Day Returns', '🔒 Secure Checkout'].map((badge) => (
                 <span
                   key={badge}
                   className="px-3 py-1 bg-dark-surface border border-dark-border rounded-full text-gray-500 text-xs font-space"

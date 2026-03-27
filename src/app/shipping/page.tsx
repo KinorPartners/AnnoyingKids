@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Shipping Info — Free US Shipping on All Orders',
+  title: 'Shipping Info — US & International Delivery',
   description:
-    'AnnoyingKids shipping details — free US shipping, international rates, print-on-demand timelines, and tracking information.',
+    'AnnoyingKids shipping details — US and international rates, print-on-demand timelines, and tracking information.',
   alternates: { canonical: 'https://www.annoyingkids.com/shipping' },
 };
 

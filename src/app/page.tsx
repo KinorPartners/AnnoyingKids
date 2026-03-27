@@ -91,7 +91,7 @@ export default async function HomePage() {
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { icon: '🚚', label: 'Free US Shipping', sub: 'On all orders' },
+              { icon: '🚚', label: 'US & Intl Shipping', sub: 'Tracked delivery' },
               { icon: '🔄', label: '30-Day Returns', sub: 'No questions asked' },
               { icon: '🔒', label: 'Secure Checkout', sub: 'Powered by Stripe' },
               { icon: '🖨️', label: 'Print on Demand', sub: 'Made just for you' },

@@ -13,8 +13,8 @@ const faqs = [
     a: 'Orders are printed on demand and typically ship within 2-5 business days. Standard US shipping adds 3-7 business days after that. International orders can take 2-4 weeks. You will receive a tracking link as soon as your order ships.',
   },
   {
-    q: 'Is shipping free?',
-    a: 'Free standard shipping on all US orders. International shipping rates are calculated at checkout based on destination.',
+    q: 'How much does shipping cost?',
+    a: 'Shipping rates are calculated at checkout based on your location. We ship to the US and internationally — you will see the exact cost before you confirm your order.',
   },
   {
     q: 'What is print on demand?',
