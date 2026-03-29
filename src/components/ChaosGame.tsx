@@ -346,7 +346,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
     const widthCS = Math.max(18, Math.floor((windowWidth - 32) / COLS));
     if (fullPage && windowHeight > 0) {
       // Reserve: header (64px mobile / 80px desktop) + title+HUD (~80px) + d-pad (~160px) + padding (~24px)
-      const reserved = isMobile ? 340 : 320;
+      const reserved = isMobile ? 360 : 320;
       const heightCS = Math.max(18, Math.floor((windowHeight - reserved) / ROWS));
       return Math.min(widthCS, heightCS);
     }
@@ -602,7 +602,14 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
   const lives   = livesRef.current;
   const level   = levelRef.current;
 
-  const setDir = (d: Dir) => { nextDirRef.current = d; if (gs==='idle') startGame(); };
+  const setDir = (d: Dir) => {
+    nextDirRef.current = d;
+    if (gameStateRef.current === 'playing') {
+      const k = kidRef.current;
+      if (!isWall(mazeRef.current, k.x + d.x, k.y + d.y)) kidDirRef.current = d;
+    }
+    if (gs==='idle') startGame();
+  };
   const setDirWithHaptic = (d: Dir) => { try { navigator.vibrate?.(12); } catch {} setDir(d); };
 
   const submitName = () => {
@@ -640,7 +647,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
     const t = e.changedTouches[0];
     const dx=t.clientX-touchStartRef.current.x, dy=t.clientY-touchStartRef.current.y;
     touchStartRef.current = null;
-    if (Math.abs(dx)<20&&Math.abs(dy)<20) return;
+    if (Math.abs(dx)<10&&Math.abs(dy)<10) return;
     let d: Dir;
     if (Math.abs(dx)>Math.abs(dy)) { d=dx>0?{x:1,y:0}:{x:-1,y:0}; }
     else                           { d=dy>0?{x:0,y:1}:{x:0,y:-1}; }
@@ -936,15 +943,15 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
         {/* D-pad controls */}
         <div className="grid select-none" style={{ gridTemplateColumns:'repeat(3,1fr)', gap: fullPage ? 6 : 8, touchAction:'manipulation' }}>
           <div />
-          <button className={`${fullPage ? 'w-12 h-12' : 'w-16 h-16 sm:w-14 sm:h-14'} bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all`} onPointerDown={()=>setDirWithHaptic({x:0,y:-1})}>▲</button>
+          <button className={`${fullPage ? 'w-14 h-14' : 'w-16 h-16 sm:w-14 sm:h-14'} bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all`} onPointerDown={()=>setDirWithHaptic({x:0,y:-1})}>▲</button>
           <div />
-          <button className={`${fullPage ? 'w-12 h-12' : 'w-16 h-16 sm:w-14 sm:h-14'} bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all`} onPointerDown={()=>setDirWithHaptic({x:-1,y:0})}>◄</button>
-          <div className={`${fullPage ? 'w-12 h-12' : 'w-16 h-16 sm:w-14 sm:h-14'} rounded-xl bg-dark-surface/30 border-2 border-dark-border/30 flex items-center justify-center`}>
+          <button className={`${fullPage ? 'w-14 h-14' : 'w-16 h-16 sm:w-14 sm:h-14'} bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all`} onPointerDown={()=>setDirWithHaptic({x:-1,y:0})}>◄</button>
+          <div className={`${fullPage ? 'w-14 h-14' : 'w-16 h-16 sm:w-14 sm:h-14'} rounded-xl bg-dark-surface/30 border-2 border-dark-border/30 flex items-center justify-center`}>
             <span className="text-gray-700 text-xs font-bungee">D-PAD</span>
           </div>
-          <button className={`${fullPage ? 'w-12 h-12' : 'w-16 h-16 sm:w-14 sm:h-14'} bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all`} onPointerDown={()=>setDirWithHaptic({x:1,y:0})}>►</button>
+          <button className={`${fullPage ? 'w-14 h-14' : 'w-16 h-16 sm:w-14 sm:h-14'} bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all`} onPointerDown={()=>setDirWithHaptic({x:1,y:0})}>►</button>
           <div />
-          <button className={`${fullPage ? 'w-12 h-12' : 'w-16 h-16 sm:w-14 sm:h-14'} bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all`} onPointerDown={()=>setDirWithHaptic({x:0,y:1})}>▼</button>
+          <button className={`${fullPage ? 'w-14 h-14' : 'w-16 h-16 sm:w-14 sm:h-14'} bg-dark-surface border-2 border-dark-border rounded-xl flex items-center justify-center text-white text-2xl hover:border-neon-pink/60 active:bg-neon-pink/20 transition-all`} onPointerDown={()=>setDirWithHaptic({x:0,y:1})}>▼</button>
           <div />
         </div>
 
