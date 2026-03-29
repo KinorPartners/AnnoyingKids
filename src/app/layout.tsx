@@ -43,20 +43,13 @@ export const metadata: Metadata = {
     url: 'https://annoyingkids.com',
     siteName: 'AnnoyingKids',
     type: 'website',
-    images: [
-      {
-        url: 'https://annoyingkids.com/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'AnnoyingKids — Merch for Professional Troublemakers',
-      },
-    ],
+    images: ['/opengraph-image.png'],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AnnoyingKids — Merch for Professional Troublemakers',
     description: 'Bold, loud merch for kids 6-16. Annoying by design, awesome by default.',
-    images: ['https://annoyingkids.com/og-image.png'],
+    images: ['/opengraph-image.png'],
   },
   robots: {
     index: true,

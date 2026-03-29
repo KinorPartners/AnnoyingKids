@@ -5,4 +5,4 @@ Disallow: /api/
 Disallow: /checkout/
 Disallow: /cart
 
-Sitemap: https://www.annoyingkids.com/sitemap.xml
+Sitemap: https://annoyingkids.com/sitemap.xml
