@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 import { MetadataRoute } from 'next';
 import { ARTICLES } from '@/lib/blog';
 import { CHARACTERS } from '@/lib/characters';
