@@ -19,11 +19,11 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   return {
     title: `${product.title} — AnnoyingKids`,
     description: product.description?.slice(0, 155),
-    alternates: { canonical: `https://www.annoyingkids.com/products/${slug}` },
+    alternates: { canonical: `https://annoyingkids.com/products/${slug}` },
     openGraph: {
       title: `${product.title} — AnnoyingKids`,
       description: product.description?.slice(0, 155) ?? '',
-      url: `https://www.annoyingkids.com/products/${slug}`,
+      url: `https://annoyingkids.com/products/${slug}`,
       siteName: 'AnnoyingKids',
       type: 'website',
       images: imageUrl
@@ -57,7 +57,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         name: product.title,
         description: product.description,
         image: product.images.slice(0, 3),
-        url: `https://www.annoyingkids.com/products/${slug}`,
+        url: `https://annoyingkids.com/products/${slug}`,
         sku: product.variants[0]?.id,
         brand: { '@type': 'Brand', name: 'AnnoyingKids' },
         audience: { '@type': 'PeopleAudience', suggestedMinAge: 6, suggestedMaxAge: 16 },
@@ -66,7 +66,7 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
           price: product.price.toFixed(2),
           priceCurrency: 'USD',
           availability: 'https://schema.org/InStock',
-          url: `https://www.annoyingkids.com/products/${slug}`,
+          url: `https://annoyingkids.com/products/${slug}`,
           seller: { '@type': 'Organization', name: 'AnnoyingKids' },
         },
       }
@@ -77,9 +77,9 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Home',     item: 'https://www.annoyingkids.com' },
-          { '@type': 'ListItem', position: 2, name: 'Products', item: 'https://www.annoyingkids.com/products' },
-          { '@type': 'ListItem', position: 3, name: product.title, item: `https://www.annoyingkids.com/products/${slug}` },
+          { '@type': 'ListItem', position: 1, name: 'Home',     item: 'https://annoyingkids.com' },
+          { '@type': 'ListItem', position: 2, name: 'Products', item: 'https://annoyingkids.com/products' },
+          { '@type': 'ListItem', position: 3, name: product.title, item: `https://annoyingkids.com/products/${slug}` },
         ],
       }
     : null;

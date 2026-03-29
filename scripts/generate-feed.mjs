@@ -1,7 +1,7 @@
 /**
  * Google Merchant Center feed generator.
  * Fetches live Printify products and writes public/feed.xml at build time.
- * GMC should be configured to fetch https://www.annoyingkids.com/feed.xml on a schedule.
+ * GMC should be configured to fetch https://annoyingkids.com/feed.xml on a schedule.
  *
  * Run: node scripts/generate-feed.mjs
  * Called automatically by: npm run build
@@ -12,7 +12,7 @@ import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SITE_URL = 'https://www.annoyingkids.com';
+const SITE_URL = 'https://annoyingkids.com';
 
 // Load .env.local if present (for local dev builds)
 try {

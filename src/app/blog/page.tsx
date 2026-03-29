@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Blog — Pranks, School Survival & Chaos',
   description: 'Articles for kids who live life at maximum chaos. Pranks, school survival guides, gaming tips and gift ideas.',
-  alternates: { canonical: 'https://www.annoyingkids.com/blog' },
+  alternates: { canonical: 'https://annoyingkids.com/blog' },
 };
 
 const CATEGORY_COLORS: Record<string, string> = {

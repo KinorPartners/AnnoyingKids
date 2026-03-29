@@ -5,7 +5,7 @@ import { ARTICLES } from '@/lib/blog';
 import { CHARACTERS } from '@/lib/characters';
 import { getProductsForBuild } from '@/lib/products';
 
-const BASE = 'https://www.annoyingkids.com';
+const BASE = 'https://annoyingkids.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await getProductsForBuild();

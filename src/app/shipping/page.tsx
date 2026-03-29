@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Shipping Info — US & International Delivery',
   description:
     'AnnoyingKids shipping details — US and international rates, print-on-demand timelines, and tracking information.',
-  alternates: { canonical: 'https://www.annoyingkids.com/shipping' },
+  alternates: { canonical: 'https://annoyingkids.com/shipping' },
 };
 
 export default function ShippingPage() {

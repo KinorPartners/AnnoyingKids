@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: 'Returns & Exchanges — 30-Day Hassle-Free Policy',
   description:
     '30-day hassle-free returns on all AnnoyingKids orders. Damaged item? Wrong size? We make it right.',
-  alternates: { canonical: 'https://www.annoyingkids.com/returns' },
+  alternates: { canonical: 'https://annoyingkids.com/returns' },
 };
 
 export default function ReturnsPage() {

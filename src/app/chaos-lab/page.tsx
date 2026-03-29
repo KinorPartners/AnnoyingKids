@@ -4,11 +4,11 @@ import ChaosLabClient from './ChaosLabClient';
 export const metadata: Metadata = {
   title: 'Chaos Lab — Unleash Your Inner Troublemaker',
   description: 'Generate your chaos name, take the personality quiz, and unlock your inner troublemaker. AnnoyingKids Chaos Lab.',
-  alternates: { canonical: 'https://www.annoyingkids.com/chaos-lab' },
+  alternates: { canonical: 'https://annoyingkids.com/chaos-lab' },
   openGraph: {
     title: 'Chaos Lab — Unleash Your Inner Troublemaker',
     description: 'Generate your chaos name, take the personality quiz, and unlock your inner troublemaker.',
-    url: 'https://www.annoyingkids.com/chaos-lab',
+    url: 'https://annoyingkids.com/chaos-lab',
   },
 };
 

@@ -6,7 +6,7 @@ import NeonButton from '@/components/NeonButton';
 export const metadata: Metadata = {
   title: 'About Us — Bold Merch for Brave Kids',
   description: 'The story behind AnnoyingKids — bold, loud merch made for kids who refuse to blend in.',
-  alternates: { canonical: 'https://www.annoyingkids.com/about' },
+  alternates: { canonical: 'https://annoyingkids.com/about' },
 };
 
 export default function AboutPage() {

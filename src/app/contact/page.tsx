@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Contact AnnoyingKids — We Actually Respond',
   description:
     'Get in touch with AnnoyingKids — order questions, returns, wholesale inquiries, or just to say hi.',
-  alternates: { canonical: 'https://www.annoyingkids.com/contact' },
+  alternates: { canonical: 'https://annoyingkids.com/contact' },
 };
 
 export default function ContactPage() {
@@ -50,7 +50,7 @@ export default function ContactPage() {
             className="space-y-5"
           >
             <input type="hidden" name="_subject" value="AnnoyingKids Contact Form" />
-            <input type="hidden" name="_next" value="https://www.annoyingkids.com/contact?sent=true" />
+            <input type="hidden" name="_next" value="https://annoyingkids.com/contact?sent=true" />
             <input type="text" name="_honey" className="hidden" />
 
             <div>

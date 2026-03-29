@@ -9,7 +9,7 @@ import CookieConsent from '@/components/CookieConsent';
 const GA_ID = 'G-RE32GFCT3H';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.annoyingkids.com'),
+  metadataBase: new URL('https://annoyingkids.com'),
   icons: {
     icon: '/favicon.png',
     apple: '/favicon.png',
@@ -40,12 +40,12 @@ export const metadata: Metadata = {
     title: 'AnnoyingKids — Merch for Professional Troublemakers',
     description:
       'Bold, loud merch for kids 6-16 who live life at maximum volume. Annoying by design, awesome by default.',
-    url: 'https://www.annoyingkids.com',
+    url: 'https://annoyingkids.com',
     siteName: 'AnnoyingKids',
     type: 'website',
     images: [
       {
-        url: 'https://www.annoyingkids.com/og-image.png',
+        url: 'https://annoyingkids.com/og-image.png',
         width: 1200,
         height: 630,
         alt: 'AnnoyingKids — Merch for Professional Troublemakers',
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'AnnoyingKids — Merch for Professional Troublemakers',
     description: 'Bold, loud merch for kids 6-16. Annoying by design, awesome by default.',
-    images: ['https://www.annoyingkids.com/og-image.png'],
+    images: ['https://annoyingkids.com/og-image.png'],
   },
   robots: {
     index: true,
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://www.annoyingkids.com',
+    canonical: 'https://annoyingkids.com',
   },
 };
 
@@ -77,14 +77,14 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'AnnoyingKids',
-  url: 'https://www.annoyingkids.com',
-  logo: 'https://www.annoyingkids.com/logo.png',
+  url: 'https://annoyingkids.com',
+  logo: 'https://annoyingkids.com/logo.png',
   description: 'Bold, loud merch for kids 6-16. Print-on-demand apparel and accessories.',
   sameAs: [],
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
-    url: 'https://www.annoyingkids.com/contact',
+    url: 'https://annoyingkids.com/contact',
     availableLanguage: 'English',
   },
 };
@@ -93,7 +93,7 @@ const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'AnnoyingKids',
-  url: 'https://www.annoyingkids.com',
+  url: 'https://annoyingkids.com',
   description: 'Bold, loud merch for kids 6-16 who live life at maximum volume.',
 };
 

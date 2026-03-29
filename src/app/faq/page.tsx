@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'FAQ — Shipping, Sizing & Returns',
   description:
     'Answers to the most common questions about AnnoyingKids merch — shipping, sizing, returns, printing, and more.',
-  alternates: { canonical: 'https://www.annoyingkids.com/faq' },
+  alternates: { canonical: 'https://annoyingkids.com/faq' },
 };
 
 const faqs = [

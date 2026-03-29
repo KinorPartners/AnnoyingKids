@@ -18,13 +18,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: article.title,
     description: article.excerpt,
-    alternates: { canonical: `https://www.annoyingkids.com/blog/${article.slug}` },
+    alternates: { canonical: `https://annoyingkids.com/blog/${article.slug}` },
     openGraph: {
       title: article.title,
       description: article.excerpt,
       type: 'article',
       publishedTime: article.date,
-      url: `https://www.annoyingkids.com/blog/${article.slug}`,
+      url: `https://annoyingkids.com/blog/${article.slug}`,
       siteName: 'AnnoyingKids',
     },
   };
@@ -131,14 +131,14 @@ export default async function ArticlePage({ params }: Props) {
     headline: article.title,
     description: article.excerpt,
     datePublished: article.date,
-    url: `https://www.annoyingkids.com/blog/${article.slug}`,
+    url: `https://annoyingkids.com/blog/${article.slug}`,
     publisher: {
       '@type': 'Organization',
       name: 'AnnoyingKids',
-      url: 'https://www.annoyingkids.com',
-      logo: 'https://www.annoyingkids.com/logo.png',
+      url: 'https://annoyingkids.com',
+      logo: 'https://annoyingkids.com/logo.png',
     },
-    mainEntityOfPage: `https://www.annoyingkids.com/blog/${article.slug}`,
+    mainEntityOfPage: `https://annoyingkids.com/blog/${article.slug}`,
   };
 
   return (
