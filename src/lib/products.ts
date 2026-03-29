@@ -120,10 +120,26 @@ export function getAllProducts(): Product[] {
 
 /**
  * Server-only: fetch live products from Printify at build time.
- * Falls back to MOCK_PRODUCTS if the API is unavailable.
+ * Prefers the pre-built cache (local images) written by scripts/fetch-products.mjs.
+ * Falls back to live Printify API, then to MOCK_PRODUCTS.
  * Only call this from server components (page.tsx / generateStaticParams).
  */
 export async function getProductsForBuild(): Promise<Product[]> {
+  // 1. Try pre-built cache — products with locally downloaded images
+  try {
+    const { readFileSync } = await import('fs');
+    const { resolve } = await import('path');
+    const cachePath = resolve(process.cwd(), 'public/products-cache.json');
+    const cached = JSON.parse(readFileSync(cachePath, 'utf8')) as Product[];
+    if (cached.length > 0) {
+      console.log(`[products] Using ${cached.length} cached products (local images)`);
+      return cached;
+    }
+  } catch {
+    // Cache not present — fall through
+  }
+
+  // 2. Fall back to live Printify API
   const { fetchPrintifyProducts } = await import('./printify');
   const live = await fetchPrintifyProducts();
   return live.length > 0 ? live : MOCK_PRODUCTS;

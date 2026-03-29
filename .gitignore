@@ -35,3 +35,7 @@ next-env.d.ts
 
 # Claude Code local settings
 .claude/
+
+# Build-time generated product assets (recreated on every deploy)
+/public/product-images/
+/public/products-cache.json

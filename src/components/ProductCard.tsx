@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
@@ -11,6 +11,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const [imgError, setImgError] = useState(false);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -29,44 +30,25 @@ export default function ProductCard({ product }: ProductCardProps) {
     caps: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
   };
 
-  const primaryImage = product.images[0] || null;
-  const [imgError, setImgError] = useState(false);
-  const [imgLoaded, setImgLoaded] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  // Catch images already loaded from cache (onLoad won't fire for those)
-  useEffect(() => {
-    if (imgRef.current?.complete && !imgRef.current.naturalWidth) {
-      setImgError(true);
-    } else if (imgRef.current?.complete) {
-      setImgLoaded(true);
-    }
-  }, []);
-
   const categoryEmoji: Record<string, string> = {
     tees: '👕', hoodies: '🧥', mugs: '☕', stickers: '🎨', caps: '🧢',
   };
+
+  const primaryImage = !imgError && product.images[0] ? product.images[0] : null;
 
   return (
     <Link href={`/products/${product.slug}`} className="group block">
       <div className="relative bg-dark-card border border-dark-border rounded-2xl overflow-hidden transition-all duration-500 hover:border-neon-pink/50 hover:shadow-[0_0_30px_rgba(255,45,120,0.2)]">
         {/* Product image */}
         <div className="relative aspect-square bg-dark-surface overflow-hidden">
-          {primaryImage && !imgError ? (
+          {primaryImage ? (
             <>
-              {!imgLoaded && (
-                <div className="absolute inset-0 bg-gradient-to-br from-dark-surface to-dark-card animate-pulse" />
-              )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                ref={imgRef}
                 src={primaryImage}
                 alt={product.title}
-                loading="lazy"
-                decoding="async"
-                onLoad={() => setImgLoaded(true)}
                 onError={() => setImgError(true)}
-                className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500 ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </>
           ) : (
@@ -129,7 +111,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             <button
               onClick={handleAddToCart}
               aria-label={`Add ${product.title} to cart`}
-            className="px-4 py-2 bg-neon-pink/10 border border-neon-pink/30 rounded-lg text-neon-pink text-xs font-bungee uppercase
+              className="px-4 py-2 bg-neon-pink/10 border border-neon-pink/30 rounded-lg text-neon-pink text-xs font-bungee uppercase
                 hover:bg-neon-pink hover:text-white transition-all duration-300 hover:shadow-[0_0_15px_rgba(255,45,120,0.5)]"
             >
               Add to Cart
