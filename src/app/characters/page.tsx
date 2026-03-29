@@ -5,7 +5,7 @@ import { Kid, Dad, Mom, Grandma, Grandpa, Dinosaur } from '@/components/Characte
 
 export const metadata: Metadata = {
   title: 'Meet the Gang — Kid Chaos Characters',
-  description: 'Guy, Buddy, Pap, Mal, Mimi, Barry — the cast behind Kid Chaos. Origin stories, fun facts, and the full chaos family.',
+  description: 'Guy, Buddy, Papu, Mal, Mimi, Barry — the cast behind Kid Chaos. Origin stories, fun facts, and the full chaos family.',
   alternates: { canonical: 'https://www.annoyingkids.com/characters' },
 };
 
