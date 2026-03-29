@@ -64,7 +64,7 @@ export default function ShippingPage() {
             <div className="space-y-3">
               <div className="flex justify-between items-center py-3 border-b border-dark-border">
                 <span className="font-space text-gray-400 text-sm">US Standard</span>
-                <span className="font-bungee text-neon-green">FREE</span>
+                <span className="font-space text-gray-300 text-sm">Calculated at checkout</span>
               </div>
               <div className="flex justify-between items-center py-3 border-b border-dark-border">
                 <span className="font-space text-gray-400 text-sm">International</span>
