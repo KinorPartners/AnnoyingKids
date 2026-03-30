@@ -60,7 +60,6 @@ export default async function ProductDetailPage({ params }: ProductPageProps) {
         url: `https://annoyingkids.com/products/${slug}`,
         sku: product.variants[0]?.id,
         brand: { '@type': 'Brand', name: 'AnnoyingKids' },
-        audience: { '@type': 'PeopleAudience', suggestedMinAge: 6, suggestedMaxAge: 16 },
         offers: {
           '@type': 'Offer',
           price: product.price.toFixed(2),
