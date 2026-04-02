@@ -9,6 +9,11 @@ const nextConfig = {
         hostname: 'images-api.printify.com',
         pathname: '/mockup/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.printify.com',
+        pathname: '/mockup/**',
+      },
     ],
   },
 };

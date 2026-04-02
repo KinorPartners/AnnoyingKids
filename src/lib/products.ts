@@ -8,7 +8,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Fuel your chaos with ramen and anime energy. This 11oz ceramic mug features a vibrant anime girl slurping ramen — because every main character needs proper fuel. Microwave and dishwasher safe. Perfect for hot chocolate, ramen broth, or whatever potion you\'re brewing.',
     price: 15.99,
     category: 'mugs',
-    images: ['/products/mug-placeholder.svg'],
+    images: ['https://images.printify.com/mockup/69a9f7de4563b0e8130242d5/72180/102752/anime-girl-ramen-mug-whats-for-dinner-cute-kawaii-coffee-cup-1115oz.jpg?camera_label=front'],
     variants: [
       { id: 'var_mug_11oz', title: '11oz', price: 15.99, isAvailable: true },
       { id: 'var_mug_15oz', title: '15oz', price: 18.99, isAvailable: true },
@@ -37,7 +37,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Wrap yourself in digital chaos. This premium hoodie features an all-over glitched fractal portrait that\'ll make people do a double-take. Ultra-soft fleece interior, kangaroo pocket for snack storage, and a hood big enough to disappear into when adults start talking about responsibilities.',
     price: 35.83,
     category: 'hoodies',
-    images: ['/products/hoodie-placeholder.svg'],
+    images: ['https://images.printify.com/mockup/69af2aa3b11e1d8f80047acb/32912/98424/glitched-portrait-fractal-hoodie-chromatic-aberration-glitch-art.jpg?camera_label=front'],
     variants: [
       { id: 'var_hoodie_s', title: 'S', price: 35.83, isAvailable: true },
       { id: 'var_hoodie_m', title: 'M', price: 35.83, isAvailable: true },
@@ -54,7 +54,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Same energy, different day. This embroidered dad cap says what everyone\'s thinking. Adjustable strap fits all head sizes (even the big-brained ones). Pre-curved brim for that effortlessly cool look. Wear it to school, to the mall, or just around the house while avoiding chores.',
     price: 39.75,
     category: 'caps',
-    images: ['/products/cap-placeholder.svg'],
+    images: ['https://images.printify.com/mockup/69af5a3e84870d7af8005abb/105381/102307/im-tired-dad-cap-minimal-embroidered-white-baseball-hat.jpg?camera_label=front'],
     variants: [
       { id: 'var_cap_one', title: 'One Size', price: 39.75, isAvailable: true },
     ],
@@ -67,7 +67,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Because every birthday dude needs a mama repping the squad. This soft, comfy tee is perfect for birthday parties, family photos, or any occasion where you need to announce who raised the main character. Premium cotton, pre-shrunk, and ready to party.',
     price: 32.99,
     category: 'tees',
-    images: ['/products/tee-placeholder.svg'],
+    images: ['https://images.printify.com/mockup/697a7f2da4ed992a5c0507c3/18542/102044/unisex-jersey-short-sleeve-tee.jpg?camera_label=front-2'],
     variants: [
       { id: 'var_tee_bd_s', title: 'S', price: 32.99, isAvailable: true },
       { id: 'var_tee_bd_m', title: 'M', price: 32.99, isAvailable: true },
@@ -84,7 +84,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Soft, broken-in vibes from day one. This unisex garment-dyed sweatshirt is washed for a lived-in feel and rich, faded color that only gets better over time. Heavy fleece interior keeps you cozy during all-night gaming sessions or sneaky midnight snack runs. Relaxed fit, ribbed cuffs and waistband, and zero adult supervision required.',
     price: 44.99,
     category: 'hoodies',
-    images: ['/products/hoodie-placeholder.svg'],
+    images: ['https://images.printify.com/mockup/69af2aa3b11e1d8f80047acb/32912/98424/glitched-portrait-fractal-hoodie-chromatic-aberration-glitch-art.jpg?camera_label=front'],
     variants: [
       { id: 'var_gds_s',   title: 'S',   price: 44.99, isAvailable: true },
       { id: 'var_gds_m',   title: 'M',   price: 44.99, isAvailable: true },
@@ -102,7 +102,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'The universal kid question, now in wearable form. This graphic tee features bold typography that captures the eternal struggle of every household. Soft ringspun cotton, classic fit, and guaranteed to make parents laugh (or cry). Either way, you win.',
     price: 18.81,
     category: 'tees',
-    images: ['/products/tee-placeholder.svg'],
+    images: ['https://images.printify.com/mockup/697a7f2da4ed992a5c0507c3/18542/102044/unisex-jersey-short-sleeve-tee.jpg?camera_label=front-2'],
     variants: [
       { id: 'var_tee_wd_s', title: 'S', price: 18.81, isAvailable: true },
       { id: 'var_tee_wd_m', title: 'M', price: 18.81, isAvailable: true },
