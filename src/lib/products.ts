@@ -22,7 +22,7 @@ export const MOCK_PRODUCTS: Product[] = [
     description: 'Stick your chaos everywhere. These high-quality vinyl stickers feature a glitched-out neon portrait that looks like your face after an all-night gaming session. Waterproof, scratch-resistant, and built to survive the apocalypse (or at least a school backpack).',
     price: 2.41,
     category: 'stickers',
-    images: ['/products/sticker-placeholder.svg'],
+    images: ['https://images.printify.com/mockup/69af2aa284870d7af80051ab/45750/16655/glitched-neon-visage-kiss-cut-stickers-fractal-glitch-art-chromatic-aberration.jpg?camera_label=front'],
     variants: [
       { id: 'var_sticker_3x3', title: '3" x 3"', price: 2.41, isAvailable: true },
       { id: 'var_sticker_4x4', title: '4" x 4"', price: 3.99, isAvailable: true },
