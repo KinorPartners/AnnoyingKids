@@ -1,3 +1,10 @@
+export interface ProductImage {
+  src: string;
+  variant_ids: number[];
+  position: string;
+  is_default: boolean;
+}
+
 export interface Product {
   id: string;
   title: string;
@@ -7,6 +14,8 @@ export interface Product {
   compareAtPrice?: number;
   category: 'tees' | 'hoodies' | 'mugs' | 'stickers' | 'caps';
   images: string[];
+  /** Rich image data with variant mapping — used for color-based gallery filtering */
+  imageData?: ProductImage[];
   variants: ProductVariant[];
   tags: string[];
 }

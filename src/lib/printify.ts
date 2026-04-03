@@ -2,7 +2,7 @@
  * Printify API client — server-only, used at build time.
  * Never import this from client components.
  */
-import { Product, PrintifyProduct, PrintifyVariant } from '@/types';
+import { Product, ProductImage, PrintifyProduct, PrintifyVariant } from '@/types';
 
 const API_BASE = 'https://api.printify.com/v1';
 
@@ -30,10 +30,19 @@ export function printifyToProduct(p: PrintifyProduct): Product {
   const prices = enabled.map(v => v.price / 100);
   const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
-  const defaultImgs = p.images.filter(img => img.is_default).map(img => img.src);
-  const frontImgs   = p.images.filter(img => img.position === 'front' && !img.is_default).map(img => img.src);
-  const restImgs    = p.images.filter(img => !img.is_default && img.position !== 'front').map(img => img.src);
-  const images = [...defaultImgs, ...frontImgs, ...restImgs];
+  const defaultImgs = p.images.filter(img => img.is_default);
+  const frontImgs   = p.images.filter(img => img.position === 'front' && !img.is_default);
+  const restImgs    = p.images.filter(img => !img.is_default && img.position !== 'front');
+  const orderedPrintifyImages = [...defaultImgs, ...frontImgs, ...restImgs];
+  const images = orderedPrintifyImages.map(img => img.src);
+
+  // Preserve rich image data for color-based gallery filtering
+  const imageData: ProductImage[] = orderedPrintifyImages.map(img => ({
+    src: img.src,
+    variant_ids: img.variant_ids,
+    position: img.position,
+    is_default: img.is_default,
+  }));
 
   const description = p.description
     .replace(/<br\s*\/?>/gi, ' ')
@@ -50,6 +59,7 @@ export function printifyToProduct(p: PrintifyProduct): Product {
     price: minPrice,
     category: inferCategory(p.tags, p.title),
     images: images.length > 0 ? images : ['/products/hoodie-placeholder.svg'],
+    imageData: imageData.length > 0 ? imageData : undefined,
     variants: enabled.map(v => ({
       id: String(v.id),
       title: v.title,
