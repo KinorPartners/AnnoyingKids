@@ -151,6 +151,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [manualImageIdx, setManualImageIdx] = useState<number | null>(null);
   const [descExpanded, setDescExpanded] = useState(false);
 
   // Sync color+size selection back to variantIndex
@@ -159,6 +160,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
     const idx = product.variants.findIndex(v => v.title === title);
     setSelectedVariantIndex(idx >= 0 ? idx : 0);
     setImgError(false);
+    setManualImageIdx(null);
   };
 
   const handleColorSelect = (color: string) => {
@@ -207,6 +209,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
   };
 
   const primaryImage = getImageForVariant(product, selectedVariantIndex);
+  const displayImage = manualImageIdx !== null && product.images[manualImageIdx] ? product.images[manualImageIdx] : primaryImage;
 
   return (
     <div className="min-h-screen">
@@ -231,10 +234,10 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
           {/* Product Image */}
           <div className="relative">
             <div className="aspect-square bg-dark-card border border-dark-border rounded-2xl overflow-hidden flex items-center justify-center relative group">
-              {primaryImage && !imgError ? (
+              {displayImage && !imgError ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={primaryImage}
+                  src={displayImage}
                   alt={product.title}
                   onError={() => setImgError(true)}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -281,6 +284,32 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
                 </span>
               </div>
             </div>
+
+          {/* Thumbnail gallery */}
+          {product.images.length > 1 && (
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin', scrollbarColor: '#333 transparent' }}>
+              {product.images.map((img, idx) => {
+                const isActive = manualImageIdx === idx || (manualImageIdx === null && img === displayImage);
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => setManualImageIdx(idx)}
+                    className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
+                      isActive
+                        ? 'border-neon-pink shadow-[0_0_10px_rgba(255,45,120,0.4)]'
+                        : 'border-dark-border hover:border-neon-pink/30 opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`${product.title} view ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          )}
           </div>
 
           {/* Product Info */}
