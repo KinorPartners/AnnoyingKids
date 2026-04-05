@@ -101,6 +101,100 @@ body {
   opacity: 0.4;
 }
 
+/* ===== Bright Mode Overrides ===== */
+[data-theme="bright"] {
+  --dark-bg: #f5f5f5;
+}
+
+[data-theme="bright"] body {
+  background-color: #f5f5f5;
+  color: #1a1a1a;
+}
+
+/* Remap Tailwind dark-* colors in bright mode */
+[data-theme="bright"] .bg-dark-bg { background-color: #f5f5f5 !important; }
+[data-theme="bright"] .bg-dark-bg\/80 { background-color: rgba(245, 245, 245, 0.8) !important; }
+[data-theme="bright"] .bg-dark-bg\/90 { background-color: rgba(245, 245, 245, 0.9) !important; }
+[data-theme="bright"] .bg-dark-surface { background-color: #ffffff !important; }
+[data-theme="bright"] .bg-dark-card { background-color: #ffffff !important; }
+[data-theme="bright"] .border-dark-border { border-color: #d4d4d4 !important; }
+
+/* Text colors */
+[data-theme="bright"] .text-white { color: #1a1a1a !important; }
+[data-theme="bright"] .text-gray-100 { color: #262626 !important; }
+[data-theme="bright"] .text-gray-200 { color: #333333 !important; }
+[data-theme="bright"] .text-gray-300 { color: #444444 !important; }
+[data-theme="bright"] .text-gray-400 { color: #555555 !important; }
+[data-theme="bright"] .text-gray-500 { color: #666666 !important; }
+
+/* Preserve neon accent text colors */
+[data-theme="bright"] .text-neon-pink { color: #e0206a !important; }
+[data-theme="bright"] .text-neon-green { color: #1fb30e !important; }
+[data-theme="bright"] .text-neon-blue { color: #009db3 !important; }
+[data-theme="bright"] .text-neon-yellow { color: #b8a600 !important; }
+
+/* Gradient text needs to stay visible */
+[data-theme="bright"] .gradient-text {
+  background: linear-gradient(135deg, #e0206a, #009db3, #1fb30e);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Borders & dividers */
+[data-theme="bright"] .border-white\/10,
+[data-theme="bright"] .border-white\/20 { border-color: rgba(0, 0, 0, 0.1) !important; }
+[data-theme="bright"] .divide-dark-border > * + * { border-color: #d4d4d4 !important; }
+
+/* Backgrounds with opacity */
+[data-theme="bright"] .bg-black\/20 { background-color: rgba(0, 0, 0, 0.05) !important; }
+[data-theme="bright"] .bg-black\/30 { background-color: rgba(0, 0, 0, 0.08) !important; }
+[data-theme="bright"] .bg-black\/40 { background-color: rgba(0, 0, 0, 0.1) !important; }
+[data-theme="bright"] .bg-black\/50 { background-color: rgba(0, 0, 0, 0.12) !important; }
+
+/* Cards and surfaces with gradients */
+[data-theme="bright"] .from-dark-card { --tw-gradient-from: #ffffff !important; }
+[data-theme="bright"] .to-dark-bg { --tw-gradient-to: #f5f5f5 !important; }
+[data-theme="bright"] .from-dark-surface { --tw-gradient-from: #ffffff !important; }
+
+/* Scrollbar for bright mode */
+[data-theme="bright"] ::-webkit-scrollbar-track { background: #f5f5f5; }
+[data-theme="bright"] ::-webkit-scrollbar-thumb { background: #c4c4c4; }
+[data-theme="bright"] ::-webkit-scrollbar-thumb:hover { background: #e0206a; }
+
+/* Selection */
+[data-theme="bright"] ::selection {
+  background: rgba(255, 45, 120, 0.2);
+  color: #1a1a1a;
+}
+
+/* Noise overlay - reduce in bright mode */
+[data-theme="bright"] .noise-overlay::after {
+  opacity: 0.08;
+}
+
+/* Placeholder text */
+[data-theme="bright"] .placeholder-gray-500::placeholder { color: #888 !important; }
+[data-theme="bright"] .placeholder-gray-600::placeholder { color: #777 !important; }
+
+/* Ring colors */
+[data-theme="bright"] .ring-dark-border { --tw-ring-color: #d4d4d4 !important; }
+
+/* Shadows for bright mode - add subtle shadows instead of neon glows */
+[data-theme="bright"] .shadow-lg { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important; }
+[data-theme="bright"] .shadow-xl { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important; }
+
+/* Hover states */
+[data-theme="bright"] .hover\:bg-dark-surface:hover { background-color: #f0f0f0 !important; }
+[data-theme="bright"] .hover\:bg-dark-card:hover { background-color: #f0f0f0 !important; }
+[data-theme="bright"] .hover\:text-white:hover { color: #1a1a1a !important; }
+[data-theme="bright"] .hover\:border-dark-border:hover { border-color: #bbb !important; }
+
+/* Focus states */
+[data-theme="bright"] .focus\:border-dark-border:focus { border-color: #bbb !important; }
+[data-theme="bright"] .focus\:ring-dark-border:focus { --tw-ring-color: #bbb !important; }
+
 /* Line clamp */
 .line-clamp-2 {
   display: -webkit-box;

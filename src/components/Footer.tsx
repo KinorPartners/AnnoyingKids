@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Kid, Dad, Mom, Grandma, Grandpa } from '@/components/Characters';
+import { Kid, Dad, Mom, Grandma, Grandpa, Dinosaur } from '@/components/Characters';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -163,6 +163,7 @@ export default function Footer() {
           .chase-mom     { animation: chase-across 5.8s linear infinite; animation-delay: 2.0s; }
           .chase-grandma { animation: chase-across 6.8s linear infinite; animation-delay: 2.9s; }
           .chase-grandpa { animation: chase-across 7.9s linear infinite; animation-delay: 4.0s; }
+          .chase-dino    { animation: chase-across 5.2s linear infinite; animation-delay: 4.8s; }
         `}</style>
 
         <div className="mt-12 mb-2">
@@ -203,6 +204,7 @@ export default function Footer() {
               ))}
 
               {/* Chasing characters — kid leads, dog and parents chase */}
+              <div className="chase-dino    absolute select-none" style={{ top: 8 }}><Dinosaur size={38} /></div>
               <div className="chase-grandpa absolute select-none" style={{ top: 10 }}><Grandpa size={36} /></div>
               <div className="chase-grandma absolute select-none" style={{ top: 10 }}><Grandma size={36} /></div>
               <div className="chase-mom     absolute select-none" style={{ top: 14 }}><Mom size={36} /></div>

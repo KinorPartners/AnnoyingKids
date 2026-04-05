@@ -14,6 +14,8 @@ type DogState = 'available' | 'chasing' | 'done';
 interface Chaser { pos: Pos; type: CharType; stunned?: boolean; }
 interface DogData { state: DogState; pos: Pos; targetIdx: number; lastDir: Dir; spawnedAt: number; }
 interface HeartData { pos: Pos; spawnedAt: number; }
+interface HeartFx { pos: Pos; tick: number; }
+interface JoinMsg { text: string; tick: number; }
 
 // Return a random passable cell away from the kid and chasers
 function findOpenCell(maze: number[][], chasers: Chaser[], kid: Pos): Pos {
@@ -330,6 +332,11 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
   const heartRef        = useRef<HeartData|null>(null);
   const heartSpawnTickRef = useRef(0);
   const chaserBubblesRef = useRef<Record<string, {quote:string; showUntilTick:number}>>({});
+  const heartFxRef = useRef<HeartFx|null>(null);
+  const dogBarkRef = useRef<{tick:number; pos:Pos}|null>(null);
+  const joinMsgRef = useRef<JoinMsg|null>(null);
+  const [showLbOverlay, setShowLbOverlay] = useState(false);
+  const pausedRef = useRef(false);
 
   const [bigMode, setBigMode] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
@@ -391,6 +398,8 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
     heartRef.current      = null;
     heartSpawnTickRef.current = Math.floor(Math.random()*40)+30; // spawn between tick 30-70
     chaserBubblesRef.current = {};
+    heartFxRef.current = null;
+    dogBarkRef.current = null;
   };
 
   const startGame = useCallback(() => {
@@ -430,6 +439,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
   useEffect(() => {
     const interval = setInterval(() => {
       if (gameStateRef.current !== 'playing') return;
+      if (pausedRef.current) return;
 
       const maze = mazeRef.current;
       const kid  = kidRef.current;
@@ -479,15 +489,25 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
         if (validTargets.length > 0) {
           const pick = validTargets[Math.floor(Math.random()*validTargets.length)];
           dogRef.current = { ...dogRef.current, state:'chasing', targetIdx:pick.i };
+          dogBarkRef.current = { tick: tickRef.current, pos: { ...dogRef.current.pos } };
         } else {
           dogRef.current = { ...dogRef.current, state:'done' };
           if (ds.used < ds.total) ds.nextSpawnTick = tickRef.current + Math.floor(Math.random()*25)+20;
         }
       }
 
+      // Clear bark bubble after ~15 ticks
+      if (dogBarkRef.current && tickRef.current - dogBarkRef.current.tick > 15) {
+        dogBarkRef.current = null;
+      }
+
       // Dog: chase and catch parent
       const dogNow = dogRef.current;
       if (dogNow?.state === 'chasing' && tickRef.current % 3 === 0) {
+        // Periodic bark every ~24 ticks while chasing
+        if (tickRef.current % 24 === 0) {
+          dogBarkRef.current = { tick: tickRef.current, pos: { ...dogNow.pos } };
+        }
         const target = chasersRef.current[dogNow.targetIdx];
         if (target && !target.stunned) {
           const step = bfsStep(maze, dogNow.pos, target.pos);
@@ -512,7 +532,12 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
       // Heart: kid picks up → +1 life
       if (heartRef.current && heartRef.current.pos.x===newKid.x && heartRef.current.pos.y===newKid.y) {
         livesRef.current++;
+        heartFxRef.current = { pos: { ...heartRef.current.pos }, tick: tickRef.current };
         heartRef.current = null;
+      }
+      // Clear heart FX after ~12 ticks
+      if (heartFxRef.current && tickRef.current - heartFxRef.current.tick > 12) {
+        heartFxRef.current = null;
       }
 
       // Level complete?
@@ -524,10 +549,17 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
           setAwaitingName(true); setNameInput('');
         }
         if (lvlTimerRef.current) clearTimeout(lvlTimerRef.current);
+        // Show join message for new chasers
+        const nextLevel = levelRef.current + 1;
+        const joinText = newChasersAtLevel(nextLevel);
+        if (joinText) {
+          joinMsgRef.current = { text: joinText, tick: tickRef.current };
+        }
         lvlTimerRef.current = setTimeout(() => {
           levelRef.current++;
           mazeRef.current = cloneMaze(getMazeForLevel(levelRef.current));
           resetPositions(levelRef.current);
+          joinMsgRef.current = null;
           gameStateRef.current = 'playing';
           render();
         }, 2000);
@@ -695,6 +727,13 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
           <span>
             {Array.from({length:Math.max(0,lives)}).map((_,i)=><span key={i}>🧒🏽</span>)}
           </span>
+          <button
+            onClick={() => { pausedRef.current = true; setShowLbOverlay(true); render(); }}
+            title="Scoreboard (pauses game)"
+            className="ml-1 px-3 py-1 bg-dark-surface border border-dark-border rounded-lg text-gray-400 hover:text-neon-yellow hover:border-neon-yellow/50 text-sm font-bungee transition-all"
+          >
+            🏆 <span className="text-xs">Score</span>
+          </button>
           {!isMobile && (
             <button
               onClick={() => setBigMode(b => !b)}
@@ -805,6 +844,63 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
             );
           })()}
 
+          {/* Heart pickup burst effect */}
+          {heartFxRef.current && (() => {
+            const fx = heartFxRef.current!;
+            return (
+              <div className="absolute" style={{
+                left:fx.pos.x*CS, top:fx.pos.y*CS, width:CS, height:CS, zIndex:25,
+                display:'flex', alignItems:'center', justifyContent:'center',
+                pointerEvents:'none',
+              }}>
+                <style>{`
+                  @keyframes heart-burst{0%{transform:scale(0.5);opacity:1}100%{transform:scale(2.5);opacity:0}}
+                  @keyframes heart-ring{0%{transform:scale(0.3);opacity:0.8;border-width:3px}100%{transform:scale(2.8);opacity:0;border-width:1px}}
+                  @keyframes heart-float{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-28px) scale(0.6);opacity:0}}
+                `}</style>
+                <div style={{position:'absolute',width:CS*0.8,height:CS*0.8,borderRadius:'50%',background:'radial-gradient(circle,rgba(239,68,68,0.6),transparent 70%)',animation:'heart-burst 0.7s ease-out forwards'}}/>
+                <div style={{position:'absolute',width:CS*0.6,height:CS*0.6,borderRadius:'50%',border:'2px solid #ef4444',animation:'heart-ring 0.6s ease-out forwards'}}/>
+                <span style={{fontSize:CS*0.4,position:'absolute',top:'-20%',left:'20%',animation:'heart-float 0.8s ease-out forwards'}}>❤️</span>
+                <span style={{fontSize:CS*0.35,position:'absolute',top:'-10%',right:'15%',animation:'heart-float 0.9s ease-out forwards',animationDelay:'0.1s'}}>❤️</span>
+                <div style={{position:'absolute',top:-18,left:'50%',transform:'translateX(-50%)',background:'#ef4444',borderRadius:6,padding:'2px 8px',fontSize:Math.max(9,CS*0.28),fontWeight:800,color:'#fff',whiteSpace:'nowrap',zIndex:3,animation:'heart-float 1s ease-out forwards',boxShadow:'0 0 10px #ef4444'}}>+1 LIFE!</div>
+              </div>
+            );
+          })()}
+
+          {/* Dog bark effect */}
+          {dogBarkRef.current && dogRef.current && dogRef.current.state === 'chasing' && (() => {
+            const bark = dogBarkRef.current!;
+            const dog = dogRef.current!;
+            const barks = ['WOOF!', 'ARF!', 'BARK!', 'RUFF!'];
+            const barkText = barks[bark.tick % barks.length];
+            return (
+              <div className="absolute" style={{
+                left: Math.max(2, Math.min(dog.pos.x*CS - 10, COLS*CS - 80)),
+                top: Math.max(2, dog.pos.y*CS - 28),
+                zIndex:28, pointerEvents:'none',
+              }}>
+                <style>{`@keyframes bark-pop{0%{transform:scale(0.5);opacity:0}20%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:1}}`}</style>
+                <div style={{
+                  background:'#fbbf24', color:'#000', borderRadius:8,
+                  padding:'2px 8px', fontSize:Math.max(8,CS*0.26),
+                  fontWeight:800, whiteSpace:'nowrap',
+                  boxShadow:'0 2px 8px rgba(251,191,36,0.6)',
+                  fontFamily:'sans-serif', lineHeight:1.4,
+                  animation:'bark-pop 0.3s ease-out forwards',
+                }}>
+                  {barkText} 🐕
+                  <div style={{
+                    position:'absolute', bottom:-5, left:'30%',
+                    width:0, height:0,
+                    borderLeft:'5px solid transparent',
+                    borderRight:'5px solid transparent',
+                    borderTop:'5px solid #fbbf24',
+                  }}/>
+                </div>
+              </div>
+            );
+          })()}
+
           {/* Speech bubbles */}
           {chasers.map((ch) => {
             const bubble = chaserBubblesRef.current[ch.type];
@@ -843,15 +939,15 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
           {gs==='idle' && (
             <div className="absolute inset-0 bg-black/75 flex flex-col items-center justify-center gap-4 z-30">
               <div className="flex items-center gap-1">
-                <Grandpa size={55}/><Grandma size={55}/><Mom size={55}/><Dad size={55}/>
+                <Dinosaur size={50}/><Grandpa size={55}/><Grandma size={55}/><Mom size={55}/><Dad size={55}/>
                 <span className="text-gray-500 mx-2 font-bungee text-lg">vs</span>
-                <Kid size={55} dead={false}/>
+                <Kid size={55} dead={false}/><span style={{fontSize:40,lineHeight:1,filter:'drop-shadow(0 0 6px #fbbf24)'}}>🐕</span>
               </div>
               <h3 className="font-bungee text-white text-2xl">KID <span className="text-neon-pink">CHAOS</span></h3>
               <p className="font-space text-gray-300 text-xs text-center px-8 leading-relaxed">
                 🍭 Candy = 10pts · Bonus items = 50pts<br/>
                 🐕 Dog chases a parent away · ❤️ Heart = +1 life!<br/>
-                👵 Grandma joins at Level 3 · 👴 Grandpa at Level 5
+                👵 Grandma L3 · 👴 Grandpa L5 · 🦖 Rex L10
               </p>
               {fullPage ? (
                 <button onClick={startGame}
@@ -871,11 +967,35 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
           {/* Level up overlay */}
           {gs==='levelup' && (
             <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center gap-3 z-30">
+              <style>{`
+                @keyframes join-entrance{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.3) rotate(5deg);opacity:1}100%{transform:scale(1) rotate(0deg);opacity:1}}
+              `}</style>
               <div className="text-5xl animate-bounce">⭐</div>
               <h3 className="font-bungee text-neon-yellow text-3xl">LEVEL {level} CLEAR!</h3>
               <p className="font-space text-white">Score: {score}</p>
-              {newChasersAtLevel(level+1) && (
-                <p className="font-space text-neon-pink text-sm animate-pulse mt-1">⚠️ {newChasersAtLevel(level+1)}</p>
+              {/* Top scores mini-board */}
+              {leaderboard.length > 0 && (
+                <div className="flex items-center gap-2 bg-dark-card/60 border border-neon-yellow/20 rounded-lg px-3 py-1.5">
+                  <span className="text-xs font-bungee text-neon-yellow">🏆</span>
+                  {leaderboard.slice(0,3).map((e,i) => (
+                    <span key={i} className="font-space text-xs text-gray-300">
+                      {i===0?'🥇':i===1?'🥈':'🥉'}{e.name}: <span className="text-neon-green font-bold">{e.score}</span>
+                      {i<2 && leaderboard.length>i+1 ? ' · ' : ''}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {joinMsgRef.current && (
+                <div className="flex flex-col items-center gap-2 mt-1" style={{animation:'join-entrance 0.6s ease-out forwards'}}>
+                  <div className="flex items-center gap-1">
+                    {newChasersAtLevel(level+1)?.includes('Grandma') && <Grandma size={48} />}
+                    {newChasersAtLevel(level+1)?.includes('Grandpa') && <Grandpa size={48} />}
+                    {newChasersAtLevel(level+1)?.includes('Rex') && <Dinosaur size={52} />}
+                  </div>
+                  <p className="font-bungee text-neon-pink text-sm animate-pulse px-4 py-1.5 border border-neon-pink/40 rounded-lg bg-neon-pink/10">
+                    ⚠️ {joinMsgRef.current.text}
+                  </p>
+                </div>
               )}
               <p className="font-space text-gray-400 text-sm">Get ready for Level {level+1}…</p>
             </div>
@@ -936,6 +1056,63 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
                   )}
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Leaderboard pause overlay */}
+          {showLbOverlay && (
+            <div className="absolute inset-0 bg-black/85 flex flex-col items-center justify-center gap-3 z-40 px-4">
+              <button
+                onClick={() => { pausedRef.current = false; setShowLbOverlay(false); render(); }}
+                aria-label="Resume game"
+                className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-white text-base transition-all"
+              >✕</button>
+              <h3 className="font-bungee text-neon-yellow text-xl">🏆 SCOREBOARD</h3>
+              <p className="font-space text-gray-400 text-xs">Game paused</p>
+              <div className="w-full max-w-xs">
+                {/* Tabs */}
+                <div className="flex rounded-xl overflow-hidden border border-dark-border mb-2">
+                  {(['all','weekly','today'] as const).map(tab => (
+                    <button
+                      key={tab}
+                      onClick={() => setLbTab(tab)}
+                      className={`flex-1 py-1.5 font-bungee text-xs uppercase transition-all
+                        ${lbTab===tab
+                          ? 'bg-neon-yellow text-dark-bg'
+                          : 'bg-dark-surface text-gray-500 hover:text-gray-300'
+                        }`}
+                    >
+                      {tab==='all' ? 'All Time' : tab==='weekly' ? 'Weekly' : 'Today'}
+                    </button>
+                  ))}
+                </div>
+                <div className="bg-dark-card border border-dark-border rounded-xl overflow-hidden max-h-52 overflow-y-auto">
+                  {lbFiltered.length === 0 ? (
+                    <p className="font-space text-gray-600 text-xs text-center py-4">No scores yet</p>
+                  ) : lbFiltered.map((entry, i) => (
+                    <div key={i} className={`flex items-center gap-2 px-3 py-1.5 border-b border-dark-border/50 last:border-0
+                      ${i===0?'bg-neon-yellow/5':i===1?'bg-gray-400/5':i===2?'bg-amber-700/5':''}`}>
+                      <span className="font-bungee text-sm w-7 text-center" style={{
+                        color: i===0?'#fbbf24':i===1?'#9ca3af':i===2?'#b45309':'#4b5563'
+                      }}>
+                        {i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${i+1}`}
+                      </span>
+                      <span className="font-bungee text-white text-xs flex-1 truncate">{entry.name}</span>
+                      <span className="font-space text-gray-500 text-xs">L{entry.level}</span>
+                      <span className="font-bungee text-neon-green text-xs">{entry.score}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <p className="font-space text-white text-sm mt-1">
+                Current: <span className="text-neon-green font-bungee">{score}</span> · Level <span className="text-neon-yellow font-bungee">{level}</span>
+              </p>
+              <button
+                onClick={() => { pausedRef.current = false; setShowLbOverlay(false); render(); }}
+                className="px-6 py-2 bg-neon-pink font-bungee text-white text-sm uppercase rounded-lg hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,45,120,0.5)]"
+              >
+                Resume Game
+              </button>
             </div>
           )}
         </div>

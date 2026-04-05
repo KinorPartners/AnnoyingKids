@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
 import { CartProvider } from '@/context/CartContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CookieConsent from '@/components/CookieConsent';
@@ -127,12 +128,14 @@ export default function RootLayout({
             } catch(e) {}
           `}
         </Script>
-        <CartProvider>
-          <Header />
-          <main className="min-h-screen pt-16 sm:pt-20">{children}</main>
-          <Footer />
-          <CookieConsent />
-        </CartProvider>
+        <ThemeProvider>
+          <CartProvider>
+            <Header />
+            <main className="min-h-screen pt-16 sm:pt-20">{children}</main>
+            <Footer />
+            <CookieConsent />
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
