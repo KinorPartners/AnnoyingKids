@@ -100,29 +100,9 @@ async function main() {
     const orderedImgs = [...defaultImgs, ...frontImgs, ...restImgs];
     const cdnImages   = orderedImgs.map(i => i.src);
 
-    // Download primary image locally; keep remaining as CDN URLs
-    const images = [];
-    if (cdnImages.length > 0) {
-      const ext      = cdnImages[0].toLowerCase().includes('.png') ? 'png' : 'jpg';
-      const filename = `${slug}.${ext}`;
-      const dest     = resolve(IMG_DIR, filename);
-      try {
-        if (!existsSync(dest)) {
-          await downloadImage(cdnImages[0], dest);
-          console.log(`  ✓ ${filename}`);
-        } else {
-          console.log(`  · ${filename} (cached)`);
-        }
-        images.push(`/product-images/${filename}`);
-      } catch (err) {
-        console.warn(`  ✗ ${slug}: ${err.message} — keeping CDN URL`);
-        images.push(cdnImages[0]);
-      }
-      // Remaining images stay as CDN URLs (detail page only)
-      for (let i = 1; i < cdnImages.length; i++) images.push(cdnImages[i]);
-    } else {
-      images.push('/products/hoodie-placeholder.svg');
-    }
+    // Use CDN URLs directly (local image download is optional for dev)
+    const images = cdnImages.length > 0 ? [...cdnImages] : ['/products/hoodie-placeholder.svg'];
+    console.log(`  · ${slug} (${images.length} images)`);
 
     const prices = enabled.map(v => v.price / 100);
     const description = (p.description || p.title)
