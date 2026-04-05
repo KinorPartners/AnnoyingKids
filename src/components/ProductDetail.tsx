@@ -31,24 +31,33 @@ function stripHtml(html: string): string {
 // Image helpers — group images by color using Printify variant_ids mapping
 // ---------------------------------------------------------------------------
 
+/** Detect if variant format is "size / color" (e.g. mugs: "11oz / Black") */
+function variantColorIndex(variants: Product['variants']): number {
+  if (variants.length === 0 || !variants[0].title.includes('/')) return 0;
+  const first = variants[0].title.split('/')[0].trim().toLowerCase();
+  return /^\d+\s*oz$/.test(first) ? 1 : 0;
+}
+
+function extractColor(title: string, colorIdx: number): string {
+  return title.split('/')[colorIdx]?.trim() || '';
+}
+
 /** Get all images that belong to a specific color, using imageData variant_ids */
 function getImagesForColor(product: Product, color: string): string[] {
   const { imageData, variants, images } = product;
   if (!imageData || imageData.length === 0) {
-    // Fallback when no imageData: use old URL-based matching
     return [getImageForVariantLegacy(product, color)].filter(Boolean) as string[];
   }
 
   const colorLower = color.toLowerCase();
-  // Find all variant IDs that belong to this color
+  const cIdx = variantColorIndex(variants);
   const colorVariantIds = new Set(
     variants
-      .filter(v => v.title.split('/')[0].trim().toLowerCase() === colorLower)
+      .filter(v => extractColor(v.title, cIdx).toLowerCase() === colorLower)
       .map(v => parseInt(v.id, 10))
       .filter(n => !isNaN(n))
   );
 
-  // Find images whose variant_ids overlap with this color's variant IDs
   const matched: string[] = [];
   for (const img of imageData) {
     if (img.variant_ids.some(vid => colorVariantIds.has(vid))) {
@@ -58,19 +67,19 @@ function getImagesForColor(product: Product, color: string): string[] {
 
   if (matched.length > 0) return matched;
 
-  // Fallback: URL-based matching
   return [getImageForVariantLegacy(product, color)].filter(Boolean) as string[];
 }
 
 /** Get images NOT belonging to the selected color (other colors + lifestyle) */
 function getOtherImages(product: Product, selectedColor: string): string[] {
-  const { imageData, images } = product;
+  const { imageData, images, variants } = product;
   if (!imageData || imageData.length === 0) return images.slice(1);
 
   const selectedLower = selectedColor.toLowerCase();
+  const cIdx = variantColorIndex(variants);
   const selectedVariantIds = new Set(
-    product.variants
-      .filter(v => v.title.split('/')[0].trim().toLowerCase() === selectedLower)
+    variants
+      .filter(v => extractColor(v.title, cIdx).toLowerCase() === selectedLower)
       .map(v => parseInt(v.id, 10))
       .filter(n => !isNaN(n))
   );
@@ -91,15 +100,17 @@ function getImageForVariantLegacy(product: Product, color: string): string | nul
     try { const seg = url.split('/')[5]; return seg && /^\d+$/.test(seg) ? seg : null; } catch { return null; }
   };
 
+  const cIdx = variantColorIndex(variants);
+
   for (const img of images) {
     const uvid = urlVariantId(img);
     if (!uvid) continue;
     const imgVariant = variants.find(v => v.id === uvid);
-    if (imgVariant && imgVariant.title.split('/')[0].trim().toLowerCase() === colorLower) return img;
+    if (imgVariant && extractColor(imgVariant.title, cIdx).toLowerCase() === colorLower) return img;
   }
 
   // Proximity match
-  const colorIds = variants.filter(v => v.title.split('/')[0].trim().toLowerCase() === colorLower)
+  const colorIds = variants.filter(v => extractColor(v.title, cIdx).toLowerCase() === colorLower)
     .map(v => parseInt(v.id, 10)).filter(n => !isNaN(n));
   if (colorIds.length > 0) {
     let bestImg: string | null = null;
@@ -117,7 +128,7 @@ function getImageForVariantLegacy(product: Product, color: string): string | nul
   // Color index fallback
   const seenColors: string[] = [];
   for (const v of variants) {
-    const c = v.title.split('/')[0].trim().toLowerCase();
+    const c = extractColor(v.title, cIdx).toLowerCase();
     if (!seenColors.includes(c)) seenColors.push(c);
   }
   const colorIdx = seenColors.indexOf(colorLower);
@@ -150,22 +161,34 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
 
   // Parse variants into color + size dimensions if applicable
   const hasColorSize = product.variants.length > 0 && product.variants[0].title.includes('/');
+
+  // Detect if variant format is "size / color" (e.g. mugs: "11oz / Black") vs "color / size"
+  const isSwapped = useMemo(() => {
+    if (!hasColorSize) return false;
+    const first = product.variants[0].title.split('/')[0].trim().toLowerCase();
+    return /^\d+\s*oz$/.test(first);
+  }, [product.variants, hasColorSize]);
+
+  // Extract color (index 0 normally, index 1 if swapped) and size (vice versa)
+  const getColor = (title: string) => title.split('/')[isSwapped ? 1 : 0]?.trim() || '';
+  const getSize = (title: string) => title.split('/')[isSwapped ? 0 : 1]?.trim() || '';
+
   const uniqueColors = useMemo(() => {
     if (!hasColorSize) return [];
     const seen: string[] = [];
     for (const v of product.variants) {
-      const c = v.title.split('/')[0].trim();
+      const c = getColor(v.title);
       if (!seen.includes(c)) seen.push(c);
     }
     return seen;
-  }, [product.variants, hasColorSize]);
+  }, [product.variants, hasColorSize, isSwapped]);
 
   const uniqueSizes = useMemo(() => {
     if (!hasColorSize) return [];
-    const SIZE_ORDER = ['3"×3"','4"×4"','6"×6"','One size','One Size','XS','S','M','L','XL','2XL','3XL','4XL','5XL','6XL','7XL'];
+    const SIZE_ORDER = ['11oz','15oz','3"×3"','4"×4"','6"×6"','One size','One Size','XS','S','M','L','XL','2XL','3XL','4XL','5XL','6XL','7XL'];
     const seen: string[] = [];
     for (const v of product.variants) {
-      const s = v.title.split('/')[1]?.trim() || '';
+      const s = getSize(v.title);
       if (s && !seen.includes(s)) seen.push(s);
     }
     return seen.sort((a, b) => {
@@ -176,13 +199,13 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
       if (bi !== -1) return 1;
       return a.localeCompare(b);
     });
-  }, [product.variants, hasColorSize]);
+  }, [product.variants, hasColorSize, isSwapped]);
 
   const [selectedColor, setSelectedColor] = useState(() =>
-    hasColorSize ? (product.variants[0].title.split('/')[0].trim()) : ''
+    hasColorSize ? getColor(product.variants[0].title) : ''
   );
   const [selectedSize, setSelectedSize] = useState(() =>
-    hasColorSize ? (product.variants[0].title.split('/')[1]?.trim() || '') : ''
+    hasColorSize ? getSize(product.variants[0].title) : ''
   );
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -195,7 +218,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
 
   // Sync color+size selection back to variantIndex
   const syncVariant = (color: string, size: string) => {
-    const title = `${color} / ${size}`;
+    const title = isSwapped ? `${size} / ${color}` : `${color} / ${size}`;
     const idx = product.variants.findIndex(v => v.title === title);
     setSelectedVariantIndex(idx >= 0 ? idx : 0);
     setImgError(false);
@@ -205,8 +228,8 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
     setSelectedColor(color);
     // Pick first available size for this color, or keep current if valid
     const sizesForColor = product.variants
-      .filter(v => v.title.split('/')[0].trim() === color)
-      .map(v => v.title.split('/')[1]?.trim() || '');
+      .filter(v => getColor(v.title) === color)
+      .map(v => getSize(v.title));
     const newSize = sizesForColor.includes(selectedSize) ? selectedSize : sizesForColor[0] || '';
     setSelectedSize(newSize);
     syncVariant(color, newSize);
@@ -394,7 +417,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
                                 imgData.variant_ids.includes(parseInt(v.id, 10))
                               );
                               if (matchingVariant) {
-                                const newColor = matchingVariant.title.split('/')[0].trim();
+                                const newColor = getColor(matchingVariant.title);
                                 if (newColor !== selectedColor) {
                                   handleColorSelect(newColor);
                                   return;
@@ -504,8 +527,9 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {uniqueSizes.map((size) => {
+                          const variantTitle = isSwapped ? `${size} / ${selectedColor}` : `${selectedColor} / ${size}`;
                           const matchingVariant = product.variants.find(
-                            v => v.title === `${selectedColor} / ${size}`
+                            v => v.title === variantTitle
                           );
                           const available = matchingVariant?.isAvailable ?? false;
                           return (

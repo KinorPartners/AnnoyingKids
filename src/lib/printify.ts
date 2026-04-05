@@ -15,13 +15,13 @@ function slugify(title: string): string {
 
 function inferCategory(tags: string[], title: string): Product['category'] {
   const text = [...tags, title].join(' ').toLowerCase();
-  if (text.includes('mug') || text.includes('cup') || text.includes('tumbler')) return 'mugs';
-  if (text.includes('sticker') || text.includes('decal')) return 'stickers';
-  if (text.includes('cap') || text.includes('hat') || text.includes('beanie') || text.includes('snapback')) return 'caps';
-  if (
-    text.includes('hoodie') || text.includes('sweatshirt') || text.includes('pullover') ||
-    text.includes('crewneck') || text.includes('fleece') || text.includes('zip-up')
-  ) return 'hoodies';
+  const has = (word: string) => new RegExp(`\\b${word}\\b`).test(text);
+  if (has('mug') || has('cup') || has('tumbler')) return 'mugs';
+  if (has('sticker') || has('decal')) return 'stickers';
+  // Check hoodie BEFORE cap — "dreamscape" contains "cap" as a substring
+  if (has('hoodie') || has('sweatshirt') || has('pullover') ||
+    has('crewneck') || has('fleece') || text.includes('zip-up')) return 'hoodies';
+  if (has('cap') || has('hat') || has('beanie') || has('snapback')) return 'caps';
   return 'tees';
 }
 
@@ -84,7 +84,7 @@ export async function fetchPrintifyProducts(): Promise<Product[]> {
 
   while (true) {
     const res = await fetch(
-      `${API_BASE}/shops/${shopId}/products.json?limit=100&page=${page}`,
+      `${API_BASE}/shops/${shopId}/products.json?limit=50&page=${page}`,
       { headers: { Authorization: `Bearer ${token}` }, cache: 'force-cache' }
     );
 
@@ -102,7 +102,7 @@ export async function fetchPrintifyProducts(): Promise<Product[]> {
         .map(printifyToProduct)
     );
 
-    if (raw.length < 100) break;
+    if (raw.length < 50) break;
     page++;
   }
 

@@ -15,7 +15,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 try {
   const { config } = await import('dotenv');
   config({ path: resolve(__dirname, '../.env.local') });
-} catch {}
+} catch {
+  // dotenv not installed — parse .env.local manually
+  try {
+    const envPath = resolve(__dirname, '../.env.local');
+    const envContent = (await import('fs')).readFileSync(envPath, 'utf8');
+    for (const line of envContent.split('\n')) {
+      const m = line.match(/^([A-Z_]+)=(.+)/);
+      if (m) process.env[m[1]] = m[2].trim();
+    }
+  } catch {}
+}
 
 const PRINTIFY_API_KEY = process.env.PRINTIFY_API_KEY;
 const PRINTIFY_SHOP_ID = process.env.PRINTIFY_SHOP_ID;
@@ -28,11 +38,13 @@ function slugify(title) {
 
 function inferCategory(tags, title) {
   const text = [...(tags || []), title].join(' ').toLowerCase();
-  if (text.includes('mug') || text.includes('cup') || text.includes('tumbler')) return 'mugs';
-  if (text.includes('sticker') || text.includes('decal')) return 'stickers';
-  if (text.includes('cap') || text.includes('hat') || text.includes('beanie') || text.includes('snapback')) return 'caps';
-  if (text.includes('hoodie') || text.includes('sweatshirt') || text.includes('pullover') ||
-      text.includes('crewneck') || text.includes('fleece') || text.includes('zip-up')) return 'hoodies';
+  const has = (word) => new RegExp(`\\b${word}\\b`).test(text);
+  if (has('mug') || has('cup') || has('tumbler')) return 'mugs';
+  if (has('sticker') || has('decal')) return 'stickers';
+  // Check hoodie BEFORE cap — "dreamscape" contains "cap" as a substring
+  if (has('hoodie') || has('sweatshirt') || has('pullover') ||
+      has('crewneck') || has('fleece') || text.includes('zip-up')) return 'hoodies';
+  if (has('cap') || has('hat') || has('beanie') || has('snapback')) return 'caps';
   return 'tees';
 }
 
@@ -41,14 +53,14 @@ async function fetchAllProducts() {
   let page = 1;
   while (true) {
     const res = await fetch(
-      `https://api.printify.com/v1/shops/${PRINTIFY_SHOP_ID}/products.json?limit=100&page=${page}`,
+      `https://api.printify.com/v1/shops/${PRINTIFY_SHOP_ID}/products.json?limit=50&page=${page}`,
       { headers: { Authorization: `Bearer ${PRINTIFY_API_KEY}` } }
     );
     if (!res.ok) throw new Error(`Printify API ${res.status} on page ${page}`);
     const data = await res.json();
     const raw = data.data ?? [];
     products.push(...raw);
-    if (raw.length < 100) break;
+    if (raw.length < 50) break;
     page++;
   }
   return products;
@@ -81,11 +93,12 @@ async function main() {
 
     const slug = slugify(p.title);
 
-    // Collect CDN image URLs (default first, then front, then rest)
-    const defaultImgs = p.images.filter(i => i.is_default).map(i => i.src);
-    const frontImgs   = p.images.filter(i => i.position === 'front' && !i.is_default).map(i => i.src);
-    const restImgs    = p.images.filter(i => !i.is_default && i.position !== 'front').map(i => i.src);
-    const cdnImages   = [...defaultImgs, ...frontImgs, ...restImgs];
+    // Collect CDN images with full metadata (default first, then front, then rest)
+    const defaultImgs = p.images.filter(i => i.is_default);
+    const frontImgs   = p.images.filter(i => i.position === 'front' && !i.is_default);
+    const restImgs    = p.images.filter(i => !i.is_default && i.position !== 'front');
+    const orderedImgs = [...defaultImgs, ...frontImgs, ...restImgs];
+    const cdnImages   = orderedImgs.map(i => i.src);
 
     // Download primary image locally; keep remaining as CDN URLs
     const images = [];
@@ -119,6 +132,14 @@ async function main() {
       .replace(/\s+/g, ' ')
       .trim();
 
+    // Build imageData with variant_ids for color-based gallery filtering
+    const imageData = orderedImgs.map(img => ({
+      src: img.src,
+      variant_ids: img.variant_ids || [],
+      position: img.position || '',
+      is_default: !!img.is_default,
+    }));
+
     products.push({
       id: p.id,
       title: p.title,
@@ -127,6 +148,7 @@ async function main() {
       price: Math.min(...prices),
       category: inferCategory(p.tags, p.title),
       images,
+      imageData,
       variants: enabled.map(v => ({
         id: String(v.id),
         title: v.title,
