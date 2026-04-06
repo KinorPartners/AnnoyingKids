@@ -131,6 +131,7 @@ export default async function ArticlePage({ params }: Props) {
     headline: article.title,
     description: article.excerpt,
     datePublished: article.date,
+    author: { '@type': 'Organization', name: 'AnnoyingKids' },
     url: `https://annoyingkids.com/blog/${article.slug}`,
     publisher: {
       '@type': 'Organization',
@@ -141,11 +142,25 @@ export default async function ArticlePage({ params }: Props) {
     mainEntityOfPage: `https://annoyingkids.com/blog/${article.slug}`,
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://annoyingkids.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://annoyingkids.com/blog' },
+      { '@type': 'ListItem', position: 3, name: article.title, item: `https://annoyingkids.com/blog/${article.slug}` },
+    ],
+  };
+
   return (
     <div className="min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       {/* Header */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">

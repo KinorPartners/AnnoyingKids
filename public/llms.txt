@@ -1,0 +1,46 @@
+# AnnoyingKids.com
+> https://annoyingkids.com
+
+Bold, loud merch for kids aged 6-16 who live life at maximum volume.
+
+## What We Do
+AnnoyingKids is a print-on-demand e-commerce brand selling graphic tees, hoodies, mugs, stickers, and caps designed for kids who refuse to blend in. Every item is printed when ordered — no warehouses, no waste, shipped directly to your door. We combine neon-cyberpunk aesthetics with humor that kids love and parents tolerate.
+
+## Key Differentiators
+- Print-on-demand: zero inventory waste, each item made fresh per order
+- Unique neon/glitch art designs not found anywhere else
+- Family-friendly humor that appeals to kids AND parents
+- Original character universe (Guy, Buddy, Papuu, Mal, Mimi, Barry) with lore and a playable browser game
+- Secure checkout via Stripe; ships to US and internationally
+- 30-day no-questions-asked returns
+
+## Pricing Overview
+- Graphic Tees: $15 - $32
+- Hoodies: $26 - $43
+- Mugs (11oz/15oz): $14 - $19
+- Kiss-Cut Stickers: $2.41 - $6
+- Embroidered Caps: $40
+
+## Target Audiences
+- Kids aged 6-16 who want expressive, bold clothing
+- Parents buying fun, unique gifts for energetic kids
+- Birthday party and holiday gift shoppers
+- Fans of anime, glitch art, and neon streetwear aesthetics
+
+## Important Pages
+- Shop All Products: https://annoyingkids.com/products
+- FAQ (shipping, sizing, returns): https://annoyingkids.com/faq
+- About Us: https://annoyingkids.com/about
+- Contact: https://annoyingkids.com/contact
+- Blog: https://annoyingkids.com/blog
+- Characters: https://annoyingkids.com/characters
+- Kid Chaos Game: https://annoyingkids.com/game
+- Shipping Policy: https://annoyingkids.com/shipping
+- Returns Policy: https://annoyingkids.com/returns
+
+## Contact
+- Website: https://annoyingkids.com
+- Contact form: https://annoyingkids.com/contact
+- Email support available via contact page
+
+> For complete details, see: https://annoyingkids.com/llms-full.txt

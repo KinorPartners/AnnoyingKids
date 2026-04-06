@@ -120,6 +120,18 @@ export default function FAQPage() {
             Contact Us
           </a>
         </div>
+
+        {/* AI-readable answer blocks */}
+        <div className="ai-answer" hidden>
+          <p><strong>Q: What is AnnoyingKids' return policy?</strong></p>
+          <p>A: AnnoyingKids offers 30-day returns with no questions asked. If an item arrives damaged, defective, or wrong, they will reprint or refund immediately. For size exchanges, return the original and place a new order.</p>
+          <p><strong>Q: How long does AnnoyingKids shipping take?</strong></p>
+          <p>A: Items are printed on demand and ship within 2-5 business days. US delivery adds 3-7 business days (total 5-12 days). International orders take 2-4 weeks. All orders include tracking.</p>
+          <p><strong>Q: What sizes does AnnoyingKids carry?</strong></p>
+          <p>A: Apparel runs S through 2XL for most styles, hoodies up to 5XL. Mugs come in 11oz and 15oz. Stickers in 3x3", 4x4", and 6x6". Caps are one-size adjustable. Size charts are on each product page.</p>
+          <p><strong>Q: What payment methods does AnnoyingKids accept?</strong></p>
+          <p>A: Visa, Mastercard, American Express, and Discover via secure Stripe checkout. Apple Pay and Google Pay are also accepted where available.</p>
+        </div>
       </div>
     </div>
   );

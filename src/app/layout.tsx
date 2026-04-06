@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: '%s | AnnoyingKids',
   },
   description:
-    'Bold, loud merch for kids 6-16 who live life at maximum volume. Tees, hoodies, mugs, stickers and more. Annoying by design, awesome by default.',
+    'Bold, loud merch for kids 6-16 — graphic tees from $15, hoodies from $26, mugs, stickers & caps. Print on demand, 30-day returns, US & international shipping.',
   keywords: [
     'kids clothing',
     'graphic tees for kids',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'AnnoyingKids — Merch for Professional Troublemakers',
     description:
-      'Bold, loud merch for kids 6-16 who live life at maximum volume. Annoying by design, awesome by default.',
+      'Bold, loud merch for kids 6-16 — graphic tees from $15, hoodies from $26, mugs, stickers & caps. Print on demand, 30-day returns, US & international shipping.',
     url: 'https://annoyingkids.com',
     siteName: 'AnnoyingKids',
     type: 'website',
@@ -73,13 +73,19 @@ const organizationSchema = {
   name: 'AnnoyingKids',
   url: 'https://annoyingkids.com',
   logo: 'https://annoyingkids.com/logo.png',
-  description: 'Bold, loud merch for kids 6-16. Print-on-demand apparel and accessories.',
+  description: 'Bold, loud merch for kids 6-16. Print-on-demand apparel and accessories — graphic tees, hoodies, mugs, stickers, and caps.',
+  foundingDate: '2026',
   sameAs: [],
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer service',
     url: 'https://annoyingkids.com/contact',
     availableLanguage: 'English',
+  },
+  brand: {
+    '@type': 'Brand',
+    name: 'AnnoyingKids',
+    slogan: 'Merch for Professional Troublemakers',
   },
 };
 
@@ -88,7 +94,8 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'AnnoyingKids',
   url: 'https://annoyingkids.com',
-  description: 'Bold, loud merch for kids 6-16 who live life at maximum volume.',
+  description: 'Bold, loud merch for kids 6-16 who live life at maximum volume. Graphic tees, hoodies, mugs, stickers and caps. Print on demand, shipped worldwide.',
+  publisher: { '@type': 'Organization', name: 'AnnoyingKids' },
 };
 
 export default function RootLayout({
