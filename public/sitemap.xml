@@ -3,117 +3,166 @@
 
   <!-- ── CORE PAGES ── -->
   <url>
-    <loc>https://www.annoyingkids.com/</loc>
+    <loc>https://annoyingkids.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/</loc>
+    <loc>https://annoyingkids.com/products/</loc>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/about/</loc>
+    <loc>https://annoyingkids.com/about/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <!-- ── FEATURES ── -->
   <url>
-    <loc>https://www.annoyingkids.com/game/</loc>
+    <loc>https://annoyingkids.com/game/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/chaos-lab/</loc>
+    <loc>https://annoyingkids.com/chaos-lab/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/wall-of-chaos/</loc>
+    <loc>https://annoyingkids.com/wall-of-chaos/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/stories/</loc>
+    <loc>https://annoyingkids.com/stories/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <!-- ── SUPPORT PAGES ── -->
   <url>
-    <loc>https://www.annoyingkids.com/faq/</loc>
+    <loc>https://annoyingkids.com/faq/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/shipping/</loc>
+    <loc>https://annoyingkids.com/shipping/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/returns/</loc>
+    <loc>https://annoyingkids.com/returns/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/contact/</loc>
+    <loc>https://annoyingkids.com/contact/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
 
+  <!-- ── MEDIA ── -->
+  <url>
+    <loc>https://annoyingkids.com/media/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
   <!-- ── LEGAL ── -->
   <url>
-    <loc>https://www.annoyingkids.com/privacy/</loc>
+    <loc>https://annoyingkids.com/privacy/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/terms/</loc>
+    <loc>https://annoyingkids.com/terms/</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <!-- ── PRODUCT PAGES ── -->
   <url>
-    <loc>https://www.annoyingkids.com/products/i-m-tired-dad-cap-minimal-embroidered-white-baseball-hat/</loc>
+    <loc>https://annoyingkids.com/products/i-m-tired-dad-cap-minimal-embroidered-white-baseball-hat/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/glitched-portrait-fractal-hoodie-chromatic-aberration-glitch-art/</loc>
+    <loc>https://annoyingkids.com/products/glitched-portrait-fractal-hoodie-chromatic-aberration-glitch-art/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/glitched-neon-visage-kiss-cut-stickers-fractal-glitch-art-chromatic-aberration/</loc>
+    <loc>https://annoyingkids.com/products/glitched-neon-visage-kiss-cut-stickers-fractal-glitch-art-chromatic-aberration/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/mama-of-the-birthday-dude-t-shirt/</loc>
+    <loc>https://annoyingkids.com/products/mama-of-the-birthday-dude-t-shirt/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/anime-girl-ramen-mug-what-s-for-dinner-cute-kawaii-coffee-cup-11-15oz/</loc>
+    <loc>https://annoyingkids.com/products/anime-girl-ramen-mug-what-s-for-dinner-cute-kawaii-coffee-cup-11-15oz/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/products/unisex-jersey-short-sleeve-tee/</loc>
+    <loc>https://annoyingkids.com/products/unisex-jersey-short-sleeve-tee/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/blog/best-gaming-snacks-wont-destroy-controller/</loc>
+    <loc>https://annoyingkids.com/blog/best-gaming-snacks-wont-destroy-controller/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://www.annoyingkids.com/blog/best-gifts-for-kids-who-have-everything/</loc>
+    <loc>https://annoyingkids.com/blog/best-birthday-gifts-for-kids-who-have-everything/</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://annoyingkids.com/blog/funny-graphic-tees-for-kids-what-to-look-for/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://annoyingkids.com/blog/back-to-school-outfits-kids-who-refuse-to-blend-in/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://annoyingkids.com/blog/holiday-gift-guide-kids-6-16/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ── CATEGORY PAGES ── -->
+  <url>
+    <loc>https://annoyingkids.com/products/tees/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://annoyingkids.com/products/hoodies/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://annoyingkids.com/products/mugs/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://annoyingkids.com/products/stickers/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://annoyingkids.com/products/caps/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
 
 </urlset>

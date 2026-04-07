@@ -2,6 +2,15 @@ import Link from 'next/link';
 import { ARTICLES } from '@/lib/blog';
 import type { Metadata } from 'next';
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://annoyingkids.com' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://annoyingkids.com/blog' },
+  ],
+};
+
 export const metadata: Metadata = {
   title: 'Blog — Pranks, School Survival & Chaos',
   description: 'Articles for kids who live life at maximum chaos. Pranks, school survival guides, gaming tips and gift ideas.',
@@ -20,6 +29,14 @@ const CATEGORY_COLORS: Record<string, string> = {
 export default function BlogPage() {
   return (
     <div className="min-h-screen">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-0">
+        <nav className="flex items-center gap-2 font-space text-sm" aria-label="Breadcrumb">
+          <Link href="/" className="text-gray-500 hover:text-neon-pink transition-colors">Home</Link>
+          <span className="text-gray-700">/</span>
+          <span className="text-neon-pink">Blog</span>
+        </nav>
+      </section>
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
         <h1 className="font-bungee text-5xl sm:text-7xl text-white mb-4 leading-tight">
           THE{' '}

@@ -19,8 +19,8 @@ const config: Config = {
         'dark-border': '#2a2a2a',
       },
       fontFamily: {
-        bungee: ['Bungee', 'cursive'],
-        space: ['Space Grotesk', 'sans-serif'],
+        bungee: ['var(--font-bungee)', 'cursive'],
+        space: ['var(--font-space)', 'sans-serif'],
       },
       animation: {
         'glitch': 'glitch 0.3s infinite',

@@ -1,9 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AnnoyingKids — Merch for Professional Troublemakers</title>
     <link>https://annoyingkids.com</link>
     <description>Bold, loud merch for kids 6-16. Annoying by design, awesome by default.</description>
+    <language>en-us</language>
+    <atom:link href="https://annoyingkids.com/feed.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>Holiday Gift Guide for Kids 6–16: The Non-Boring Edition</title>
+      <link>https://annoyingkids.com/blog/holiday-gift-guide-kids-6-16</link>
+      <guid>https://annoyingkids.com/blog/holiday-gift-guide-kids-6-16</guid>
+      <pubDate>Wed, 02 Apr 2026 00:00:00 +0000</pubDate>
+      <category>Gift Guides</category>
+      <description>Skip the toy that breaks by January. Here&apos;s what kids 6-16 actually want — and what they&apos;ll still be using in March.</description>
+    </item>
+
+    <item>
+      <title>Back to School Outfits for Kids Who Refuse to Blend In</title>
+      <link>https://annoyingkids.com/blog/back-to-school-outfits-kids-who-refuse-to-blend-in</link>
+      <guid>https://annoyingkids.com/blog/back-to-school-outfits-kids-who-refuse-to-blend-in</guid>
+      <pubDate>Wed, 02 Apr 2026 00:00:00 +0000</pubDate>
+      <category>School Survival</category>
+      <description>First day of school, new year, same mission: walk in and immediately be the most interesting person in the room.</description>
+    </item>
+
+    <item>
+      <title>Funny Graphic Tees for Kids — What to Actually Look For</title>
+      <link>https://annoyingkids.com/blog/funny-graphic-tees-for-kids-what-to-look-for</link>
+      <guid>https://annoyingkids.com/blog/funny-graphic-tees-for-kids-what-to-look-for</guid>
+      <pubDate>Tue, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <category>Gift Guides</category>
+      <description>Not all kids&apos; graphic tees are equal. Here&apos;s the difference between a tee that gets worn every day and one that disappears by Tuesday.</description>
+    </item>
+
+    <item>
+      <title>Best Birthday Gifts for Kids Who Have Everything</title>
+      <link>https://annoyingkids.com/blog/best-birthday-gifts-for-kids-who-have-everything</link>
+      <guid>https://annoyingkids.com/blog/best-birthday-gifts-for-kids-who-have-everything</guid>
+      <pubDate>Tue, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <category>Gift Guides</category>
+      <description>They already own every game, toy, and gadget. Here&apos;s what to actually get them — and why merch beats stuff every time.</description>
+    </item>
+
+    <item>
+      <title>Best Gaming Snacks That Won&apos;t Destroy Your Controller</title>
+      <link>https://annoyingkids.com/blog/best-gaming-snacks-wont-destroy-controller</link>
+      <guid>https://annoyingkids.com/blog/best-gaming-snacks-wont-destroy-controller</guid>
+      <pubDate>Sun, 30 Mar 2026 00:00:00 +0000</pubDate>
+      <category>Gaming &amp; Screen Culture</category>
+      <description>One greasy thumb and your controller is ruined. Here&apos;s what to eat during a gaming session — and what to never, ever touch.</description>
+    </item>
+
+    <item>
+      <title>Best Gifts for Kids Who Have Too Much Energy (and Too Many Ideas)</title>
+      <link>https://annoyingkids.com/blog/best-gifts-for-annoying-kids</link>
+      <guid>https://annoyingkids.com/blog/best-gifts-for-annoying-kids</guid>
+      <pubDate>Thu, 27 Mar 2026 00:00:00 +0000</pubDate>
+      <category>Gift Guides</category>
+      <description>Shopping for a kid who does everything at full volume? Here&apos;s what actually works — and what ends up forgotten under the bed.</description>
+    </item>
+
+    <item>
+      <title>Why the Most Annoying Kid in the Room Usually Wins Later</title>
+      <link>https://annoyingkids.com/blog/why-annoying-kids-succeed</link>
+      <guid>https://annoyingkids.com/blog/why-annoying-kids-succeed</guid>
+      <pubDate>Thu, 27 Mar 2026 00:00:00 +0000</pubDate>
+      <category>Personality &amp; Identity</category>
+      <description>The kid who asks too many questions, argues every point, and refuses to sit still? They&apos;re building skills adults spend years trying to develop.</description>
+    </item>
+
+    <item>
+      <title>How to Get What You Want — Without Nagging (A Guide for Kids)</title>
+      <link>https://annoyingkids.com/blog/how-to-get-what-you-want-without-nagging</link>
+      <guid>https://annoyingkids.com/blog/how-to-get-what-you-want-without-nagging</guid>
+      <pubDate>Thu, 27 Mar 2026 00:00:00 +0000</pubDate>
+      <category>School Survival</category>
+      <description>Asking once and getting ignored. Asking again and being told &quot;we&apos;ll see.&quot; There&apos;s a better way — and it actually works.</description>
+    </item>
+
+    <item>
+      <title>10 School Pranks That Are Actually Allowed</title>
+      <link>https://annoyingkids.com/blog/greatest-school-pranks-actually-allowed</link>
+      <guid>https://annoyingkids.com/blog/greatest-school-pranks-actually-allowed</guid>
+      <pubDate>Tue, 25 Mar 2026 00:00:00 +0000</pubDate>
+      <category>Pranks &amp; Chaos</category>
+      <description>Want to be legendary at school without getting detention? These pranks are technically within the rules — barely.</description>
+    </item>
+
+    <item>
+      <title>How to Survive a Boring Lesson Without Getting Caught</title>
+      <link>https://annoyingkids.com/blog/survive-most-boring-lesson-ever</link>
+      <guid>https://annoyingkids.com/blog/survive-most-boring-lesson-ever</guid>
+      <pubDate>Tue, 25 Mar 2026 00:00:00 +0000</pubDate>
+      <category>School Survival</category>
+      <description>It&apos;s double geography. The clock has stopped. The teacher is reading from a slide. Here&apos;s how to survive.</description>
+    </item>
+
+    <item>
+      <title>The 9 Types of Annoying Kids — Which One Are You?</title>
+      <link>https://annoyingkids.com/blog/9-types-of-annoying-kids</link>
+      <guid>https://annoyingkids.com/blog/9-types-of-annoying-kids</guid>
+      <pubDate>Tue, 25 Mar 2026 00:00:00 +0000</pubDate>
+      <category>Personality &amp; Identity</category>
+      <description>From the Chaos Gremlin to the Stealth Operator — every annoying kid has a type. Find yours.</description>
+    </item>
 
   </channel>
 </rss>

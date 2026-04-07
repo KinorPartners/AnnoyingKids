@@ -112,12 +112,17 @@ function renderContent(content: string) {
 }
 
 function inlineBold(text: string, color: string): React.ReactNode {
-  const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((part, j) =>
-    part.startsWith('**') && part.endsWith('**')
-      ? <strong key={j} style={{ color, fontWeight: 700 }}>{part.slice(2, -2)}</strong>
-      : part
-  );
+  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g);
+  return parts.map((part, j) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={j} style={{ color, fontWeight: 700 }}>{part.slice(2, -2)}</strong>;
+    }
+    const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (linkMatch) {
+      return <Link key={j} href={linkMatch[2]} style={{ color, textDecoration: 'underline' }}>{linkMatch[1]}</Link>;
+    }
+    return part;
+  });
 }
 
 export default async function ArticlePage({ params }: Props) {
@@ -131,14 +136,27 @@ export default async function ArticlePage({ params }: Props) {
     headline: article.title,
     description: article.excerpt,
     datePublished: article.date,
+    dateModified: article.date,
+    inLanguage: 'en',
     url: `https://annoyingkids.com/blog/${article.slug}`,
+    author: { '@type': 'Organization', name: 'AnnoyingKids', url: 'https://annoyingkids.com' },
     publisher: {
       '@type': 'Organization',
       name: 'AnnoyingKids',
       url: 'https://annoyingkids.com',
-      logo: 'https://annoyingkids.com/logo.png',
+      logo: { '@type': 'ImageObject', url: 'https://annoyingkids.com/logo.png' },
     },
     mainEntityOfPage: `https://annoyingkids.com/blog/${article.slug}`,
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://annoyingkids.com' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://annoyingkids.com/blog' },
+      { '@type': 'ListItem', position: 3, name: article.title, item: `https://annoyingkids.com/blog/${article.slug}` },
+    ],
   };
 
   return (
@@ -147,11 +165,22 @@ export default async function ArticlePage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {/* Breadcrumb */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-0">
+        <nav className="flex items-center gap-2 font-space text-sm" aria-label="Breadcrumb">
+          <Link href="/" className="text-gray-500 hover:text-neon-pink transition-colors">Home</Link>
+          <span className="text-gray-700">/</span>
+          <Link href="/blog" className="text-gray-500 hover:text-neon-pink transition-colors">Blog</Link>
+          <span className="text-gray-700">/</span>
+          <span className="text-neon-pink truncate max-w-[200px]">{article.title}</span>
+        </nav>
+      </section>
       {/* Header */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
-        <Link href="/blog" className="font-space text-gray-500 text-sm hover:text-neon-pink transition-colors">
-          ← Back to Blog
-        </Link>
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-8">
         <div className="flex items-center gap-3 mt-6 mb-4 flex-wrap">
           <span className="px-2 py-0.5 rounded-full text-xs font-space font-bold border text-neon-pink border-neon-pink/30 bg-neon-pink/10">
             {article.category}

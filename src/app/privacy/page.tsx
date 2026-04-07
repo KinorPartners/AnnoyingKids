@@ -46,6 +46,10 @@ export default function PrivacyPage() {
               body: `Our site integrates with Stripe (payments), Printify (print fulfillment), and Google Analytics (site analytics). Each of these services has their own privacy policy governing how they use data passed to them.`,
             },
             {
+              title: "Children's Privacy (COPPA)",
+              body: `AnnoyingKids sells merch designed for children aged 6–16, but our website and checkout process are intended for use by parents and guardians. We do not knowingly collect personal information directly from children under the age of 13. All purchases require a valid email address and are completed by adults. If you believe a child under 13 has submitted personal information to us without parental consent, please contact privacy@annoyingkids.com and we will delete it promptly.`,
+            },
+            {
               title: 'Contact',
               body: `Questions about this policy? Email privacy@annoyingkids.com and we will respond within 2 business days.`,
             },

@@ -47,6 +47,8 @@ export default function ProductCard({ product }: ProductCardProps) {
               <img
                 src={primaryImage}
                 alt={product.title}
+                width={800}
+                height={800}
                 onError={() => setImgError(true)}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />

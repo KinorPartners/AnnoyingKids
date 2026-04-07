@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Contact AnnoyingKids — We Actually Respond',
@@ -7,10 +8,25 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://annoyingkids.com/contact' },
 };
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://annoyingkids.com' },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: 'https://annoyingkids.com/contact' },
+  ],
+};
+
 export default function ContactPage() {
   return (
     <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className="max-w-2xl mx-auto">
+        <nav className="flex items-center gap-2 font-space text-sm mb-10" aria-label="Breadcrumb">
+          <Link href="/" className="text-gray-500 hover:text-neon-pink transition-colors">Home</Link>
+          <span className="text-gray-700">/</span>
+          <span className="text-neon-pink">Contact</span>
+        </nav>
         <div className="text-center mb-16">
           <span className="font-space text-neon-green text-sm uppercase tracking-widest">
             Talk to Us

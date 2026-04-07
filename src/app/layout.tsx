@@ -1,6 +1,21 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { Bungee, Space_Grotesk } from 'next/font/google';
 import './globals.css';
+
+const bungee = Bungee({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-bungee',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  weight: ['300', '400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-space',
+  display: 'swap',
+});
 import { CartProvider } from '@/context/CartContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import Header from '@/components/Header';
@@ -89,6 +104,11 @@ const websiteSchema = {
   name: 'AnnoyingKids',
   url: 'https://annoyingkids.com',
   description: 'Bold, loud merch for kids 6-16 who live life at maximum volume.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://annoyingkids.com/products?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
 };
 
 export default function RootLayout({
@@ -97,7 +117,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark ${bungee.variable} ${spaceGrotesk.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -108,6 +128,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         <meta property="og:locale" content="en_US" />
+        <meta name="theme-color" content="#ff2d78" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="alternate" type="application/rss+xml" title="AnnoyingKids Blog" href="/feed.xml" />
       </head>
       <body className="bg-dark-bg text-white antialiased noise-overlay">
         <Script
@@ -126,6 +150,15 @@ export default function RootLayout({
               var c = localStorage.getItem('ak_cookie_consent');
               if (c === 'granted') gtag('consent', 'update', { analytics_storage: 'granted' });
             } catch(e) {}
+          `}
+        </Script>
+        <Script id="clarity-init" strategy="afterInteractive">
+          {`
+            (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "w7qhki7xbu");
           `}
         </Script>
         <ThemeProvider>

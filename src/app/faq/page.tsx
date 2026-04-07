@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'FAQ — Shipping, Sizing & Returns',
@@ -8,6 +9,14 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
+  {
+    q: 'What is AnnoyingKids?',
+    a: 'AnnoyingKids is a print-on-demand merch brand for kids aged 6–16. We make bold, loud graphic tees, hoodies, mugs, stickers, and caps for kids who refuse to blend in — and the parents who love them for it. Every item is made to order when you purchase it, with no inventory and no waste. Annoying by design. Awesome by default.',
+  },
+  {
+    q: 'Is AnnoyingKids suitable for young children?',
+    a: 'Our products are designed for kids aged 6–16. All purchases on annoyingkids.com are made by adults (parents or guardians) — we do not knowingly collect personal data from children under 13. Our designs are bold and irreverent but contain no offensive language or adult content.',
+  },
   {
     q: 'How long does shipping take?',
     a: 'Orders are printed on demand and typically ship within 2-5 business days. Standard US shipping adds 3-7 business days after that. International orders can take 2-4 weeks. You will receive a tracking link as soon as your order ships.',
@@ -61,12 +70,32 @@ export default function FAQPage() {
     })),
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://annoyingkids.com' },
+      { '@type': 'ListItem', position: 2, name: 'FAQ', item: 'https://annoyingkids.com/faq' },
+    ],
+  };
+
   return (
     <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <div className="max-w-3xl mx-auto mb-6">
+        <nav className="flex items-center gap-2 font-space text-sm" aria-label="Breadcrumb">
+          <Link href="/" className="text-gray-500 hover:text-neon-pink transition-colors">Home</Link>
+          <span className="text-gray-700">/</span>
+          <span className="text-neon-pink">FAQ</span>
+        </nav>
+      </div>
 
       <div className="max-w-3xl mx-auto">
         {/* Header */}

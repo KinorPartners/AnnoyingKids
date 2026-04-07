@@ -35,7 +35,7 @@ LEGO, robotics kits, puzzle-adjacent toys. If it has pieces and instructions the
 Browser games, card games, anything that starts in under thirty seconds. High-energy kids don\'t have patience for setup. If they\'re playing within two minutes of unwrapping, you\'ve won.
 
 **5. Something That Makes Them the Main Character**
-Custom items. Personalised gear. Anything with their name, their face, or their vibe on it. Kids who feel like the star of the room tend to light up when a gift reflects that back at them.
+Custom items. Personalised gear. Anything with their name, their face, or their vibe on it. [Bold merch that matches their personality](/products) — kids who feel like the star of the room tend to light up when a gift reflects that back at them.
 
 **6. An Experience, Not a Thing**
 Escape rooms. Trampoline parks. Pottery classes. Comedy clubs for kids. These are the gifts they\'ll talk about for a year. Harder to wrap, but worth it.
@@ -254,6 +254,148 @@ So — which one are you? Be honest. Most people are a combination of two or thr
     readingTime: '5 min read',
     relatedProduct: { label: 'Gear up with AnnoyingKids merch →', href: '/products' },
     content: 'You\'re mid-boss fight. Controller in hand. Fingers wrapped perfectly around the grip. Then you reach for the crisps. One greasy thumb later, your R2 button is sticking, your thumbstick has cheese fingerprints on it, and you\'ve died to a tutorial-level enemy because of a single cheese puff. This is a gaming tragedy. And it is completely avoidable.\n\n**Why Your Controller Is a Food Crime Scene**\nMost snacks are specifically, almost deliberately, engineered to destroy electronics. The crumbs fill the gaps around the buttons. The grease coats the thumbsticks. The residue from whatever flavouring is on those crisps builds up into a sticky layer that makes your controller feel disgusting within a week. You worked hard to get that controller. Treat it like it matters.\n\n**The Gold Standard: Dry and Crispy**\nPretzels are the elite gaming snack and everyone who has figured this out guards the information carefully. They\'re dry, they don\'t leave residue, they don\'t melt, and if a crumb falls it brushes away without a problem. Rice cakes work the same way. Anything that breaks clean and doesn\'t coat your fingers in anything is a solid, controller-safe choice.\n\n**Chocolate: The One Rule You Cannot Break**\nNever eat chocolate while gaming. It melts. It smears. It gets into the grip texture of your controller and it will live there forever. Chocolate is for cutscenes only, and only if you wash your hands immediately before picking the controller back up. If you cannot commit to that rule, chocolate is a desk-only food during gaming sessions — no exceptions.\n\n**Fruit: Underrated and Actually Great**\nGrapes, blueberries, sliced apple — all legitimately solid gaming snacks. They\'re fresh, they\'re not greasy, and you can pop one in without looking away from the screen. The one rule: make sure your hands are dry before grabbing the controller again. Wet hands from fresh fruit are still hands on a controller, so give them a quick pat on a cloth first.\n\n**The Popcorn Situation**\nPopcorn is complicated. Plain popcorn or lightly salted? Genuinely fine — a reasonable and respectable choice. Butter popcorn? Absolutely not under any circumstances. The moment butter gets involved you\'re one handful away from a controller that smells odd and feels greasy for the next three months. If you\'re getting popcorn for a gaming session, get the boring kind on purpose.\n\n**Drinks: Lids on Everything**\nThe real controller-killer isn\'t food at all — it\'s drinks without lids. A can sitting next to your setup is one knocked elbow away from a very expensive and very immediate problem. Use a bottle with a screw cap or a cup with a lid. This is not embarrassing. Your controller working perfectly in six months\' time is not embarrassing. An open can of fizzy drink next to a sixty-quid controller is the embarrassing option.\n\n**The Pre-Game Snack Setup**\nThe smartest move is sorting your snacks before you sit down, not after the loading screen appears. Get a small plate of dry snacks ready within arm\'s reach. Fill your drink and close the lid. When you\'re twenty minutes in and hungry, you don\'t want to be making decisions — you want to reach sideways and grab something without looking down or breaking your focus.\n\n**When You\'ve Already Made a Mistake**\nGreasy hands happen. If they do, wipe them on your trousers or a cloth before touching the controller, then get a slightly damp cloth and gently clean around the buttons before anything dries and sets in. Act fast. Dried-on flavouring powder is genuinely difficult to remove, and leaving it there makes your buttons feel sticky and sluggish within days.\n\n**The Genius Move Nobody Expects**\nHere\'s the actual big-brain play: sunflower seeds in the shell. To eat one you have to use both hands, which means you naturally put the controller down for a second each time you grab one. It forces micro-breaks, slows down your snacking, and keeps your hands on the controller only when you\'re actually playing. You\'re not gaming less. You\'re gaming smarter and protecting your setup at the same time.\n\n**The Only Rule That Matters**\nIf you wouldn\'t pick your controller up immediately after touching that snack, it\'s the wrong snack for gaming. That\'s the whole system. One question. Every snack. Your controller will thank you — and honestly, so will your win rate.\n\nYour setup\'s sorted. Your skills are sharp. Now your snack game just needs to catch up.',
+  },
+];
+
+  {
+    slug: 'best-birthday-gifts-for-kids-who-have-everything',
+    title: 'Best Birthday Gifts for Kids Who Have Everything',
+    date: '2026-04-01',
+    category: 'Gift Guides',
+    excerpt: "They already own every game, toy, and gadget on the market. Here's what to actually get them — and why merch beats stuff every time.",
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Shop the merch →', href: '/products' },
+    content: `You know the kid. Every birthday, every Christmas, you stand in front of a gift display completely stuck. They have everything. The toys are boring. The games are already owned. The usual options feel like giving up.
+
+Here is what actually works for kids who have everything.
+
+**1. Something That Carries Their Identity**
+The best gifts for kids who have everything are the ones that say something about who they are. Merch that matches their personality — a hoodie with a design that makes them go "that's literally me" — lands differently from another gadget. It doesn't end up in a drawer. It gets worn. Every day.
+
+**2. An Experience They Can Brag About**
+Escape rooms, pottery classes, comedy shows for kids, cooking classes, go-karting, archery. Experiences can't be compared to what anyone else has. They're the story they tell for months. For kids who have everything physical, experiences are the gap in the collection.
+
+**3. Personalised Anything**
+Put their name on it, their face on it, their vibe on it. A custom poster. A mug with an inside joke on it. Anything that was made specifically for them, not just purchased off a shelf. Kids who have everything often have very little that is genuinely theirs.
+
+**4. A Subscription, Not a Product**
+A month of something new is better than one thing they use twice. Gaming subscriptions, book box deliveries, art supply drops, coding platforms. The gift that keeps arriving is the one they keep thinking about.
+
+**5. Consumables They Actually Go Through Fast**
+Stickers. Art supplies. Favourite snacks in bulk. Craft kits. Things that run out and therefore get used. A kid with everything still needs more stickers for their laptop, more coloured pens, more material for whatever their current obsession is.
+
+**6. Something for Their Current Phase**
+Kids move through phases fast — and the best gift is always the one that perfectly matches right now, not six months ago. Find out what they are obsessed with this week. Not last year. This week. That is where you spend the money.
+
+**7. The Thing Nobody Else Got Them**
+The most memorable birthday gifts are often the unexpected ones. Not the most popular item. Not the obvious choice. The thing that made them pause for a second before going completely wild. Find the version of that. It doesn't have to be expensive. It has to be right.
+
+The kid who has everything still wants to feel seen. That's the real gift.`,
+  },
+  {
+    slug: 'funny-graphic-tees-for-kids-what-to-look-for',
+    title: 'Funny Graphic Tees for Kids — What to Actually Look For',
+    date: '2026-04-01',
+    category: 'Gift Guides',
+    excerpt: "Not all kids' graphic tees are equal. Here's the difference between a tee that gets worn every day and one that disappears by Tuesday.",
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Browse the tees →', href: '/products/tees' },
+    content: `Every parent has bought a graphic tee for a kid that ended up at the bottom of a drawer within a week. You thought it was funny. They wore it once. It never appeared again.
+
+Here is what separates the tees that become uniform from the ones that get quietly retired.
+
+**1. The Design Has to Actually Match the Kid**
+Generic "funny" tees don't work. The design has to say something true about the specific child wearing it. A tee that references their actual energy, their actual attitude, their actual deal — that's the one they reach for first. If it could belong to anyone, it belongs to no one.
+
+**2. Bold Beats Subtle Every Time**
+Kids are not looking for understated. If the design requires explanation, it loses. Neon colours, strong contrast, something that reads from across a classroom — that's what works for kids 6–16. Subtlety is for adults. Kids want visible.
+
+**3. The Material Matters More Than You'd Think**
+A graphic tee that feels rough, stiff, or cheap will not be worn. Kids are physical — they're running, climbing, sitting on floors. The tee needs to be soft enough that it disappears on the body. Good cotton, good weight. If the shirt is uncomfortable, the design doesn't matter.
+
+**4. Print Quality Is the Differentiator**
+The difference between a good graphic tee and a forgettable one is usually the print. A high-quality print holds colour wash after wash. It doesn't crack, peel, or fade after three months. This is where cheap tees lose — the design looks great in the photo and disappointing in person.
+
+**5. It Should Mean Something to Them Specifically**
+The best kids' graphic tees reference something they care about. Gaming. Chaos. Being the loudest person in the room. Not fitting in. Being weird and proud of it. When the shirt describes who they are, they wear it like a uniform. [Browse the AnnoyingKids tee collection](/products/tees) to see what bold actually looks like.
+
+**6. Size Up for Longevity**
+Kids grow fast. A tee bought in the right size today might be too small in four months. Sizing up slightly — especially for ages 8–14 — means the shirt stays in rotation longer. Better investment, more wear.
+
+**7. Let Them Choose**
+The most reliable strategy is giving the kid some say. Not unlimited choice — a curated shortlist of a few strong options. When they pick it themselves, they wear it. When it's a surprise, you're gambling. For older kids especially, involvement in the choice makes the difference between a gift that lands and one that politely disappears.
+
+A great kids' graphic tee isn't just clothing. It's a statement. Make sure it says the right thing about the right kid.`,
+  },
+  {
+    slug: 'back-to-school-outfits-kids-who-refuse-to-blend-in',
+    title: 'Back to School Outfits for Kids Who Refuse to Blend In',
+    date: '2026-04-02',
+    category: 'School Survival',
+    excerpt: 'First day of school, new year, same mission: walk in and immediately be the most interesting person in the room.',
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Shop back-to-school looks →', href: '/products' },
+    content: `Back to school means one thing to most kids: new stuff. New bag, new pencil case, maybe new shoes. For some kids it means something bigger — a statement. A first impression. A declaration of exactly who you are before you have said a single word.
+
+Here is how to nail it.
+
+**1. Lead With One Strong Piece**
+You don't need to overdo it. One piece that says everything is more powerful than a whole outfit that says nothing. A [graphic hoodie](/products/hoodies) with serious energy. A [tee](/products/tees) that everyone will read twice. A [cap](/products/caps) that breaks a rule. One strong piece carries the whole look.
+
+**2. Comfort Is Not Optional**
+You will be sitting in this for six hours. The most interesting outfit in the world doesn't work if you're pulling at it all day. Clothes that fit right, feel right, and let you move are the ones that carry confidence. Uncomfortable kids don't project confidence. They project distraction.
+
+**3. Bold Colours Win in School Environments**
+Grey hallways, beige walls, neutral uniforms — school environments wash out. Colour pops. Neon pops harder. If the goal is to be noticed and remembered, lean into contrast. You don't have to wear head-to-toe neon. One piece of actual colour does the job.
+
+**4. Wear Something That Starts Conversations**
+The first week of school is basically a long conversation about who you are. A piece of merch that references something specific — gaming, a phrase that's genuinely funny, a design that makes people stop — opens conversations without requiring you to open with "hi I'm into..." Let the shirt do the introduction.
+
+**5. Don't Wear the Same Thing as Everyone Else**
+The temptation is to buy what everyone is buying. The safe brand. The standard hoodie. The thing nobody can criticise. That is also the thing nobody notices. If the goal is to be remembered — and for some kids, it genuinely is — wear the thing that makes you stand out, not the thing that makes you disappear.
+
+**6. Accessories Count**
+A standout backpack. A statement water bottle. A small detail that's specifically, identifiably yours. These are the things other kids remember. Not because they're expensive. Because they're specific.
+
+**7. Wear It Like You Meant To**
+The secret ingredient to any strong back-to-school outfit is walking in like you absolutely chose this and you'd choose it again tomorrow. Confidence is not about the clothes. But the right clothes make confidence easier. Wear something you feel like yourself in. The rest follows.
+
+Start the year as the main character. Nobody remembers the supporting cast.`,
+  },
+  {
+    slug: 'holiday-gift-guide-kids-6-16',
+    title: 'Holiday Gift Guide for Kids 6–16: The Non-Boring Edition',
+    date: '2026-04-02',
+    category: 'Gift Guides',
+    excerpt: "Skip the toy that breaks by January. Here's what kids 6-16 actually want — and what they'll still be using in March.",
+    readingTime: '5 min read',
+    relatedProduct: { label: 'Shop holiday merch →', href: '/products' },
+    content: `The holidays arrive. You need a gift. The child in question is somewhere between 6 and 16, has strong opinions, and will definitely notice if the present is boring. No pressure.
+
+Here is what actually works, by age range and personality type.
+
+**1. Ages 6–8: Make It Theirs**
+This age group loves anything that feels personalised or special. Merch with bold, fun designs they can show off. Art kits they can actually deplete. Games with fast setup times. Books that match their current obsession. The best gifts for this age feel like they were chosen specifically for them — because the feeling of being seen is enormous at 6, 7, and 8.
+
+**2. Ages 9–11: Match the Current Phase**
+This age moves fast through interests. Whatever they're into right now — not three months ago, right now — is where you spend the budget. Gaming? Get something gaming-adjacent. Into a specific show? Find the merch that actually represents it well. Into art or making things? Premium supplies beat cheap ones every time. The key is researching the current phase, not the last one.
+
+**3. Ages 12–14: Make It Cool, Not Cute**
+This is the age where the wrong gift is actively embarrassing. The goalposts shift toward what's genuinely considered cool by their peers. Bold graphic hoodies. Statement tees that match their energy. Anything that feels grown-up and specific to their identity. Avoid anything that reads as "for younger kids." Underestimating this age range is the most common gifting mistake.
+
+**4. Ages 15–16: Let Them Choose (Sort Of)**
+At this age, the best gift is often money, a gift card to somewhere specific, or something you know they've actually said they want. Guessing gets harder. But if you want to surprise them — merch that perfectly captures their vibe, an experience they haven't had, something that says "I paid attention to who you actually are" — those gifts still land hard at 15 and 16.
+
+**5. The Universal Win: Merch That Matches Their Personality**
+Across all ages 6–16, the gift category that consistently works is clothing and accessories that reflect who they actually are. Not generic. Not safe. Specific. A [hoodie](/products/hoodies) or [tee](/products/tees) that matches their energy — loud, creative, chaotic, bold — gets worn constantly. It's not something that ends up forgotten. It becomes part of how they present themselves.
+
+**6. What to Avoid**
+Avoid anything that requires assembly and loses parts within a week. Avoid educational gifts that aren't also genuinely fun. Avoid anything that communicates "I didn't quite know what to get you." The gift doesn't need to be expensive. It needs to be right.
+
+**7. The Best Gift Is the One That Says: I Know You**
+More than any specific category, the thing that makes a gift unforgettable is feeling understood. A gift that says "I noticed what you're into, I noticed what kind of person you are, I chose this because it's specifically for you" — that's what kids remember. Not the price. Not the wrapping. The feeling of being seen.
+
+Give the gift that fits the kid. Not the kid that fits the gift.`,
   },
 ];
 

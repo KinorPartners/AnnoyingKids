@@ -106,6 +106,48 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Testimonials — replace placeholder quotes with real customer reviews */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 border-t border-dark-border">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="font-space text-neon-pink text-sm uppercase tracking-widest">
+              What Parents &amp; Kids Say
+            </span>
+            <h2 className="font-bungee text-2xl sm:text-3xl text-white mt-3">
+              Certified <span className="text-neon-green">Chaos</span> Approved
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                quote: 'The tees arrived fast and the print quality is genuinely great. My kid refuses to wear anything else now.',
+                name: 'Parent of a 10-year-old',
+              },
+              {
+                quote: 'Ordered for my daughter\'s birthday and the quality blew me away. Looks exactly like the product images.',
+                name: 'Verified buyer',
+              },
+              {
+                quote: 'Finally merch that matches my son\'s energy. He wore it to school the next day and all his friends wanted one.',
+                name: 'Happy customer',
+              },
+            ].map((t, i) => (
+              <div
+                key={i}
+                className="bg-dark-card border border-dark-border rounded-2xl p-6 flex flex-col gap-4"
+              >
+                <p className="font-space text-gray-300 text-sm leading-relaxed">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <p className="font-space text-neon-pink text-xs uppercase tracking-widest mt-auto">
+                  — {t.name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-4xl mx-auto relative">

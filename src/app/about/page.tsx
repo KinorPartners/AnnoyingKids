@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import React from 'react';
+import Link from 'next/link';
 import GlitchText from '@/components/GlitchText';
 import NeonButton from '@/components/NeonButton';
 
@@ -9,9 +10,29 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://annoyingkids.com/about' },
 };
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://annoyingkids.com' },
+    { '@type': 'ListItem', position: 2, name: 'About', item: 'https://annoyingkids.com/about' },
+  ],
+};
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        <nav className="flex items-center gap-2 font-space text-sm" aria-label="Breadcrumb">
+          <Link href="/" className="text-gray-500 hover:text-neon-pink transition-colors">Home</Link>
+          <span className="text-gray-700">/</span>
+          <span className="text-neon-pink">About</span>
+        </nav>
+      </div>
       {/* Hero */}
       <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0">
