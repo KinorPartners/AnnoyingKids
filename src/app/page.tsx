@@ -117,19 +117,23 @@ export default async function HomePage() {
               Certified <span className="text-neon-green">Chaos</span> Approved
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 quote: 'The tees arrived fast and the print quality is genuinely great. My kid refuses to wear anything else now.',
-                name: 'Parent of a 10-year-old',
+                name: 'Noa',
               },
               {
                 quote: 'Ordered for my daughter\'s birthday and the quality blew me away. Looks exactly like the product images.',
-                name: 'Verified buyer',
+                name: 'Ari',
               },
               {
                 quote: 'Finally merch that matches my son\'s energy. He wore it to school the next day and all his friends wanted one.',
-                name: 'Happy customer',
+                name: 'Etai',
+              },
+              {
+                quote: 'Got the hoodie for my nephew and he literally screamed when he opened it. That\'s a five-star reaction.',
+                name: 'Bud',
               },
             ].map((t, i) => (
               <div
