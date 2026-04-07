@@ -255,7 +255,6 @@ So — which one are you? Be honest. Most people are a combination of two or thr
     relatedProduct: { label: 'Gear up with AnnoyingKids merch →', href: '/products' },
     content: 'You\'re mid-boss fight. Controller in hand. Fingers wrapped perfectly around the grip. Then you reach for the crisps. One greasy thumb later, your R2 button is sticking, your thumbstick has cheese fingerprints on it, and you\'ve died to a tutorial-level enemy because of a single cheese puff. This is a gaming tragedy. And it is completely avoidable.\n\n**Why Your Controller Is a Food Crime Scene**\nMost snacks are specifically, almost deliberately, engineered to destroy electronics. The crumbs fill the gaps around the buttons. The grease coats the thumbsticks. The residue from whatever flavouring is on those crisps builds up into a sticky layer that makes your controller feel disgusting within a week. You worked hard to get that controller. Treat it like it matters.\n\n**The Gold Standard: Dry and Crispy**\nPretzels are the elite gaming snack and everyone who has figured this out guards the information carefully. They\'re dry, they don\'t leave residue, they don\'t melt, and if a crumb falls it brushes away without a problem. Rice cakes work the same way. Anything that breaks clean and doesn\'t coat your fingers in anything is a solid, controller-safe choice.\n\n**Chocolate: The One Rule You Cannot Break**\nNever eat chocolate while gaming. It melts. It smears. It gets into the grip texture of your controller and it will live there forever. Chocolate is for cutscenes only, and only if you wash your hands immediately before picking the controller back up. If you cannot commit to that rule, chocolate is a desk-only food during gaming sessions — no exceptions.\n\n**Fruit: Underrated and Actually Great**\nGrapes, blueberries, sliced apple — all legitimately solid gaming snacks. They\'re fresh, they\'re not greasy, and you can pop one in without looking away from the screen. The one rule: make sure your hands are dry before grabbing the controller again. Wet hands from fresh fruit are still hands on a controller, so give them a quick pat on a cloth first.\n\n**The Popcorn Situation**\nPopcorn is complicated. Plain popcorn or lightly salted? Genuinely fine — a reasonable and respectable choice. Butter popcorn? Absolutely not under any circumstances. The moment butter gets involved you\'re one handful away from a controller that smells odd and feels greasy for the next three months. If you\'re getting popcorn for a gaming session, get the boring kind on purpose.\n\n**Drinks: Lids on Everything**\nThe real controller-killer isn\'t food at all — it\'s drinks without lids. A can sitting next to your setup is one knocked elbow away from a very expensive and very immediate problem. Use a bottle with a screw cap or a cup with a lid. This is not embarrassing. Your controller working perfectly in six months\' time is not embarrassing. An open can of fizzy drink next to a sixty-quid controller is the embarrassing option.\n\n**The Pre-Game Snack Setup**\nThe smartest move is sorting your snacks before you sit down, not after the loading screen appears. Get a small plate of dry snacks ready within arm\'s reach. Fill your drink and close the lid. When you\'re twenty minutes in and hungry, you don\'t want to be making decisions — you want to reach sideways and grab something without looking down or breaking your focus.\n\n**When You\'ve Already Made a Mistake**\nGreasy hands happen. If they do, wipe them on your trousers or a cloth before touching the controller, then get a slightly damp cloth and gently clean around the buttons before anything dries and sets in. Act fast. Dried-on flavouring powder is genuinely difficult to remove, and leaving it there makes your buttons feel sticky and sluggish within days.\n\n**The Genius Move Nobody Expects**\nHere\'s the actual big-brain play: sunflower seeds in the shell. To eat one you have to use both hands, which means you naturally put the controller down for a second each time you grab one. It forces micro-breaks, slows down your snacking, and keeps your hands on the controller only when you\'re actually playing. You\'re not gaming less. You\'re gaming smarter and protecting your setup at the same time.\n\n**The Only Rule That Matters**\nIf you wouldn\'t pick your controller up immediately after touching that snack, it\'s the wrong snack for gaming. That\'s the whole system. One question. Every snack. Your controller will thank you — and honestly, so will your win rate.\n\nYour setup\'s sorted. Your skills are sharp. Now your snack game just needs to catch up.',
   },
-];
 
   {
     slug: 'best-birthday-gifts-for-kids-who-have-everything',
@@ -396,6 +395,422 @@ Avoid anything that requires assembly and loses parts within a week. Avoid educa
 More than any specific category, the thing that makes a gift unforgettable is feeling understood. A gift that says "I noticed what you're into, I noticed what kind of person you are, I chose this because it's specifically for you" — that's what kids remember. Not the price. Not the wrapping. The feeling of being seen.
 
 Give the gift that fits the kid. Not the kid that fits the gift.`,
+  },
+
+  {
+    slug: 'best-gifts-for-12-year-olds',
+    title: 'Best Gifts for 12-Year-Olds — What Actually Works',
+    date: '2026-04-07',
+    category: 'Gift Guides',
+    excerpt: "Twelve is the age where everything is either embarrassing or not cool enough. Here's what lands — and what gets a polite smile and never leaves the box.",
+    readingTime: '5 min read',
+    relatedProduct: { label: 'Shop the merch →', href: '/products' },
+    content: `Twelve is a tricky age to shop for. Too old for toys, not old enough for most adult things, and acutely aware of whether a gift is cool or not. The margin for error is thin.
+
+Here is what actually works.
+
+**1. Merch That Matches Their Energy**
+At twelve, clothing becomes identity. A [hoodie](/products/hoodies) or [tee](/products/tees) that perfectly captures who they are — loud, creative, chaotic, different — lands harder than almost anything else. They wear it constantly. It becomes part of how they present themselves to the world.
+
+**2. Tech Accessories Over Tech**
+Full gadgets are expensive and often already owned. But accessories are different — a great phone case, a bold pair of headphones, a standout charging cable. These feel personal and useful without requiring you to guess which device they have.
+
+**3. Art and Creative Supplies (Premium Versions)**
+Twelve is often when creative interests go serious. If they draw, get them proper markers not the school set. If they write, get them a quality notebook not a lined exercise book. If they're into photography, a small tripod and ring light. Meet the interest with better tools.
+
+**4. Experiences With a Friend**
+Escape rooms. Trampoline parks. Comedy shows. Bowling with a group. At twelve, doing things with friends is everything. A voucher for an experience they can bring one friend to is often more memorable than any physical gift.
+
+**5. Something for Their Current Obsession**
+This changes fast at twelve. The interest from six months ago may be completely gone. The one they have right now — gaming, a specific show, a type of music, a sport — is where you spend the money. Current obsession, not previous one.
+
+**6. Books They'd Actually Choose**
+Not school reading. Not improving. The book equivalent of junk food — the thing they'd pick up in a shop and immediately want. Graphic novels count. Short story collections count. Anything that gets read does its job.
+
+**7. Personalised Anything**
+A custom phone case with a photo or inside joke. A mug with something that's specifically theirs. Anything that was clearly made for this particular twelve-year-old, not just purchased off a shelf.
+
+**8. Money, Done Well**
+If you're out of ideas, cash or a gift card to somewhere specific — a streaming service, an online shop they already use, a game platform — is genuinely appreciated at twelve. Wrap it in something they'll like and it becomes a good gift, not a lazy one.
+
+The key at twelve: take them seriously. Gifts that feel like they're for a younger kid will be noticed. The right gift says "I see who you're becoming."`,
+  },
+  {
+    slug: 'best-gifts-for-8-year-olds',
+    title: 'Best Gifts for 8-Year-Olds — The Complete Guide',
+    date: '2026-04-07',
+    category: 'Gift Guides',
+    excerpt: "Eight-year-olds have opinions, energy, and a very clear sense of what's cool. Here's what to get them — and why the classics aren't always the answer.",
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Browse kids merch →', href: '/products' },
+    content: `Eight is a golden age for gifts. Old enough to have real interests and opinions. Young enough to still be genuinely excited. The challenge is matching the energy — because at eight, they know exactly what they like.
+
+**1. Anything That Lets Them Make Something**
+Eight-year-olds are builders. LEGO, craft kits, slime sets, jewellery making, coding toys, model kits. Anything with a finished thing at the end — something they made — is a success. The process is the point as much as the product.
+
+**2. Merch That Makes a Statement**
+At eight, kids start paying attention to what they wear. A bold [graphic tee](/products/tees) or [cap](/products/caps) that feels like them — something they'd choose for themselves — gets worn constantly. It's clothing that matches their personality, not just their size.
+
+**3. Games They Can Play Right Now**
+Board games with fast setup, card games, outdoor games, anything that starts within five minutes of unwrapping. Eight-year-olds are impatient in the best way. If they're playing before the wrapping paper is off the floor, you've won.
+
+**4. Books With High Energy**
+Not improving. Not educational. The kind of book that gets read under the covers with a torch. Action-packed series, funny collections, adventure stories, illustrated novels. If they finish it in two days, that's the review you were looking for.
+
+**5. Outdoor or Active Gifts**
+A pogo stick. A frisbee set. A kite. Roller skates. Anything that takes them outside and uses their energy. Eight-year-olds are physical — they need to move. Gifts that enable movement are gifts that get used every single day.
+
+**6. A Subscription Box**
+Monthly deliveries are magic at eight. Science experiment kits, art supplies, book subscriptions, craft boxes. The gift that keeps arriving is the one they're already excited about before it lands.
+
+**7. Something Personalised**
+Their name on something. A custom design that references their current obsession. A [mug](/products/mugs) with something that's specifically about them. Eight-year-olds respond strongly to feeling seen — and personalised gifts do exactly that.
+
+**8. The Slightly Unexpected Choice**
+The best gifts at eight are often the ones nobody else thought of. Not the most popular item. The one that made you stop and think "they would love this specifically." That pause — that specificity — is what makes a gift memorable.
+
+Eight is easy to get right if you pay attention to who the kid actually is. Match the gift to the energy and you cannot go wrong.`,
+  },
+  {
+    slug: 'best-gifts-for-10-year-olds',
+    title: 'Best Gifts for 10-Year-Olds — What They Actually Want',
+    date: '2026-04-07',
+    category: 'Gift Guides',
+    excerpt: "Ten is the age where kid stuff starts feeling babyish but grown-up stuff isn't quite right either. Here's the sweet spot.",
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Shop bold merch for kids →', href: '/products' },
+    content: `Ten is a pivot point. The toys from a few years ago feel embarrassing. The older sibling's stuff isn't accessible yet. Getting it right requires landing precisely in the middle — mature enough to feel cool, fun enough to still feel like a gift.
+
+**1. Clothing With Personality**
+At ten, kids start dressing intentionally. A [hoodie](/products/hoodies) with a design that matches their vibe, a [tee](/products/tees) that says something true about who they are — these become the clothes they reach for every day. Not the school uniform choice. The weekend choice. The "this is me" choice.
+
+**2. Creative Kits With Depth**
+Not beginner sets — proper ones. If they're into art, get them quality supplies. If they're into music, a real instrument or upgrade. If they code, a course on something they've been curious about. Ten is when interests start going deep. Match that depth with the gift.
+
+**3. Gaming-Adjacent Gifts**
+If they game — and most do — gifts that enhance the experience are reliably great. Better headset, controller stand, gaming chair, custom controller skins, a gift card for their platform. These feel grown-up and useful without being another game they might already have.
+
+**4. Books That Respect Their Intelligence**
+Ten-year-olds are smart readers. Series with real stakes, mysteries with genuine complexity, non-fiction about things they're obsessed with. Don't talk down. Find the book that treats them like the capable reader they are.
+
+**5. Experiences Over Objects**
+A cooking class. An archery session. A go-kart experience. Something they can do and tell people about. At ten, experiences start competing with objects for the title of best gift. The story is often worth more than the thing.
+
+**6. Stationery and Organisation**
+Sounds boring. Isn't. A really good notebook, quality pens, a desk setup that's theirs — ten-year-olds often love having their own organised space. It feels grown-up in a way they appreciate.
+
+**7. Something That's Theirs Specifically**
+Custom [stickers](/products/stickers) for their laptop or water bottle. A personalised item with their name or an inside joke. Something that was made for this particular ten-year-old, not just purchased for a generic child of approximately this age.
+
+Ten is a great age to get it right. They're old enough to appreciate quality and specificity. Young enough to still be genuinely excited. Find the thing that fits the exact kid and you're done.`,
+  },
+  {
+    slug: 'kids-who-dont-fit-in',
+    title: "Kids Who Don't Fit In: Why That's Actually a Good Sign",
+    date: '2026-04-07',
+    category: 'Personality & Identity',
+    excerpt: "The kid who doesn't blend in, doesn't follow the crowd, and refuses to just go along with things. Here's what that actually means for their future.",
+    readingTime: '5 min read',
+    relatedProduct: { label: 'Merch for the ones who stand out →', href: '/products' },
+    content: `Every parent has had the moment. The teacher's comment. The birthday party where their kid was just a bit too much. The look from another adult. Your child doesn't quite fit in and you're not sure whether to worry.
+
+You shouldn't. Here's why.
+
+**1. Not Fitting In Means Having a Self**
+The kids who blend in effortlessly are often the ones suppressing something. The kid who doesn't fit in has a self that's too present, too defined, too real to hide. That's not a problem. That's the beginning of a person.
+
+**2. The Best Innovators Were All Annoying Kids**
+Every major creative, technological, and cultural shift in history was driven by someone who refused to accept the way things were done. The kid who questions everything, argues rules they disagree with, and can't stop suggesting a better way — that's not a difficult child. That's a future founder.
+
+**3. Social Difficulty Builds Resilience**
+The child who learns to navigate not quite belonging — who figures out how to be themselves in environments that don't celebrate it — is building something most people spend years trying to develop as adults. Resilience. Self-knowledge. The ability to be okay without universal approval.
+
+**4. They're Often Ahead, Not Behind**
+"Doesn't fit in" is frequently a timing problem, not a compatibility problem. The kid who seems out of step with their class at ten often finds their people at sixteen, thrives in a specific college environment, and by their mid-twenties is surrounded by exactly the right people. The gap is real but temporary.
+
+**5. Difference Is Interesting**
+Uniformity is boring. The most interesting adults — the ones everyone wants to know, the ones who make rooms better by being in them — are rarely the ones who fit in everywhere. They're the ones who were just a little bit too much, and then grew into their full selves.
+
+**6. Your Job Is to Hold the Ground**
+The work as a parent isn't to sand down the edges. It's to hold the ground while they find out who they are. Tell them what you see — someone interesting, someone worth knowing, someone who will find their people. Because they will.
+
+**7. The Annoying Kid Often Wins**
+It's not always comfortable in the short term. But the kid who argues, questions, stands out, refuses to be invisible — they're building something. They just need time, direction, and ideally a wardrobe that matches their energy.
+
+Not fitting in isn't the problem. It's the point.`,
+  },
+  {
+    slug: 'best-kids-hoodies-buyers-guide',
+    title: "Best Kids' Hoodies — What to Look for in 2026",
+    date: '2026-04-07',
+    category: 'Gift Guides',
+    excerpt: "Not all kids' hoodies are equal. Here's how to tell a hoodie that gets worn every day from one that ends up at the back of the wardrobe by February.",
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Browse kids hoodies →', href: '/products/hoodies' },
+    content: `A good kids' hoodie is one of the most-worn items in any child's wardrobe. A bad one sits untouched until it's grown out of. The difference isn't always obvious in the product listing. Here's what to actually look for.
+
+**1. Fabric Weight and Softness**
+The single most important factor. A hoodie that feels scratchy, stiff, or thin will not be worn — regardless of how good it looks. Feel matters more than anything else. Premium fleece, midweight cotton blends, and brushed interiors are what get worn every day. When in doubt, go heavier.
+
+**2. Print Quality**
+For [graphic hoodies](/products/hoodies), the print is everything. A high-quality print uses premium inks and proper heat-setting — it stays vibrant after fifty washes. A low-quality print cracks, fades, and peels within months. Look for brands that are specific about their printing process. Vague descriptions are a warning sign.
+
+**3. Hood Size**
+Kids use the hood. It needs to be big enough to actually go over their head and stay there — not a decorative hood that falls off the moment they move. A proper hood also works as a rain shield, a sun block, and a place to retreat when adults are talking.
+
+**4. Kangaroo Pocket Depth**
+The front pocket needs to actually hold things. A shallow decorative pocket is useless. A proper deep kangaroo pocket holds a phone, snacks, small toys, and whatever else a kid decides to carry at any given moment. Depth matters.
+
+**5. Sizing — Go Up**
+Kids grow fast. A hoodie bought in the correct size today may be too small in four months. Sizing up — especially for the 8–14 age range — extends the life of the garment significantly. Slightly oversized also tends to look better anyway.
+
+**6. Design That Means Something**
+The best kids' hoodies have designs that match the wearer's personality. Bold graphics, neon colours, something that makes a statement. A hoodie that describes who the kid is gets worn because it's an expression, not just a layer.
+
+**7. Durability**
+Seams, drawstrings, and cuffs should all be reinforced. Kids are physical — their clothes get tested. A hoodie that survives a school year of daily wear, multiple washes per week, and general chaos is worth the investment. Cheap construction shows within weeks.
+
+The right kids' hoodie becomes a staple. You'll know you've found the right one when they wear it so often you have to take it away to wash it.`,
+  },
+  {
+    slug: 'print-on-demand-kids-clothing-guide',
+    title: 'Print-on-Demand Kids Clothing — What Parents Need to Know',
+    date: '2026-04-07',
+    category: 'Personality & Identity',
+    excerpt: "Print-on-demand is changing how kids' clothing is made and sold. Here's how it works, why it's better, and what to look for.",
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Shop print-on-demand kids merch →', href: '/products' },
+    content: `If you've bought clothing from a smaller brand recently, there's a good chance it was print-on-demand. The model has grown significantly — and for kids' clothing specifically, it has some real advantages over traditional retail.
+
+Here's everything parents need to know.
+
+**1. What Print-on-Demand Actually Means**
+Print-on-demand means your item is made after you order it. There's no warehouse full of pre-printed stock. When you buy a [hoodie](/products/hoodies) or [tee](/products/tees), it goes to a print facility, gets made specifically for your order, and ships directly to you. One item. Made for you.
+
+**2. Why That's Better Than Traditional Stock**
+Traditional clothing production requires guessing what will sell and making thousands of items in advance. Unsold stock gets discounted, destroyed, or ends up in landfill. Print-on-demand produces exactly what's ordered — no waste, no overproduction, no unsold inventory.
+
+**3. The Quality Question**
+This is what most parents want to know. Print-on-demand quality has improved dramatically. Premium print partners use professional-grade equipment and quality-controlled substrates. The result is consistently high-quality prints on genuinely good fabric — often better than mass-market alternatives.
+
+**4. Sizing and Returns**
+Because items are made to order, traditional "try and return" shopping is slightly different. Reputable print-on-demand brands offer clear size guides, accurate product descriptions, and proper return policies. AnnoyingKids offers 30-day returns — if something isn't right, it gets sorted.
+
+**5. Delivery Times**
+Production adds 2–5 business days before shipping. This is the main trade-off versus buying from stock. For non-urgent purchases this is fine. For birthday gifts, order with a week or two to spare.
+
+**6. The Design Advantage**
+Print-on-demand makes it possible for small brands to offer bold, unique designs without the minimum order quantities that traditional manufacturing requires. This means better designs, more variety, and clothing that actually reflects individual personality rather than mass-market trends.
+
+**7. Better for the Planet**
+No overproduction means no waste. Every item that gets made gets worn. For parents who think about the environmental impact of their purchasing decisions, print-on-demand is a meaningfully better model than fast fashion alternatives.
+
+Print-on-demand isn't a compromise. For kids' clothing specifically — where bold design and individual expression matter — it's often the better choice.`,
+  },
+  {
+    slug: 'best-stickers-for-kids',
+    title: "Best Stickers for Kids — Water Bottles, Laptops and Everything Else",
+    date: '2026-04-07',
+    category: 'Gift Guides',
+    excerpt: "Stickers are the easiest win in kids' gifting. Here's what makes a great sticker and where kids actually put them.",
+    readingTime: '3 min read',
+    relatedProduct: { label: 'Shop vinyl stickers →', href: '/products/stickers' },
+    content: `Stickers are one of the most reliable kids' gifts and one of the most underrated. They're cheap enough to grab as an add-on, substantial enough to be a main event, and kids actually use them — constantly, enthusiastically, everywhere.
+
+Here's what to know.
+
+**1. Vinyl Is the Only Sticker Worth Buying**
+Paper stickers peel, fade, and fall apart. Vinyl [stickers](/products/stickers) are waterproof, scratch-resistant, and built to last. For kids who put stickers on water bottles, laptops, or anywhere that sees any friction or moisture, vinyl is the only option worth considering.
+
+**2. Where Kids Actually Put Stickers**
+Water bottles are the number one destination — covered in stickers is a badge of honour among kids 8 and up. Laptops and tablets are second. School folders and notebooks third. Skateboards, helmets, and bedroom doors also popular. Basically: anything that can hold a sticker, will hold a sticker.
+
+**3. Size Matters More Than You'd Think**
+Tiny stickers get lost in the chaos. Large stickers make statements. The sweet spot for most kids is 3–4 inch stickers that are visible from a normal distance. For laptop lids specifically, 3×3 and 4×4 inch sizes work best. Larger 6×6 inch stickers work well on doors and larger flat surfaces.
+
+**4. Bold Designs Beat Cute Ones**
+At ages 8 and above, "cute" often loses to "cool." Bold colours, graphic designs, anything with personality and visual impact. The sticker that gets noticed and commented on is the one that gets put somewhere prominent.
+
+**5. Sets Beat Singles**
+A pack of five or ten stickers is more useful and more fun than one single sticker. It gives kids options, lets them be strategic about placement, and feels more substantial as a gift. Multi-pack sets offer better value and a better gifting experience.
+
+**6. Check the Adhesive**
+Good stickers stick properly and come off cleanly. Bad ones either fall off immediately or leave residue that's impossible to remove. For kids' stickers specifically, you want something that bonds well to plastic, metal, and smooth surfaces without damaging them when eventually removed.
+
+**7. They Work as Add-Ons**
+Stickers are the perfect top-up gift. Too small for a main present but too good to skip. Add a few to any order and they become the thing the kid reaches for first. Instant win.
+
+Stickers are one of those gifts that always get used. Get the right ones — vinyl, bold, right size — and they'll end up somewhere visible within twenty-four hours of unwrapping.`,
+  },
+  {
+    slug: 'gifts-for-teens-hard-to-shop-for',
+    title: 'Gifts for Teens Who Are Hard to Shop For',
+    date: '2026-04-07',
+    category: 'Gift Guides',
+    excerpt: "They say they don't want anything. They're impossible to read. Here's how to actually get it right for a teenager.",
+    readingTime: '5 min read',
+    relatedProduct: { label: 'Shop teen-approved merch →', href: '/products' },
+    content: `Every family has one. The teenager who responds to "what do you want?" with a shrug. Who seems to have no preferences until you get something wrong, at which point their preferences become very clear. Shopping for this person is genuinely hard. Here's how to do it.
+
+**1. Stop Guessing. Research Instead.**
+The mistake most people make is guessing based on outdated information. What were they into six months ago? Irrelevant. What are they into right now — this week, this month? That's where you spend the time. Social media is often more useful than asking directly.
+
+**2. Clothing That's Actually Their Style**
+Teens are deeply aware of clothing. A [hoodie](/products/hoodies) or [tee](/products/tees) in their specific aesthetic — not what you think looks good, their actual style — is one of the most reliable gifts if you get it right. The research required: look at what they already wear and find the bolder version of it.
+
+**3. Experience Over Object**
+Teens often already have or can get most objects. An experience — a concert, a restaurant they've wanted to try, a class in something they're curious about, an overnight trip somewhere — is harder to replicate and more memorable. The story from an experience outlasts any physical thing.
+
+**4. Tech Accessories**
+Not the tech itself — the accessories. A good phone stand, a quality pair of earbuds, a portable charger, a laptop skin. These feel useful and personal without requiring you to know exactly which device they have.
+
+**5. Money, But Make It Intentional**
+Cash or a gift card is not a lazy gift if it's done with intention. A gift card to a specific shop they love, wrapped with a note about why you chose that one — that's a thoughtful gift. Impersonal cash in an envelope is not.
+
+**6. Something They've Mentioned Once**
+The best research tool: memory. Did they mention something in passing three months ago? A restaurant they wanted to try. A thing they were looking at online. A place they said they'd like to visit. Remembering something they said and acting on it is one of the most powerful moves in gifting.
+
+**7. Contribute to Something Ongoing**
+If they game, contribute to their platform credit. If they're into art, buy supplies for their specific medium. If they're building a setup of some kind, add to it. Joining an existing project feels more personal than starting a new one.
+
+**8. Ask Someone Who Knows**
+If you're genuinely stuck, ask someone who talks to them regularly. A sibling. A parent. A friend of theirs if you know one. "I want to get them something they'd actually use — any ideas?" is a completely reasonable question that usually gets useful answers.
+
+The hard-to-shop-for teenager is only hard to shop for if you rely on guesswork. Pay attention, do a small amount of research, and you'll find the thing.`,
+  },
+  {
+    slug: 'funny-kids-gift-ideas',
+    title: 'Funny Kids Gift Ideas That Are Actually Good',
+    date: '2026-04-07',
+    category: 'Gift Guides',
+    excerpt: "Funny gifts for kids either land perfectly or end up forgotten in a drawer. Here's the difference — and a list of ideas that genuinely work.",
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Shop funny kids merch →', href: '/products' },
+    content: `The "funny gift" is high risk, high reward. When it works, it becomes the thing they talk about for months. When it doesn't, it's politely received and quietly forgotten. Here's how to make sure you're in the first category.
+
+**1. Funny Has to Match the Kid's Sense of Humour**
+This is the most common mistake. The gift that would make you laugh is not automatically the gift that makes them laugh. Kids' humour varies wildly by age and personality. An eight-year-old finds different things funny than a twelve-year-old. Research the specific child before committing to "funny."
+
+**2. Wearable Funny Wins**
+A [tee](/products/tees) or [mug](/products/mugs) with a genuinely funny design they connect with is one of the best funny gifts because it keeps working. Every time they wear it, every time someone reads it and reacts — it's funny again. The single-use funny item (a gag gift, a novelty toy) runs out of laughs faster.
+
+**3. Funny That Parents Also Find Funny**
+The sweet spot for kids' funny gifts is something the child finds hilarious and the parents find charming rather than irritating. A shirt that makes adults do a double-take and then smile. A mug that triggers a genuine laugh from whoever sees it at breakfast. When both generations appreciate it, it gets used publicly and often.
+
+**4. Avoid Embarrassing Funny**
+Some funny gifts put kids on the spot in ways they don't enjoy. The gift that makes adults laugh at the expense of the child isn't a funny gift — it's an uncomfortable one. Funny should punch outward, not at the recipient.
+
+**5. Novelty Items Have a Short Shelf Life**
+The spinning toy. The whoopee cushion. The fake vomit. These are funny for about forty-eight hours and then forgotten. They're fine as add-ons but shouldn't be the main event unless the child specifically requested them.
+
+**6. A Running Joke, Made Physical**
+If there's an inside joke in the family or friend group — a phrase, a reference, something that reliably makes the kid laugh — turning it into something physical (a custom [mug](/products/mugs), a printed tee) is often the most successful funny gift possible. It's funny because it's theirs specifically.
+
+**7. Bold Beats Subtle**
+For kids specifically, understated humour is often missed. Bold graphics, clear punchlines, something that reads immediately — that's what works. If it requires explanation, it loses.
+
+The best funny gift makes everyone in the room laugh — including the kid receiving it. Find that version and you've got a memorable gift.`,
+  },
+  {
+    slug: 'why-bold-kids-clothing-matters',
+    title: "Why Bold Kids' Clothing Matters More Than You Think",
+    date: '2026-04-07',
+    category: 'Personality & Identity',
+    excerpt: "What kids wear sends a signal — to their peers, to adults, and most importantly to themselves. Here's why bold clothing does something that safe clothing doesn't.",
+    readingTime: '4 min read',
+    relatedProduct: { label: 'Shop bold kids merch →', href: '/products' },
+    content: `There is a version of dressing kids that prioritises not drawing attention. Neutral colours. Inoffensive designs. Nothing that could be commented on. Safe.
+
+Safe clothing is fine. But bold clothing does something different.
+
+**1. Clothing Is Communication**
+Before a kid says a word, their appearance communicates something. A bold graphic [tee](/products/tees), a neon [hoodie](/products/hoodies), a cap with a statement — these signal personality, confidence, and a willingness to take up space. For kids who have something to say about who they are, bold clothing says it first.
+
+**2. Wearing Something Bold Takes Courage**
+It sounds small. It isn't. A child who chooses to wear something that will definitely be noticed — and wears it with confidence — is practicing something valuable. The willingness to stand out, to be visible, to be okay with being looked at. That's a skill. Clothing is a low-stakes place to build it.
+
+**3. It Affects How They Carry Themselves**
+There's solid research on enclothed cognition — the idea that what you wear affects how you think and behave. Kids who wear clothing that matches their self-concept tend to present that self-concept more confidently. The bold tee isn't just clothes. It's a mirror that tells them who they are.
+
+**4. Safe Clothing Has a Cost**
+When every item is chosen for its inoffensiveness, it communicates something too. It communicates that standing out is bad. That drawing attention is to be avoided. For kids who are naturally expressive, naturally bold, naturally a lot — consistently safe clothing asks them to be less.
+
+**5. It Finds Their People**
+A kid wearing a genuinely interesting piece of clothing gets approached by other kids who noticed it. It starts conversations. It signals membership in a particular type of person. For kids who feel like they haven't found their people yet, the right piece of clothing is sometimes how they get found.
+
+**6. Bold Design Ages Well**
+Neutral basics get boring. A piece with real design — bold colours, a genuine graphic, something with character — stays interesting. Kids return to it because it still has energy. Safe clothing just wears out.
+
+**7. It's One of the Few Choices That's Theirs**
+Kids have limited control over their environment. School, schedule, meals — most of it is decided by adults. Clothing, especially outside school hours, is one of the few areas where their choice matters and is respected. Bold clothing in that space is an act of self-determination.
+
+Let them be loud. The [merch](/products) will keep up.`,
+  },
+  {
+    slug: 'what-makes-good-kids-merch-brand',
+    title: 'What Makes a Good Kids Merch Brand — A Parent\'s Guide',
+    date: '2026-04-07',
+    category: 'Personality & Identity',
+    excerpt: "Not all kids' merch is equal. Here's what separates the brands worth buying from the ones that look good in photos and disappoint in person.",
+    readingTime: '4 min read',
+    relatedProduct: { label: 'See what we stand for →', href: '/about' },
+    content: `The kids' merch market is enormous and uneven. There are brands that produce genuinely great products with real design thinking behind them, and brands that produce visually noisy items that fall apart after three washes. Here's how to tell them apart.
+
+**1. The Designs Have a Point of View**
+Good kids' merch brands have a clear aesthetic and a clear audience. You can tell immediately who the clothing is for and what it's saying. Brands without a point of view produce generic products that nobody feels strongly about — in either direction.
+
+**2. They're Honest About How Stuff Is Made**
+Quality brands will tell you what fabric they use, how items are printed, where they're produced, and what quality controls are in place. Vague or absent production information is a warning sign. [Print-on-demand](/blog/print-on-demand-kids-clothing-guide) brands like AnnoyingKids are typically transparent about the process because the model rewards it.
+
+**3. The Size Information Is Accurate**
+Generic "medium" sizing with no actual measurements is how kids end up with clothing that doesn't fit. Good brands provide chest measurements, length measurements, and honest notes about fit. When in doubt, size up — but you shouldn't have to guess.
+
+**4. The Return Policy Is Real**
+If a brand doesn't offer returns or makes them deliberately difficult, that's a product confidence problem. A brand that stands behind its quality makes returns easy. AnnoyingKids offers 30 days, no questions asked, because we're confident in what we produce.
+
+**5. The Designs Work at the Kid's Age, Not Below It**
+A lot of kids' clothing is designed for younger children and sold up the age range. Good brands know their audience — the specific age and personality they're making for — and design accordingly. A twelve-year-old should not be wearing clothing that would fit a seven-year-old's sensibility.
+
+**6. The Brand Has a Voice**
+The best kids' merch brands have a perspective — something they believe about kids and what kids deserve. It's visible in the copy, the design choices, the products they make. At AnnoyingKids, the belief is simple: bold, loud kids are the interesting ones, and they deserve clothing that matches who they are.
+
+**7. Other Kids Actually Want It**
+The real test: does the kid who receives it get asked about it by other kids? Does it start conversations? Does it get noticed? That response — from peers, not parents — is the measure of whether a kids' merch brand has actually got it right.
+
+Good kids' merch isn't expensive clothing with a logo. It's clothing that means something to the kid wearing it.`,
+  },
+  {
+    slug: 'kids-caps-and-hats-guide',
+    title: "Kids' Caps and Hats — What to Look for and How to Choose",
+    date: '2026-04-07',
+    category: 'Gift Guides',
+    excerpt: "A great cap becomes a kid's signature piece. A bad one stays on the shelf. Here's how to get it right.",
+    readingTime: '3 min read',
+    relatedProduct: { label: 'Browse kids caps →', href: '/products/caps' },
+    content: `A cap is one of those accessories that either becomes part of someone's daily look or sits unused. For kids who wear them, the right [cap](/products/caps) becomes a signature. Here's what separates the ones that get worn constantly from the ones that don't.
+
+**1. Adjustable Fit Is Non-Negotiable**
+Kids' heads vary, and kids grow. An adjustable snapback or velcro closure means the cap fits now and will still fit in six months. Fixed-size caps require guessing correctly, and even when you do, the window of use is shorter.
+
+**2. Structured vs Unstructured**
+Structured caps (with a stiff front panel) hold their shape, look clean, and photograph well. Unstructured caps are softer and more casual. For most kids, structured caps look more intentional and tend to be worn more often. Dad caps (low-profile, unstructured) work well for older kids.
+
+**3. Embroidery Over Print**
+For caps specifically, embroidered designs outlast printed ones significantly. Print on a cap gets rubbed, sweated on, and worn down over time. Embroidery is stitched into the fabric and maintains its quality through heavy use.
+
+**4. The Design Has to Land Immediately**
+Caps are worn facing outward — they're visible from the front and read in half a second. The design needs to work at that speed. A clear, bold graphic or a strong embroidered text or logo. Subtle designs that require close inspection lose the plot on a cap.
+
+**5. Brim Quality**
+A cheap brim warps, loses its curve, and starts looking broken within weeks. A quality brim holds its shape through rain, bag compression, and general kid abuse. Flat-brim and curved-brim are both valid style choices — the quality of the brim material is what matters.
+
+**6. A Statement, Not a Brand Logo**
+The cap that gets noticed and talked about is the one with something to say, not just a brand name across the front. A cap that references something about the wearer's personality — a phrase, a design, something with attitude — becomes a conversation piece.
+
+**7. Dark Colours Hide More**
+Kids are not careful with accessories. Dark-coloured caps handle the inevitable marks and dirt significantly better than light ones. If longevity matters, black or navy are practical choices that also tend to look good with more outfits.
+
+The right cap becomes the thing they wear everywhere for a year. Get the fit right, the design right, and the quality right — and you're done.`,
   },
 ];
 
