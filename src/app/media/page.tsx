@@ -12,7 +12,9 @@ export const metadata: Metadata = {
     url: 'https://annoyingkids.com/media',
     siteName: 'AnnoyingKids',
     type: 'website',
+    images: [{ url: 'https://annoyingkids.com/opengraph-image.png', width: 1200, height: 630, alt: 'AnnoyingKids Press Kit' }],
   },
+  twitter: { card: 'summary_large_image', images: ['https://annoyingkids.com/opengraph-image.png'] },
 };
 
 const breadcrumbSchema = {

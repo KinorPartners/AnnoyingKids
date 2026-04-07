@@ -26,6 +26,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       publishedTime: article.date,
       url: `https://annoyingkids.com/blog/${article.slug}`,
       siteName: 'AnnoyingKids',
+      images: [{ url: 'https://annoyingkids.com/opengraph-image.png', width: 1200, height: 630, alt: 'AnnoyingKids' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ['https://annoyingkids.com/opengraph-image.png'],
     },
   };
 }
