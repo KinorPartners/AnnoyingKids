@@ -719,7 +719,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
         </div>
 
         {/* HUD */}
-        <div className="flex items-center gap-4 font-bungee flex-wrap justify-center">
+        <div className="flex items-center gap-5 font-bungee flex-wrap justify-center" style={{transform:'scale(1.2)',transformOrigin:'center',marginBottom:4}}>
           <span className="text-neon-yellow text-sm border border-neon-yellow/30 px-3 py-1 rounded-lg">
             LVL {level}
           </span>
