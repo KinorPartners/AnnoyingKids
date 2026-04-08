@@ -261,15 +261,14 @@ function CharacterSection({ char, component, progress, index, phase }: {
   return (
     <div style={{
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      textAlign: 'center', width: '100%', maxWidth: 600, padding: '0 24px',
+      textAlign: 'center', width: '100%', maxWidth: 640, padding: '0 24px',
       opacity: Math.max(0, opacity), position: 'absolute',
     }}>
       {/* Name */}
       <h2 style={{
         fontFamily: 'var(--font-bungee, Bungee, sans-serif)',
-        fontSize: 'clamp(44px, 7vw, 80px)', color: '#fff',
-        textTransform: 'uppercase', lineHeight: 0.95, margin: '0 0 6px',
-        transform: `translateY(${isIncoming ? (1 - Math.min(1, progress * 2)) * -30 : avatarY * 0.3}px)`,
+        fontSize: 'clamp(52px, 9vw, 96px)', color: '#fff',
+        textTransform: 'uppercase', lineHeight: 0.92, margin: '0 0 8px',
       }}>
         {char.name}
       </h2>
@@ -277,15 +276,15 @@ function CharacterSection({ char, component, progress, index, phase }: {
       {/* Subtitle: role + tagline */}
       <div style={{
         fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-        fontSize: 11, textTransform: 'uppercase', letterSpacing: 3,
-        color: char.color, marginBottom: 4,
+        fontSize: 14, textTransform: 'uppercase', letterSpacing: 3,
+        color: char.color, marginBottom: 6,
       }}>
         {char.role} · Age {char.age}
       </div>
       <p style={{
         fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-        fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6,
-        marginBottom: 20, maxWidth: 420,
+        fontSize: 18, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6,
+        marginBottom: 24, maxWidth: 480,
       }}>
         {char.tagline}
       </p>
@@ -318,8 +317,8 @@ function CharacterSection({ char, component, progress, index, phase }: {
       {char.origin && !isIncoming && (
         <p style={{
           fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-          fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7,
-          marginBottom: 16, maxWidth: 460,
+          fontSize: 15, color: 'rgba(255,255,255,0.45)', lineHeight: 1.75,
+          marginBottom: 20, maxWidth: 500,
           opacity: Math.max(0, Math.min(1, (progress - 0.15) / 0.2)),
           transform: `translateY(${Math.max(0, (1 - Math.min(1, (progress - 0.15) / 0.2))) * 12}px)`,
         }}>
@@ -328,12 +327,12 @@ function CharacterSection({ char, component, progress, index, phase }: {
       )}
 
       {/* Facts staggered in */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', maxWidth: 460 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', maxWidth: 500 }}>
         {(char.facts || []).slice(0, 3).map((fact, i) => (
           <div key={i} style={{
             fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-            fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5,
-            padding: '8px 16px', borderRadius: 10, textAlign: 'left',
+            fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6,
+            padding: '10px 18px', borderRadius: 10, textAlign: 'left',
             background: i < visibleFacts ? `${char.color}12` : 'transparent',
             borderLeft: i < visibleFacts ? `3px solid ${char.color}` : '3px solid transparent',
             opacity: i < visibleFacts ? 1 : 0,
@@ -347,7 +346,7 @@ function CharacterSection({ char, component, progress, index, phase }: {
 
       {/* Read more link */}
       {char.slug !== 'rex' && !isIncoming && (
-        <div style={{ marginTop: 16, pointerEvents: 'auto' }}>
+        <div style={{ marginTop: 20, pointerEvents: 'auto' }}>
           <Link
             href={`/characters/${char.slug}`}
             style={{
