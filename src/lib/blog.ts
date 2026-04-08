@@ -11,6 +11,200 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+    slug: 'best-birthday-party-ideas-for-10-year-olds-2026',
+    title: 'Best Birthday Party Ideas for 10 Year Olds in 2026',
+    date: '2026-04-08',
+    category: 'Gift Guides',
+    excerpt: 'Planning a birthday party for a 10 year old who has opinions about everything? These ideas actually deliver — no bouncy castle required.',
+    readingTime: '6 min read',
+    relatedProduct: { label: 'Grab birthday party merch →', href: '/products/mama-of-the-birthday-dude-tshirt' },
+    content: `Turning ten is a big deal. Double digits. A whole new era of attitude, independence, and very specific ideas about what counts as fun. If you are planning a birthday party for a 10 year old in 2026, forget the generic Pinterest boards. These kids know what they want — and they will tell you if you get it wrong.
+
+Here are the birthday party ideas that actually work for this age group right now.
+
+**1. Gaming Tournament Party**
+Set up a living room tournament with whatever game they are currently obsessed with. Brackets on a whiteboard. Timed rounds. A dramatic final. You do not need expensive equipment — a console, a TV, and eight kids who think they are the best player in the room is all it takes. Add a [bold graphic tee](/products) as the winner\'s prize and you have an event they will talk about for months. For snack ideas that pair perfectly with gaming, check out our guide to [gaming snacks that won\'t destroy a controller](/blog/best-gaming-snacks-wont-destroy-controller).
+
+**2. Outdoor Movie Night**
+A projector, a white sheet, a garden, and a pile of blankets. Pick a movie they all agree on — which will take longer than the actual movie — and let them set up camp outside. Popcorn in paper bags. Hot chocolate if it is cold. Simple, cinematic, and they feel grown up because it is dark outside and they are still awake.
+
+**3. DIY Merch Design Station**
+Set up a table with plain tees, fabric markers, iron-on patches, and stencils. Let every kid design their own shirt at the party. They leave with something they made, they wear it to school the following week, and suddenly your party is legendary. If you want inspiration for what bold kid fashion looks like, browse our [graphic tees collection](/products/tees).
+
+**4. Scavenger Hunt With Actual Effort**
+Not the kind where you hide eggs in obvious places. Build a proper scavenger hunt with coded clues, riddles that require teamwork, and a final prize worth finding. Ten year olds are smart enough for real puzzles and competitive enough to take them seriously. Hide clues in unexpected places. Make the final prize a bundle of [stickers](/products/stickers) or a hoodie — something worth racing for.
+
+**5. Cooking or Baking Party**
+Pizza making. Cupcake decorating. Taco bar where they build their own. Kids this age love the independence of making something themselves, especially when they get to eat it immediately afterward. Set up stations, provide ingredients, and let the chaos happen. The mess is temporary. The photos are permanent.
+
+**6. Art and Craft Takeover**
+Tie-dye in the garden. Pottery painting. Slime factory. Resin keychains. The craft party works because every kid leaves with something physical they made. It keeps them occupied for hours without screens, and the ones who think they are too cool for crafts always end up the most invested.
+
+**7. Sports Day in the Park**
+Relay races, obstacle courses, football, capture the flag. Bring out the competitive side of the group. Ten year olds have endless energy and strong opinions about fairness, so establish clear rules before you start. Rotate teams every round. Nobody sits out. Award prizes for effort as well as winning — a [cap](/products/caps) or sticker pack makes a solid participation trophy.
+
+**8. Escape Room (Home Edition)**
+You can build a surprisingly good escape room in your own house. Lock a box with a combination padlock. Create five puzzles that lead to the code. Give them forty minutes. Ten year olds will throw themselves into this with an intensity that borders on professional. YouTube has dozens of free templates for home escape room setups.
+
+**9. Sleepover With a Twist**
+The classic sleepover still works, but add structure. A movie marathon with a voting system. A midnight snack bar. A pillow fort competition with actual judging criteria. Truth or dare with pre-approved dares so nobody ends up calling a stranger at 2am. The twist is what makes it memorable.
+
+**10. Dance Party or Karaoke Night**
+Clear the furniture. Set up lights — even cheap LED strips work. Hand over the playlist control and let them go. Karaoke machines are inexpensive to hire and kids at this age are fearless performers. The videos you capture will be worth their weight in gold at their 18th birthday.
+
+The best birthday parties for ten year olds share one trait: they make the kid feel like the main character. Whatever theme you choose, build it around what your kid loves — not what worked for someone else\'s kid last year. And if you want party gear that matches the energy, [check out the full collection](/products).
+
+For more gift inspiration, read our guides to [best gifts for 10 year olds](/blog/best-gifts-for-10-year-olds) and [gifts for kids who have everything](/blog/best-gifts-for-kids-who-have-everything).`,
+  },
+  {
+    slug: 'funny-t-shirt-sayings-for-kids',
+    title: 'Funny T-Shirt Sayings for Kids That Parents Actually Approve Of',
+    date: '2026-04-08',
+    category: 'Personality & Identity',
+    excerpt: 'Kids want to be hilarious. Parents want to leave the house without apologising. Here are the t-shirt sayings that thread the needle perfectly.',
+    readingTime: '5 min read',
+    relatedProduct: { label: 'Shop funny kids tees →', href: '/products/tees' },
+    content: `Kids love a funny t-shirt. They want to walk into school wearing something that gets a reaction. Something that makes their friends laugh. Something that says exactly who they are without them having to say a word.
+
+Parents, meanwhile, want to get through a school drop-off without another parent giving them a look.
+
+The good news: you can have both. Here are the categories of funny t-shirt sayings that work for kids and do not make parents cringe in public.
+
+**1. The Self-Aware One-Liner**
+Kids who know exactly what they are love a shirt that says it out loud. Things like "Professional Troublemaker" or "I\'m Not Arguing, I\'m Explaining Why I\'m Right." These work because they are funny without being rude. The kid feels seen. The parent can laugh about it. Everyone wins. For more on why bold self-expression matters for kids, check out [why bold kids clothing matters](/blog/why-bold-kids-clothing-matters).
+
+**2. The Food-Obsessed Statement**
+"Will Trade Sibling for Pizza." "Powered by Snacks." "I Came Here for the Cake." Food-based humour is universally safe, reliably funny, and accurate to how most kids actually operate. No parent has ever been offended by a child publicly declaring their love of tacos.
+
+**3. The Gamer Reference**
+"I Paused My Game to Be Here." "Respawn in Progress." "AFK — Away From Knowledge." Gaming references land perfectly with kids aged 8 to 16 and go over the heads of most adults, which is half the appeal. They are funny, harmless, and give the kid insider-joke energy. Our guide to [gaming snacks](/blog/best-gaming-snacks-wont-destroy-controller) pairs perfectly with this vibe.
+
+**4. The Anti-Morning Manifesto**
+"Do Not Talk to Me Before 10am." "Monday Is Cancelled." "Nap Champion." Kids who hate mornings — which is almost all of them — connect deeply with these. Parents relate too, which is why these get a pass. The shared suffering creates bonding, not conflict.
+
+**5. The Sibling Roast**
+"My Brother Is My Unpaid Sidekick." "I\'m the Favourite (Don\'t Check)." "My Sister Started It." Sibling humour works because it is relatable to nearly every family on earth. It is playful, not mean. And it usually starts a conversation rather than an argument.
+
+**6. The Sarcasm Starter Pack**
+"This Is My Happy Face." "I\'m a Delight." "Chaos Coordinator." Sarcastic kids are often the funniest people in the room, and a t-shirt that matches their energy validates that. The key is keeping the sarcasm light. If it could be read as mean, skip it. If it makes the wearer grin, keep it.
+
+**7. The Bold Identity Statement**
+"Future CEO." "Main Character Energy." "Born to Stand Out." These are less joke and more declaration. Kids who wear their confidence on their chest — literally — tend to carry themselves differently. It is not arrogance. It is self-belief with a graphic design budget. See [why the most annoying kid in the room usually wins later](/blog/why-annoying-kids-succeed) for more on this.
+
+**8. The Absurdist Option**
+"I Speak Fluent Sarcasm and Dinosaur." "My Other Ride Is a Shopping Trolley." "Professional Napper, Amateur Human." The weirder the shirt, the harder it lands with a certain kind of kid. These are the kids who will remember this shirt fondly at age twenty-five. Lean into the weirdness.
+
+**9. What to Avoid**
+Skip anything that punches down. Avoid sayings that mock other people, reference adult topics, or rely on being offensive for the laugh. The funniest kid shirts are funny because they are clever, not because they cross a line. If a teacher would confiscate it, it is not worth the laugh.
+
+**10. Where to Find Them**
+The best funny tees for kids come from brands that actually understand kid humour — not adult humour shrunk to a smaller size. Look for designs that are bold, neon-forward, and made for kids who want to be noticed. Something like [our graphic tees collection](/products/tees) is built exactly for this.
+
+A great funny t-shirt for a kid does three things: it makes the kid feel cool, it makes their friends laugh, and it makes the parent smile instead of wince. That is a narrow target, but when you hit it, that shirt gets worn every single week.
+
+For more on finding the right kid-friendly merch, read our [guide to what makes a good kids merch brand](/blog/what-makes-good-kids-merch-brand) and our [funny kids gift ideas roundup](/blog/funny-kids-gift-ideas).`,
+  },
+  {
+    slug: 'back-to-school-outfit-ideas-kids-will-wear',
+    title: 'Back to School Outfit Ideas Kids Will Actually Wear',
+    date: '2026-04-08',
+    category: 'School Survival',
+    excerpt: 'You bought the outfits. They refused to wear them. Here is how to get back-to-school clothes right — from a kid\'s perspective.',
+    readingTime: '6 min read',
+    relatedProduct: { label: 'Browse school-ready merch →', href: '/products/hoodies' },
+    content: `Every year the same thing happens. Parents buy back-to-school clothes. Kids reject them. The new jumper sits in the wardrobe with the tags still on while the kid wears the same faded t-shirt for the ninth day in a row.
+
+The problem is not the clothes. It is who chose them.
+
+Here is how to get back-to-school outfits that your kid will actually put on their body voluntarily.
+
+**1. Let Them Pick the Vibe**
+You do not have to hand over the credit card, but you do have to hand over some creative control. Ask what they want to look like this year. Cool? Bold? Low-key? Sporty? Their answer tells you everything about what will actually get worn. A kid who wants to look bold is not going to wear a plain navy polo no matter how many you buy. Check out [back to school outfits for kids who refuse to blend in](/blog/back-to-school-outfits-kids-who-refuse-to-blend-in) for specific style ideas.
+
+**2. Graphic Tees Are Non-Negotiable**
+For kids aged 6 to 16, a graphic tee is the foundation of every outfit. It is the piece they care about most. The rest — jeans, joggers, shorts — is basically invisible to them. Invest in tees with designs they actually choose. A funny saying, a bold design, something neon. That is the piece that makes them excited to get dressed. Our [graphic tees guide](/blog/funny-graphic-tees-for-kids-what-to-look-for) covers exactly what to look for.
+
+**3. Hoodies That Double as Armour**
+A good hoodie is the most important item in a kid\'s wardrobe. It goes over everything. It works in every weather that is not actually hot. It makes them feel comfortable and slightly invisible when they need to be. Buy one or two really good ones rather than five cheap ones that pill after three washes. [Bold hoodies with personality](/products/hoodies) are the ones that actually get worn on repeat.
+
+**4. Comfort First, Always**
+If it itches, restricts movement, or feels weird, it is not getting worn. Kids are ruthless editors. They will not tolerate uncomfortable fabric for the sake of looking smart. Prioritise soft cotton, stretchy waistbands, and anything that passes the "can I run in this" test. This is especially true for younger kids who still spend half of lunch climbing things.
+
+**5. The Repeat Outfit Strategy**
+Instead of buying twelve different outfits, buy three that they love and rotate. Kids do not care about variety the way adults do. They want to wear the thing they like, wash it, and wear it again. Three great outfits they choose will outperform twelve mediocre ones you chose every single time.
+
+**6. Shoes They Can Actually Move In**
+The shoe battle is real. Kids want the trendy ones. Parents want the durable ones. The sweet spot is a shoe that looks good enough to satisfy the kid and holds together long enough to survive a term. Let them pick the style. You pick the budget. Meet in the middle.
+
+**7. Layers for Unpredictable Weather**
+British weather — or any climate where mornings are cold and afternoons are warm — demands layers. A tee, a hoodie, and a light jacket that folds into a bag is the winning formula. The hoodie does most of the work. The jacket is insurance. The tee is the statement piece.
+
+**8. Accessories That Express Personality**
+[Caps](/products/caps), [stickers](/products/stickers) on water bottles, patches on backpacks. These small details matter enormously to kids. They are low-cost ways to let a kid express themselves within a uniform or dress code. A kid with three stickers on their water bottle feels more like themselves than a kid in a brand new outfit they did not choose.
+
+**9. The First Day Outfit Matters Most**
+Whatever they wear on day one sets the tone. Let them plan it. Let them try it on the night before. Let them feel excited about it. The first-day outfit is not about looking perfect — it is about feeling confident walking through those gates. If they feel good, everything else follows.
+
+**10. Stop Fighting Battles You Cannot Win**
+If your kid refuses to wear collared shirts, stop buying collared shirts. If they only wear black, lean into it. The goal is a kid who feels comfortable and confident at school, not a kid who looks exactly how you imagined. Their style is part of their identity — and at this age, identity is everything. Read more about [why kids who do not fit in are doing just fine](/blog/kids-who-dont-fit-in).
+
+Back-to-school shopping does not have to be a battle. Give your kid a voice in what they wear, invest in the pieces they actually care about, and accept that the plain khaki trousers are never leaving the wardrobe. For bold, school-ready merch they will actually want to put on, [browse the collection](/products).`,
+  },
+  {
+    slug: 'kids-screen-time-rules-that-actually-work',
+    title: 'Ultimate Guide to Kids\' Screen Time Rules (That Actually Work)',
+    date: '2026-04-08',
+    category: 'Gaming & Screen Culture',
+    excerpt: 'Every parent is guessing on screen time. Here is a practical framework that does not involve hiding the router or starting a fight.',
+    readingTime: '7 min read',
+    relatedProduct: { label: 'Gear for when they log off →', href: '/products' },
+    content: `Screen time is the modern parenting battleground that nobody is winning. You have read the articles. You have heard the advice. You have tried setting limits and watched them dissolve within forty-eight hours.
+
+Here is the honest truth: most screen time rules fail because they are built around restriction instead of structure. Kids do not respond well to "no." They respond to frameworks that make sense to them.
+
+This guide is the practical version. No guilt. No lectures. Just rules that hold up in real life.
+
+**1. Define What Counts as Screen Time**
+Not all screen time is equal. A kid watching a documentary about space is not doing the same thing as a kid doom-scrolling short-form videos for three hours. Before setting rules, separate screens into categories: creative time (making things, coding, designing), learning time (educational content, research), social time (messaging friends, video calls), and passive time (watching, scrolling). The rules should be different for each category.
+
+**2. Set Time Limits by Category, Not by Device**
+Saying "one hour of screen time" does not work because it treats Minecraft and mindless scrolling as the same activity. Instead, try: unlimited creative screen time, reasonable learning time, moderate social time, and limited passive time. This teaches kids to think about how they use screens, not just how long.
+
+**3. Create a Visual Schedule They Help Design**
+Print it. Put it on the fridge. Let the kid help build it. When kids have input into the rules, they are significantly more likely to follow them. A schedule they designed feels like a contract they agreed to. A schedule you imposed feels like a punishment. The difference matters.
+
+**4. Earn Passive Screen Time**
+This is the rule that consistently works across families. Passive screen time — the mindless, entertainment-only kind — is earned through other activities first. Homework done. Chores finished. Time spent outside. Reading completed. Once the real-world checklist is handled, the screen is fair game. No nagging required.
+
+**5. Screens Off During Meals and Before Bed**
+These are the two non-negotiable boundaries that have the biggest impact. No screens at the dinner table. No screens for at least thirty minutes before bed. These are not arbitrary — meals are for conversation and connection, and screens before bed genuinely disrupt sleep quality for kids. Hold these two lines and be flexible elsewhere.
+
+**6. Make the Alternative Better Than the Screen**
+The reason kids default to screens is that screens are easy, instant, and always available. If you want them off screens, the alternative has to compete. Board games. A trip to the park. Baking something. Building something. [Bold merch they can customise](/products) or sticker collections they can curate. The replacement has to be genuinely appealing, not a punishment disguised as an activity. Check out our [gaming snacks guide](/blog/best-gaming-snacks-wont-destroy-controller) for ideas that bridge gaming culture and real life.
+
+**7. Model the Behaviour You Want**
+This is the uncomfortable one. Kids notice everything. If you are on your phone during dinner, the "no screens at meals" rule loses all credibility. If you scroll before bed, so will they. You do not have to be perfect, but you do have to be honest about your own habits. "We all struggle with this" is a more effective message than "do as I say."
+
+**8. Use Natural Consequences Instead of Confiscation**
+Taking away a device as punishment creates resentment and power struggles. Natural consequences work better: if they cannot stop gaming when the timer goes off, tomorrow\'s gaming time starts thirty minutes later. If they sneak screen time after lights out, the device charges in the kitchen overnight. Consistent, calm, and directly connected to the behaviour.
+
+**9. Have the Conversation About Why**
+Kids aged eight and above can understand the reasoning behind screen time rules if you explain it without lecturing. Talk about how their brain works. Talk about dopamine. Talk about how even adults find it hard to stop scrolling. When kids understand the why, rules feel less like control and more like a shared strategy. Treat them as smart enough to understand — because they are. For more on giving kids credit for their intelligence, read [why annoying kids succeed](/blog/why-annoying-kids-succeed).
+
+**10. Review and Adjust Regularly**
+Screen time rules that worked at age eight will not work at age twelve. As kids mature, the rules should evolve. Check in every few months. Ask what is working and what feels unfair. Adjust. A system that adapts is a system that lasts. Rigid rules break. Flexible frameworks bend.
+
+**11. Weekdays vs. Weekends**
+Different rules for different days is not inconsistency — it is realistic. Weekdays are structured: school, homework, limited passive time. Weekends are looser: longer gaming sessions, movie marathons with the family, more social screen time. This teaches kids that context matters, which is a life skill far beyond screens.
+
+**12. When It Is Not Working, Reset Without Drama**
+Every family hits a point where the screen time system collapses. It is normal. When it happens, do not escalate. Sit down, acknowledge it is not working, and rebuild together. A reset is not a failure. It is maintenance. The families who handle screen time best are not the ones who never struggle — they are the ones who adjust without turning it into a war.
+
+Screen time is not going away. The goal is not to eliminate it — it is to help your kid develop a healthy relationship with it. Structure beats restriction. Conversation beats confiscation. And a kid who feels trusted with their own habits is a kid who eventually manages them well.
+
+For offline fun they will actually enjoy, [browse the full collection](/products) — because the best screen break is something they are genuinely excited about.`,
+  },
+  {
     slug: 'best-gifts-for-annoying-kids',
     title: 'Best Gifts for Kids Who Have Too Much Energy (and Too Many Ideas)',
     date: '2026-03-27',
