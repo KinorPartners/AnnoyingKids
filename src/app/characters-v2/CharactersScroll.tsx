@@ -5,34 +5,86 @@ import { CHARACTERS } from '@/lib/characters'
 import { Kid, Dad, Mom, Grandma, Grandpa, Dinosaur } from '@/components/Characters'
 
 const CHAR_COMPONENTS: Record<string, React.ReactNode> = {
-  guy:   <Kid size={120} />,
-  buddy: <span style={{ fontSize: 100, lineHeight: 1 }}>🐕</span>,
-  pap:   <Dad size={120} />,
-  mal:   <Mom size={120} />,
-  mimi:  <Grandma size={120} />,
-  barry: <Grandpa size={120} />,
+  guy:   <Kid size={140} />,
+  buddy: <span style={{ fontSize: 120, lineHeight: 1 }}>🐕</span>,
+  pap:   <Dad size={140} />,
+  mal:   <Mom size={140} />,
+  mimi:  <Grandma size={140} />,
+  barry: <Grandpa size={140} />,
+}
+
+// Short punchy descriptions — just a few words each
+const SHORT_TAGLINES: Record<string, string> = {
+  guy: 'Born to cause chaos.',
+  buddy: 'Loyal. Chaotic. Zero regrets.',
+  pap: 'Was a good kid. Karma noticed.',
+  mal: 'Already knows where you are.',
+  mimi: 'Retired PE teacher. Still fast.',
+  barry: 'Slow feet. Fast brain.',
+  rex: 'Uninvited. Unstoppable.',
+}
+
+const SHORT_FACTS: Record<string, string[]> = {
+  guy: ['Convinced his class it was a snow day — in July', 'Buddy responds to 12 commands Guy taught him', 'School nickname: "The Question"'],
+  buddy: ['Has 3 secret sock hiding spots', 'Barked at a ceramic frog for 11 minutes', 'Treats "sit" as a suggestion'],
+  pap: ['The blue hat has never fallen off', 'Makes the same 3 dinners on rotation', 'Once fixed Wi-Fi in under 2 minutes'],
+  mal: ['Has a mental map of every hiding spot', 'Can identify 12 types of silence', 'Has never needed to count to three'],
+  mimi: ['Holds the neighbourhood 100m record (over-65s)', 'Calls Guy "trouble" — he answers to it', 'Secret biscuit recipe since 1987'],
+  barry: ['The unlit cigar — carried since 1987', 'Beaten Guy at chess 23 times', 'His advice: "The best chaos looks like an accident"'],
+  rex: ['Appears at Level 10', 'Does not come in peace', 'Nobody invited it'],
 }
 
 const REX = {
-  slug: 'rex', name: 'Rex', role: 'Uninvited Guest', age: 'Old. Very old.',
-  color: '#ef4444', tagline: 'Nobody knows where it came from. It shows up at level 10.',
-  facts: ['Technically not a family member.', 'Does not come in peace.', 'Story unlocks at Level 10.'],
+  slug: 'rex', name: 'Rex', role: 'Uninvited Guest', age: '???',
+  color: '#ef4444',
 }
 
 interface CharSection {
   slug: string; name: string; role: string; age: string; color: string;
-  tagline: string; facts: string[]; origin?: string;
 }
 
 const ALL_CHARS: CharSection[] = [
-  ...CHARACTERS.map(c => ({ slug: c.slug, name: c.name, role: c.role, age: c.age, color: c.color, tagline: c.tagline, facts: c.facts, origin: c.origin })),
+  ...CHARACTERS.map(c => ({ slug: c.slug, name: c.name, role: c.role, age: c.age, color: c.color })),
   REX as CharSection,
 ]
+
+// Floating chaos dots — red/pink particles that drift around
+function ChaosDots({ color, count, seed }: { color: string; count: number; seed: number }) {
+  return (
+    <>
+      {Array.from({ length: count }).map((_, i) => {
+        const size = 4 + (((seed + i * 7) % 5) * 2)
+        const x = ((seed + i * 37) % 90) + 5
+        const y = ((seed + i * 53) % 80) + 10
+        const dur = 3 + ((seed + i * 11) % 4)
+        const delay = ((seed + i * 23) % 3)
+        return (
+          <div key={i} style={{
+            position: 'absolute',
+            width: size, height: size, borderRadius: '50%',
+            background: i % 3 === 0 ? '#ff2d78' : i % 3 === 1 ? color : '#ef4444',
+            left: `${x}%`, top: `${y}%`,
+            opacity: 0.4 + (i % 3) * 0.15,
+            boxShadow: `0 0 ${size * 2}px ${i % 3 === 0 ? '#ff2d78' : color}`,
+            animation: `chaosDot${i % 4} ${dur}s ease-in-out ${delay}s infinite alternate`,
+            pointerEvents: 'none',
+          }} />
+        )
+      })}
+      <style>{`
+        @keyframes chaosDot0{0%{transform:translate(0,0) scale(1)}100%{transform:translate(20px,-30px) scale(1.3)}}
+        @keyframes chaosDot1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-25px,15px) scale(0.7)}}
+        @keyframes chaosDot2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(15px,25px) scale(1.5)}}
+        @keyframes chaosDot3{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-20px,-20px) scale(0.8)}}
+      `}</style>
+    </>
+  )
+}
 
 export default function CharactersScroll() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
-  const totalSections = ALL_CHARS.length + 1 // +1 for intro
+  const totalSections = ALL_CHARS.length + 1
 
   const handleScroll = useCallback(() => {
     const el = containerRef.current
@@ -49,14 +101,12 @@ export default function CharactersScroll() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [handleScroll])
 
-  // Continuous float position through all sections
   const floatPos = scrollProgress * totalSections
   const activeIndex = Math.min(Math.floor(floatPos), totalSections - 1)
+  const blend = floatPos - activeIndex
 
-  // Interpolate background glow color between current and next character
   const currColor = activeIndex === 0 ? '#ff2d78' : ALL_CHARS[Math.min(activeIndex - 1, ALL_CHARS.length - 1)]?.color || '#fff'
   const nextColor = activeIndex < ALL_CHARS.length ? ALL_CHARS[Math.min(activeIndex, ALL_CHARS.length - 1)]?.color || '#fff' : '#ef4444'
-  const blend = floatPos - activeIndex // 0-1 within section
 
   return (
     <div ref={containerRef} style={{ minHeight: `${totalSections * 100}vh` }}>
@@ -68,11 +118,10 @@ export default function CharactersScroll() {
         <div style={{
           height: '100%', width: `${scrollProgress * 100}%`,
           background: 'linear-gradient(90deg, #ff2d78, #00f0ff, #a855f7, #f59e0b)',
-          transition: 'width 0.05s linear',
         }} />
       </div>
 
-      {/* Background glow that morphs between character colors */}
+      {/* Background glow */}
       <div style={{
         position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
         background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${currColor}15 0%, transparent 70%)`,
@@ -84,15 +133,21 @@ export default function CharactersScroll() {
         background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${nextColor}18 0%, transparent 70%)`,
       }} />
 
-      {/* Fixed viewport — render TWO characters for crossfade */}
+      {/* Chaos dots layer */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+        <ChaosDots
+          color={activeIndex === 0 ? '#ff2d78' : ALL_CHARS[Math.min(activeIndex - 1, ALL_CHARS.length - 1)]?.color || '#ff2d78'}
+          count={12}
+          seed={activeIndex * 17}
+        />
+      </div>
+
+      {/* Fixed viewport */}
       <div style={{
         position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
         overflow: 'hidden', pointerEvents: 'none', zIndex: 1,
       }}>
-        {/* Intro */}
         {activeIndex === 0 && <IntroSection progress={blend} />}
-
-        {/* Current character (fading out) */}
         {activeIndex > 0 && activeIndex <= ALL_CHARS.length && (
           <CharacterSection
             char={ALL_CHARS[activeIndex - 1]}
@@ -102,19 +157,15 @@ export default function CharactersScroll() {
             phase="current"
           />
         )}
-
-        {/* Next character (fading in) — renders during transition zone */}
         {activeIndex > 0 && activeIndex < ALL_CHARS.length && blend > 0.55 && (
           <CharacterSection
             char={ALL_CHARS[activeIndex]}
             component={CHAR_COMPONENTS[ALL_CHARS[activeIndex].slug]}
-            progress={(blend - 0.55) / 0.45} // 0-1 during last 45% of section
+            progress={(blend - 0.55) / 0.45}
             index={activeIndex}
             phase="incoming"
           />
         )}
-
-        {/* Intro to first character transition */}
         {activeIndex === 0 && blend > 0.6 && (
           <CharacterSection
             char={ALL_CHARS[0]}
@@ -129,30 +180,20 @@ export default function CharactersScroll() {
       {/* Dot navigation */}
       <div style={{
         position: 'fixed', right: 20, top: '50%', transform: 'translateY(-50%)',
-        display: 'flex', flexDirection: 'column', gap: 10, zIndex: 100,
-        pointerEvents: 'auto',
+        display: 'flex', flexDirection: 'column', gap: 10, zIndex: 100, pointerEvents: 'auto',
       }}>
         {['Intro', ...ALL_CHARS.map(c => c.name)].map((label, i) => (
-          <button
-            key={i}
-            onClick={() => {
-              const el = containerRef.current
-              if (!el) return
-              const targetScroll = el.offsetTop + ((el.scrollHeight - window.innerHeight) * (i / totalSections))
-              window.scrollTo({ top: targetScroll, behavior: 'smooth' })
-            }}
-            title={label}
-            style={{
-              width: activeIndex === i ? 12 : 8,
-              height: activeIndex === i ? 12 : 8,
-              borderRadius: '50%', border: 'none', cursor: 'pointer',
-              background: activeIndex === i
-                ? (i === 0 ? '#fff' : ALL_CHARS[i - 1]?.color || '#fff')
-                : 'rgba(255,255,255,0.25)',
-              boxShadow: activeIndex === i ? `0 0 12px ${i === 0 ? '#fff' : ALL_CHARS[i - 1]?.color || '#fff'}` : 'none',
-              transition: 'all 0.3s ease',
-            }}
-          />
+          <button key={i} onClick={() => {
+            const el = containerRef.current
+            if (!el) return
+            window.scrollTo({ top: el.offsetTop + ((el.scrollHeight - window.innerHeight) * (i / totalSections)), behavior: 'smooth' })
+          }} title={label} style={{
+            width: activeIndex === i ? 12 : 8, height: activeIndex === i ? 12 : 8,
+            borderRadius: '50%', border: 'none', cursor: 'pointer',
+            background: activeIndex === i ? (i === 0 ? '#fff' : ALL_CHARS[i - 1]?.color || '#fff') : 'rgba(255,255,255,0.25)',
+            boxShadow: activeIndex === i ? `0 0 12px ${i === 0 ? '#fff' : ALL_CHARS[i - 1]?.color || '#fff'}` : 'none',
+            transition: 'all 0.3s ease',
+          }} />
         ))}
       </div>
 
@@ -162,15 +203,12 @@ export default function CharactersScroll() {
           position: 'fixed', bottom: 40, left: 0, right: 0,
           display: 'flex', justifyContent: 'center', zIndex: 100, pointerEvents: 'auto',
         }}>
-          <Link
-            href="/game"
-            style={{
-              padding: '16px 40px', background: '#ff2d78', color: '#fff',
-              fontFamily: 'var(--font-bungee, Bungee, sans-serif)', fontSize: 20,
-              textTransform: 'uppercase', borderRadius: 16, textDecoration: 'none',
-              boxShadow: '0 0 30px rgba(255,45,120,0.5)',
-            }}
-          >
+          <Link href="/game" style={{
+            padding: '16px 40px', background: '#ff2d78', color: '#fff',
+            fontFamily: 'var(--font-bungee, Bungee, sans-serif)', fontSize: 20,
+            textTransform: 'uppercase', borderRadius: 16, textDecoration: 'none',
+            boxShadow: '0 0 30px rgba(255,45,120,0.5)',
+          }}>
             🎮 Play Kid Chaos
           </Link>
         </div>
@@ -180,11 +218,10 @@ export default function CharactersScroll() {
 }
 
 function IntroSection({ progress }: { progress: number }) {
-  // Fade out and zoom as user scrolls, but start earlier
   const fadeOut = progress > 0.5 ? (progress - 0.5) / 0.5 : 0
   const opacity = 1 - fadeOut
-  const scale = 1 + progress * 0.2
-  const y = progress * -80
+  const scale = 1 + progress * 0.3
+  const y = progress * -100
 
   return (
     <div style={{
@@ -192,27 +229,23 @@ function IntroSection({ progress }: { progress: number }) {
       opacity, transform: `translateY(${y}px) scale(${scale})`,
     }}>
       <div style={{
-        fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)', fontSize: 12,
+        fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)', fontSize: 13,
         color: '#22c55e', textTransform: 'uppercase', letterSpacing: 4, marginBottom: 12,
-      }}>
-        Kid Chaos Universe
-      </div>
+      }}>Kid Chaos Universe</div>
       <h1 style={{
-        fontFamily: 'var(--font-bungee, Bungee, sans-serif)', fontSize: 'clamp(48px, 8vw, 96px)',
-        color: '#fff', textTransform: 'uppercase', lineHeight: 0.95, margin: '0 0 16px',
+        fontFamily: 'var(--font-bungee, Bungee, sans-serif)', fontSize: 'clamp(56px, 10vw, 120px)',
+        color: '#fff', textTransform: 'uppercase', lineHeight: 0.9, margin: '0 0 16px',
       }}>
         MEET THE<br /><span style={{ color: '#ff2d78' }}>GANG</span>
       </h1>
       <p style={{
         fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-        color: 'rgba(255,255,255,0.5)', fontSize: 18, maxWidth: 500, margin: '0 auto 24px',
-        lineHeight: 1.6,
+        color: 'rgba(255,255,255,0.45)', fontSize: 16, maxWidth: 400, margin: '0 auto 24px',
       }}>
-        Scroll down to meet each character.<br />
-        Every one of them has a story. Most of them are trouble.
+        Scroll to meet the chaos crew.
       </p>
-      <div style={{ fontSize: 28, animation: 'bounce 1.5s ease infinite', color: 'rgba(255,255,255,0.3)' }}>↓</div>
-      <style>{`@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}`}</style>
+      <div style={{ fontSize: 32, animation: 'bounce 1.5s ease infinite', color: 'rgba(255,255,255,0.3)' }}>↓</div>
+      <style>{`@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}`}</style>
     </div>
   )
 }
@@ -221,42 +254,33 @@ function CharacterSection({ char, component, progress, index, phase }: {
   char: CharSection; component?: React.ReactNode; progress: number; index: number;
   phase: 'current' | 'incoming';
 }) {
-  const isFlipped = index % 2 === 1
   const isIncoming = phase === 'incoming'
+  const tagline = SHORT_TAGLINES[char.slug] || char.role
+  const facts = SHORT_FACTS[char.slug] || []
 
-  let opacity: number, avatarRotateY: number, avatarRotateX: number, avatarScale: number
-  let avatarX: number, avatarY: number, infoX: number, infoOpacity: number
+  let opacity: number, avatarRotateY: number, avatarRotateX: number, avatarScale: number, avatarY: number
 
   if (isIncoming) {
-    // Incoming: rise up from below with 3D rotation
-    const ease = 1 - Math.pow(1 - progress, 3) // ease-out cubic
+    const ease = 1 - Math.pow(1 - progress, 3)
     opacity = progress
-    avatarRotateY = (1 - ease) * 60
-    avatarRotateX = (1 - ease) * 20
-    avatarScale = 0.5 + ease * 0.5
-    avatarX = 0
-    avatarY = (1 - ease) * 120
-    infoX = 0
-    infoOpacity = Math.max(0, (progress - 0.3) / 0.7)
+    avatarRotateY = (1 - ease) * 90
+    avatarRotateX = (1 - ease) * 25
+    avatarScale = 0.2 + ease * 0.8 // starts very small — big blow-up
+    avatarY = (1 - ease) * 150
   } else {
-    // Current: visible, then drift upward and fade
-    const enterDone = Math.min(progress / 0.2, 1)
+    const enterDone = Math.min(progress / 0.15, 1)
     const exitStart = Math.max(0, (progress - 0.55) / 0.45)
-    const exitEase = exitStart * exitStart
+    const exitEase = exitStart * exitStart * exitStart // cubic ease-in — accelerates fast
 
-    opacity = enterDone * (1 - exitEase * 0.8)
-    avatarRotateY = exitEase * -30
-    avatarRotateX = exitEase * 15
-    avatarScale = 1 - exitEase * 0.2
-    avatarX = 0
-    avatarY = exitEase * -80
-    infoX = 0
-    infoOpacity = enterDone * (1 - exitEase * 1.2)
+    opacity = enterDone * (1 - exitEase * 0.9)
+    avatarRotateY = exitEase * -50
+    avatarRotateX = exitEase * 20
+    avatarScale = 1 + exitEase * 0.8 // BLOW UP on exit — gets bigger
+    avatarY = exitEase * -120
   }
 
-  // Facts stagger (only for current phase, past the settle)
-  const factReveal = isIncoming ? progress : Math.min(progress / 0.5, 1)
-  const visibleFacts = Math.floor(factReveal * (Math.min(char.facts?.length || 0, 3)))
+  const factReveal = isIncoming ? progress : Math.min(progress / 0.45, 1)
+  const visibleFacts = Math.floor(factReveal * facts.length)
 
   return (
     <div style={{
@@ -264,100 +288,79 @@ function CharacterSection({ char, component, progress, index, phase }: {
       textAlign: 'center', width: '100%', maxWidth: 640, padding: '0 24px',
       opacity: Math.max(0, opacity), position: 'absolute',
     }}>
-      {/* Name */}
+      {/* Name — big and bold */}
       <h2 style={{
         fontFamily: 'var(--font-bungee, Bungee, sans-serif)',
-        fontSize: 'clamp(52px, 9vw, 96px)', color: '#fff',
-        textTransform: 'uppercase', lineHeight: 0.92, margin: '0 0 8px',
+        fontSize: 'clamp(60px, 11vw, 110px)', color: '#fff',
+        textTransform: 'uppercase', lineHeight: 0.9, margin: '0 0 4px',
+        textShadow: `0 0 40px ${char.color}44`,
       }}>
         {char.name}
       </h2>
 
-      {/* Subtitle: role + tagline */}
-      <div style={{
-        fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-        fontSize: 14, textTransform: 'uppercase', letterSpacing: 3,
-        color: char.color, marginBottom: 6,
-      }}>
-        {char.role} · Age {char.age}
-      </div>
+      {/* Short tagline */}
       <p style={{
         fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-        fontSize: 18, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6,
-        marginBottom: 24, maxWidth: 480,
+        fontSize: 18, color: char.color, marginBottom: 28,
+        letterSpacing: 1, fontWeight: 600,
       }}>
-        {char.tagline}
+        {tagline}
       </p>
 
-      {/* Avatar with 3D perspective */}
-      <div style={{ perspective: 1000, marginBottom: 24 }}>
+      {/* Avatar with dramatic 3D blow-up */}
+      <div style={{ perspective: 800, marginBottom: 32 }}>
         <div style={{
           transform: `rotateY(${avatarRotateY}deg) rotateX(${avatarRotateX}deg) scale(${avatarScale}) translateY(${avatarY}px)`,
           transformStyle: 'preserve-3d', willChange: 'transform',
         }}>
           <div style={{
-            width: 180, height: 180, borderRadius: 32,
-            background: char.color + '15',
-            border: `2px solid ${char.color}44`,
+            width: 200, height: 200, borderRadius: 36,
+            background: char.color + '18',
+            border: `2px solid ${char.color}55`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: `0 20px 60px ${char.color}33, inset 0 0 40px ${char.color}11`,
+            boxShadow: `0 24px 80px ${char.color}44, inset 0 0 50px ${char.color}15`,
             margin: '0 auto',
           }}>
-            {component || <span style={{ fontSize: 80 }}>🦕</span>}
+            {component || <span style={{ fontSize: 90 }}>🦕</span>}
           </div>
+          {/* Glow shadow beneath */}
           <div style={{
-            width: 120, height: 16, margin: '12px auto 0', borderRadius: '50%',
-            background: `radial-gradient(ellipse, ${char.color}33 0%, transparent 70%)`,
-            filter: 'blur(4px)', opacity: avatarScale,
+            width: 160, height: 24, margin: '14px auto 0', borderRadius: '50%',
+            background: `radial-gradient(ellipse, ${char.color}44 0%, transparent 70%)`,
+            filter: 'blur(6px)', opacity: Math.min(1, avatarScale),
           }} />
         </div>
       </div>
 
-      {/* Origin snippet */}
-      {char.origin && !isIncoming && (
-        <p style={{
-          fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-          fontSize: 15, color: 'rgba(255,255,255,0.45)', lineHeight: 1.75,
-          marginBottom: 20, maxWidth: 500,
-          opacity: Math.max(0, Math.min(1, (progress - 0.15) / 0.2)),
-          transform: `translateY(${Math.max(0, (1 - Math.min(1, (progress - 0.15) / 0.2))) * 12}px)`,
-        }}>
-          {char.origin.split('\n')[0].slice(0, 180)}...
-        </p>
-      )}
-
-      {/* Facts staggered in */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', maxWidth: 500 }}>
-        {(char.facts || []).slice(0, 3).map((fact, i) => (
+      {/* Short facts — punchy one-liners */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', maxWidth: 480 }}>
+        {facts.map((fact, i) => (
           <div key={i} style={{
             fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-            fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6,
-            padding: '10px 18px', borderRadius: 10, textAlign: 'left',
-            background: i < visibleFacts ? `${char.color}12` : 'transparent',
+            fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5,
+            padding: '10px 18px', borderRadius: 12, textAlign: 'left',
+            background: i < visibleFacts ? `${char.color}10` : 'transparent',
             borderLeft: i < visibleFacts ? `3px solid ${char.color}` : '3px solid transparent',
             opacity: i < visibleFacts ? 1 : 0,
-            transform: i < visibleFacts ? 'translateY(0)' : 'translateY(15px)',
-            transition: `all 0.4s ease ${i * 0.12}s`,
+            transform: i < visibleFacts ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)',
+            transition: `all 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s`,
           }}>
             {fact}
           </div>
         ))}
       </div>
 
-      {/* Read more link */}
+      {/* Read more */}
       {char.slug !== 'rex' && !isIncoming && (
-        <div style={{ marginTop: 20, pointerEvents: 'auto' }}>
-          <Link
-            href={`/characters/${char.slug}`}
-            style={{
-              fontFamily: 'var(--font-bungee, Bungee, sans-serif)',
-              fontSize: 12, textTransform: 'uppercase', letterSpacing: 1,
-              color: char.color, textDecoration: 'none',
-              opacity: progress > 0.25 && progress < 0.7 ? 1 : 0,
-              transition: 'opacity 0.3s ease',
-            }}
-          >
-            Read their story →
+        <div style={{ marginTop: 24, pointerEvents: 'auto' }}>
+          <Link href={`/characters/${char.slug}`} style={{
+            fontFamily: 'var(--font-bungee, Bungee, sans-serif)',
+            fontSize: 14, textTransform: 'uppercase', letterSpacing: 1,
+            color: char.color, textDecoration: 'none',
+            opacity: progress > 0.2 && progress < 0.65 ? 1 : 0,
+            transition: 'opacity 0.3s ease',
+          }}>
+            Full story →
           </Link>
         </div>
       )}
