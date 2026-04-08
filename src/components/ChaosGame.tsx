@@ -3,7 +3,16 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Dad as DadChar, Mom as MomChar, Grandma as GrandmaChar, Grandpa as GrandpaChar, Dinosaur as DinoChar } from '@/components/Characters';
+// Pixel art character images
+const GAME_SPRITES: Record<string, string> = {
+  guy: '/game/guy.png',
+  dad: '/game/pap.png',
+  mom: '/game/mal.png',
+  grandma: '/game/mimi.png',
+  grandpa: '/game/barry.png',
+  dinosaur: '/game/rex.png',
+  dog: '/game/buddy.png',
+};
 
 type Pos = { x: number; y: number };
 type Dir = { x: number; y: number };
@@ -265,26 +274,18 @@ function Kid({ size, dead }: { size: number; dead: boolean }) {
   );
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <span style={{fontSize:size*0.864,lineHeight:1,filter:'brightness(1)'}}>🧒🏽</span>
-      <div style={{position:'absolute',bottom:'14%',left:'50%',transform:'translateX(-50%)',width:size*0.18,height:size*0.16,background:'#ef4444',borderRadius:'0 0 50% 50%',boxShadow:'0 1px 4px rgba(239,68,68,0.6)',zIndex:3}}/>
+      <img src={GAME_SPRITES.guy} alt="Guy" style={{width:size,height:size,objectFit:'contain',imageRendering:'pixelated'}} />
     </div>
   );
 }
 
-const Dad = DadChar;
-const Mom = MomChar;
-const Grandma = GrandmaChar;
-const Grandpa = GrandpaChar;
-const Dinosaur = DinoChar;
-
 function ChaserChar({ chaser, size }: { chaser: Chaser; size: number }) {
-  switch (chaser.type) {
-    case 'dad':      return <Dad size={size} />;
-    case 'mom':      return <Mom size={size} />;
-    case 'grandma':  return <Grandma size={size} />;
-    case 'grandpa':  return <Grandpa size={size} />;
-    case 'dinosaur': return <Dinosaur size={size} />;
-  }
+  const src = GAME_SPRITES[chaser.type]
+  return (
+    <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
+      <img src={src} alt={chaser.type} style={{width:size,height:size,objectFit:'contain',imageRendering:'pixelated'}} />
+    </div>
+  );
 }
 
 // ─── Leaderboard ─────────────────────────────────────────────────────
@@ -806,7 +807,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
               transition: dogRef.current.state==='chasing' ? 'left 0.12s linear,top 0.12s linear' : 'none',
               filter:'drop-shadow(0 0 6px #fbbf24)',
             }}>
-              <span style={{fontSize:CS*0.72,lineHeight:1}}>🐕</span>
+              <img src={GAME_SPRITES.dog} alt="Buddy" style={{width:CS*0.85,height:CS*0.85,objectFit:'contain',imageRendering:'pixelated'}} />
               {dogRef.current.state === 'available' && (
                 <div style={{
                   position:'absolute', top:-13, left:'50%', transform:'translateX(-50%)',
@@ -939,9 +940,14 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
           {gs==='idle' && (
             <div className="absolute inset-0 bg-black/75 flex flex-col items-center justify-center gap-4 z-30">
               <div className="flex items-center gap-1">
-                <Dinosaur size={50}/><Grandpa size={55}/><Grandma size={55}/><Mom size={55}/><Dad size={55}/>
+                <img src={GAME_SPRITES.dinosaur} alt="Rex" style={{width:45,height:45,objectFit:'contain',imageRendering:'pixelated'}} />
+                <img src={GAME_SPRITES.grandpa} alt="Barry" style={{width:50,height:50,objectFit:'contain',imageRendering:'pixelated'}} />
+                <img src={GAME_SPRITES.grandma} alt="Mimi" style={{width:50,height:50,objectFit:'contain',imageRendering:'pixelated'}} />
+                <img src={GAME_SPRITES.mom} alt="Mal" style={{width:50,height:50,objectFit:'contain',imageRendering:'pixelated'}} />
+                <img src={GAME_SPRITES.dad} alt="Pap" style={{width:50,height:50,objectFit:'contain',imageRendering:'pixelated'}} />
                 <span className="text-gray-500 mx-2 font-bungee text-lg">vs</span>
-                <Kid size={55} dead={false}/><span style={{fontSize:40,lineHeight:1,filter:'drop-shadow(0 0 6px #fbbf24)'}}>🐕</span>
+                <Kid size={55} dead={false}/>
+                <img src={GAME_SPRITES.dog} alt="Buddy" style={{width:40,height:40,objectFit:'contain',imageRendering:'pixelated',filter:'drop-shadow(0 0 6px #fbbf24)'}} />
               </div>
               <h3 className="font-bungee text-white text-2xl">KID <span className="text-neon-pink">CHAOS</span></h3>
               <p className="font-space text-gray-300 text-xs text-center px-8 leading-relaxed">
@@ -988,9 +994,9 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
               {joinMsgRef.current && (
                 <div className="flex flex-col items-center gap-2 mt-1" style={{animation:'join-entrance 0.6s ease-out forwards'}}>
                   <div className="flex items-center gap-1">
-                    {newChasersAtLevel(level+1)?.includes('Grandma') && <Grandma size={48} />}
-                    {newChasersAtLevel(level+1)?.includes('Grandpa') && <Grandpa size={48} />}
-                    {newChasersAtLevel(level+1)?.includes('Rex') && <Dinosaur size={52} />}
+                    {newChasersAtLevel(level+1)?.includes('Grandma') && <img src={GAME_SPRITES.grandma} alt="Mimi" style={{width:48,height:48,objectFit:'contain',imageRendering:'pixelated'}} />}
+                    {newChasersAtLevel(level+1)?.includes('Grandpa') && <img src={GAME_SPRITES.grandpa} alt="Barry" style={{width:48,height:48,objectFit:'contain',imageRendering:'pixelated'}} />}
+                    {newChasersAtLevel(level+1)?.includes('Rex') && <img src={GAME_SPRITES.dinosaur} alt="Rex" style={{width:52,height:52,objectFit:'contain',imageRendering:'pixelated'}} />}
                   </div>
                   <p className="font-bungee text-neon-pink text-sm animate-pulse px-4 py-1.5 border border-neon-pink/40 rounded-lg bg-neon-pink/10">
                     ⚠️ {joinMsgRef.current.text}
