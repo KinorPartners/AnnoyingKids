@@ -13,7 +13,6 @@ const CHAR_COMPONENTS: Record<string, React.ReactNode> = {
   barry: <Grandpa size={120} />,
 }
 
-// Rex bonus character
 const REX = {
   slug: 'rex', name: 'Rex', role: 'Uninvited Guest', age: 'Old. Very old.',
   color: '#ef4444', tagline: 'Nobody knows where it came from. It shows up at level 10.',
@@ -33,7 +32,6 @@ const ALL_CHARS: CharSection[] = [
 export default function CharactersScroll() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
-  const [activeIndex, setActiveIndex] = useState(0)
   const totalSections = ALL_CHARS.length + 1 // +1 for intro
 
   const handleScroll = useCallback(() => {
@@ -43,9 +41,7 @@ export default function CharactersScroll() {
     const scrollHeight = el.scrollHeight - window.innerHeight
     const progress = Math.max(0, Math.min(1, scrollTop / scrollHeight))
     setScrollProgress(progress)
-    const idx = Math.min(Math.floor(progress * totalSections), totalSections - 1)
-    setActiveIndex(idx)
-  }, [totalSections])
+  }, [])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -53,8 +49,14 @@ export default function CharactersScroll() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [handleScroll])
 
-  // Per-section progress (0-1 within each section)
-  const sectionProgress = (scrollProgress * totalSections) - activeIndex
+  // Continuous float position through all sections
+  const floatPos = scrollProgress * totalSections
+  const activeIndex = Math.min(Math.floor(floatPos), totalSections - 1)
+
+  // Interpolate background glow color between current and next character
+  const currColor = activeIndex === 0 ? '#ff2d78' : ALL_CHARS[Math.min(activeIndex - 1, ALL_CHARS.length - 1)]?.color || '#fff'
+  const nextColor = activeIndex < ALL_CHARS.length ? ALL_CHARS[Math.min(activeIndex, ALL_CHARS.length - 1)]?.color || '#fff' : '#ef4444'
+  const blend = floatPos - activeIndex // 0-1 within section
 
   return (
     <div ref={containerRef} style={{ minHeight: `${totalSections * 100}vh` }}>
@@ -66,27 +68,60 @@ export default function CharactersScroll() {
         <div style={{
           height: '100%', width: `${scrollProgress * 100}%`,
           background: 'linear-gradient(90deg, #ff2d78, #00f0ff, #a855f7, #f59e0b)',
-          transition: 'width 0.1s linear',
+          transition: 'width 0.05s linear',
         }} />
       </div>
 
-      {/* Fixed viewport */}
+      {/* Background glow that morphs between character colors */}
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
+        background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${currColor}15 0%, transparent 70%)`,
+        transition: 'background 0.3s ease',
+      }} />
+      <div style={{
+        position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
+        opacity: blend,
+        background: `radial-gradient(ellipse 80% 60% at 50% 50%, ${nextColor}18 0%, transparent 70%)`,
+      }} />
+
+      {/* Fixed viewport — render TWO characters for crossfade */}
       <div style={{
         position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        overflow: 'hidden', pointerEvents: 'none',
+        overflow: 'hidden', pointerEvents: 'none', zIndex: 1,
       }}>
-        {/* Intro section */}
-        {activeIndex === 0 && (
-          <IntroSection progress={sectionProgress} />
-        )}
+        {/* Intro */}
+        {activeIndex === 0 && <IntroSection progress={blend} />}
 
-        {/* Character sections */}
+        {/* Current character (fading out) */}
         {activeIndex > 0 && activeIndex <= ALL_CHARS.length && (
           <CharacterSection
             char={ALL_CHARS[activeIndex - 1]}
             component={CHAR_COMPONENTS[ALL_CHARS[activeIndex - 1].slug]}
-            progress={sectionProgress}
+            progress={blend}
             index={activeIndex - 1}
+            phase="current"
+          />
+        )}
+
+        {/* Next character (fading in) — renders during transition zone */}
+        {activeIndex > 0 && activeIndex < ALL_CHARS.length && blend > 0.55 && (
+          <CharacterSection
+            char={ALL_CHARS[activeIndex]}
+            component={CHAR_COMPONENTS[ALL_CHARS[activeIndex].slug]}
+            progress={(blend - 0.55) / 0.45} // 0-1 during last 45% of section
+            index={activeIndex}
+            phase="incoming"
+          />
+        )}
+
+        {/* Intro to first character transition */}
+        {activeIndex === 0 && blend > 0.6 && (
+          <CharacterSection
+            char={ALL_CHARS[0]}
+            component={CHAR_COMPONENTS[ALL_CHARS[0].slug]}
+            progress={(blend - 0.6) / 0.4}
+            index={0}
+            phase="incoming"
           />
         )}
       </div>
@@ -110,21 +145,18 @@ export default function CharactersScroll() {
             style={{
               width: activeIndex === i ? 12 : 8,
               height: activeIndex === i ? 12 : 8,
-              borderRadius: '50%',
-              border: 'none',
-              cursor: 'pointer',
+              borderRadius: '50%', border: 'none', cursor: 'pointer',
               background: activeIndex === i
                 ? (i === 0 ? '#fff' : ALL_CHARS[i - 1]?.color || '#fff')
                 : 'rgba(255,255,255,0.25)',
-              boxShadow: activeIndex === i ? `0 0 10px ${i === 0 ? '#fff' : ALL_CHARS[i - 1]?.color || '#fff'}` : 'none',
+              boxShadow: activeIndex === i ? `0 0 12px ${i === 0 ? '#fff' : ALL_CHARS[i - 1]?.color || '#fff'}` : 'none',
               transition: 'all 0.3s ease',
-              pointerEvents: 'auto',
             }}
           />
         ))}
       </div>
 
-      {/* Bottom CTA - visible at end */}
+      {/* Bottom CTA */}
       {activeIndex >= ALL_CHARS.length && (
         <div style={{
           position: 'fixed', bottom: 40, left: 0, right: 0,
@@ -137,7 +169,6 @@ export default function CharactersScroll() {
               fontFamily: 'var(--font-bungee, Bungee, sans-serif)', fontSize: 20,
               textTransform: 'uppercase', borderRadius: 16, textDecoration: 'none',
               boxShadow: '0 0 30px rgba(255,45,120,0.5)',
-              transition: 'transform 0.2s, box-shadow 0.2s',
             }}
           >
             🎮 Play Kid Chaos
@@ -149,14 +180,16 @@ export default function CharactersScroll() {
 }
 
 function IntroSection({ progress }: { progress: number }) {
-  const opacity = progress < 0.7 ? 1 : 1 - ((progress - 0.7) / 0.3)
-  const scale = 1 + progress * 0.15
-  const y = progress * -60
+  // Fade out and zoom as user scrolls, but start earlier
+  const fadeOut = progress > 0.5 ? (progress - 0.5) / 0.5 : 0
+  const opacity = 1 - fadeOut
+  const scale = 1 + progress * 0.2
+  const y = progress * -80
 
   return (
     <div style={{
-      textAlign: 'center', opacity, transform: `translateY(${y}px) scale(${scale})`,
-      transition: 'opacity 0.05s linear',
+      textAlign: 'center', position: 'absolute',
+      opacity, transform: `translateY(${y}px) scale(${scale})`,
     }}>
       <div style={{
         fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)', fontSize: 12,
@@ -178,58 +211,67 @@ function IntroSection({ progress }: { progress: number }) {
         Scroll down to meet each character.<br />
         Every one of them has a story. Most of them are trouble.
       </p>
-      <div style={{
-        fontSize: 28, animation: 'bounce 1.5s ease infinite',
-        color: 'rgba(255,255,255,0.3)',
-      }}>
-        ↓
-      </div>
+      <div style={{ fontSize: 28, animation: 'bounce 1.5s ease infinite', color: 'rgba(255,255,255,0.3)' }}>↓</div>
       <style>{`@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}`}</style>
     </div>
   )
 }
 
-function CharacterSection({ char, component, progress, index }: {
-  char: CharSection; component?: React.ReactNode; progress: number; index: number
+function CharacterSection({ char, component, progress, index, phase }: {
+  char: CharSection; component?: React.ReactNode; progress: number; index: number;
+  phase: 'current' | 'incoming';
 }) {
-  // 3D transforms driven by scroll progress within this section
-  const enterPhase = Math.min(progress / 0.3, 1) // 0-1 during first 30%
-  const holdPhase = progress >= 0.3 && progress <= 0.7 ? 1 : 0
-  const exitPhase = progress > 0.7 ? (progress - 0.7) / 0.3 : 0 // 0-1 during last 30%
-
-  const opacity = enterPhase * (1 - exitPhase)
-
-  // Character avatar: rotates in 3D, scales up, then slides away
-  const avatarRotateY = (1 - enterPhase) * 90 - exitPhase * 45
-  const avatarRotateX = (1 - enterPhase) * -20
-  const avatarScale = 0.3 + enterPhase * 0.7
-  const avatarX = exitPhase * -200
-
-  // Info panel: slides in from right, parallax offset
-  const infoX = (1 - enterPhase) * 100 - exitPhase * 150
-  const infoOpacity = enterPhase * (1 - exitPhase * 1.5)
-
-  // Facts: stagger in from bottom
-  const visibleFacts = Math.floor(enterPhase * (char.facts?.length || 0))
-
-  // Alternating layout: even chars have avatar on left, odd on right
   const isFlipped = index % 2 === 1
+  const isIncoming = phase === 'incoming'
+
+  let opacity: number, avatarRotateY: number, avatarRotateX: number, avatarScale: number
+  let avatarX: number, avatarY: number, infoX: number, infoOpacity: number
+
+  if (isIncoming) {
+    // Incoming: sweep in from opposite side with 3D rotation
+    const ease = 1 - Math.pow(1 - progress, 3) // ease-out cubic
+    opacity = progress
+    avatarRotateY = (1 - ease) * (isFlipped ? -120 : 120)
+    avatarRotateX = (1 - ease) * 15
+    avatarScale = 0.4 + ease * 0.6
+    avatarX = (1 - ease) * (isFlipped ? -300 : 300)
+    avatarY = (1 - ease) * 50
+    infoX = (1 - ease) * (isFlipped ? -120 : 120)
+    infoOpacity = Math.max(0, (progress - 0.3) / 0.7)
+  } else {
+    // Current: visible, then exit with opposing motion
+    const enterDone = Math.min(progress / 0.2, 1) // quick settle at start
+    const exitStart = Math.max(0, (progress - 0.55) / 0.45) // exit during last 45%
+    const exitEase = exitStart * exitStart // ease-in for exit (accelerate away)
+
+    opacity = enterDone * (1 - exitEase * 0.8)
+    avatarRotateY = exitEase * (isFlipped ? 60 : -60)
+    avatarRotateX = exitEase * -10
+    avatarScale = 1 - exitEase * 0.3
+    avatarX = exitEase * (isFlipped ? 200 : -200)
+    avatarY = exitEase * -40
+    infoX = exitEase * (isFlipped ? 100 : -100)
+    infoOpacity = enterDone * (1 - exitEase * 1.2)
+  }
+
+  // Facts stagger (only for current phase, past the settle)
+  const factReveal = isIncoming ? progress : Math.min(progress / 0.5, 1)
+  const visibleFacts = Math.floor(factReveal * (Math.min(char.facts?.length || 0, 3)))
 
   return (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       gap: 60, width: '100%', maxWidth: 1100, padding: '0 40px',
-      opacity, flexDirection: isFlipped ? 'row-reverse' : 'row',
+      opacity: Math.max(0, opacity),
+      flexDirection: isFlipped ? 'row-reverse' : 'row',
+      position: 'absolute',
     }}>
-      {/* Avatar with 3D transform */}
-      <div style={{
-        flex: '0 0 auto',
-        perspective: 800,
-      }}>
+      {/* Avatar with 3D perspective */}
+      <div style={{ flex: '0 0 auto', perspective: 1000 }}>
         <div style={{
-          transform: `rotateY(${avatarRotateY}deg) rotateX(${avatarRotateX}deg) scale(${avatarScale}) translateX(${avatarX}px)`,
-          transition: 'transform 0.05s linear',
+          transform: `rotateY(${avatarRotateY}deg) rotateX(${avatarRotateX}deg) scale(${avatarScale}) translate(${avatarX}px, ${avatarY}px)`,
           transformStyle: 'preserve-3d',
+          willChange: 'transform',
         }}>
           <div style={{
             width: 200, height: 200, borderRadius: 32,
@@ -240,12 +282,10 @@ function CharacterSection({ char, component, progress, index }: {
           }}>
             {component || <span style={{ fontSize: 80 }}>🦕</span>}
           </div>
-          {/* Shadow beneath */}
           <div style={{
-            width: 140, height: 20, margin: '16px auto 0',
-            borderRadius: '50%',
+            width: 140, height: 20, margin: '16px auto 0', borderRadius: '50%',
             background: `radial-gradient(ellipse, ${char.color}33 0%, transparent 70%)`,
-            filter: 'blur(4px)',
+            filter: 'blur(4px)', opacity: avatarScale,
           }} />
         </div>
       </div>
@@ -255,7 +295,7 @@ function CharacterSection({ char, component, progress, index }: {
         flex: '1 1 auto', maxWidth: 500,
         transform: `translateX(${infoX}px)`,
         opacity: Math.max(0, infoOpacity),
-        transition: 'transform 0.05s linear, opacity 0.05s linear',
+        willChange: 'transform, opacity',
       }}>
         <div style={{
           fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
@@ -280,40 +320,38 @@ function CharacterSection({ char, component, progress, index }: {
         </p>
 
         {/* Origin snippet */}
-        {char.origin && (
+        {char.origin && !isIncoming && (
           <p style={{
             fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
             fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7,
             marginBottom: 20, maxWidth: 440,
-            opacity: holdPhase + enterPhase > 1 ? 1 : Math.max(0, enterPhase - 0.5) * 2,
+            opacity: Math.max(0, Math.min(1, (progress - 0.15) / 0.2)),
+            transform: `translateY(${Math.max(0, (1 - Math.min(1, (progress - 0.15) / 0.2))) * 15}px)`,
           }}>
             {char.origin.split('\n')[0].slice(0, 200)}...
           </p>
         )}
 
-        {/* Facts that appear one by one */}
+        {/* Facts */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {(char.facts || []).slice(0, 3).map((fact, i) => (
-            <div
-              key={i}
-              style={{
-                fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-                fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5,
-                padding: '8px 14px', borderRadius: 10,
-                background: i < visibleFacts ? `${char.color}12` : 'transparent',
-                borderLeft: i < visibleFacts ? `3px solid ${char.color}` : '3px solid transparent',
-                opacity: i < visibleFacts ? 1 : 0,
-                transform: i < visibleFacts ? 'translateX(0)' : 'translateX(20px)',
-                transition: `all 0.4s ease ${i * 0.1}s`,
-              }}
-            >
+            <div key={i} style={{
+              fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
+              fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5,
+              padding: '8px 14px', borderRadius: 10,
+              background: i < visibleFacts ? `${char.color}12` : 'transparent',
+              borderLeft: i < visibleFacts ? `3px solid ${char.color}` : '3px solid transparent',
+              opacity: i < visibleFacts ? 1 : 0,
+              transform: i < visibleFacts ? 'translateX(0) translateY(0)' : 'translateX(20px) translateY(10px)',
+              transition: `all 0.4s ease ${i * 0.12}s`,
+            }}>
               {fact}
             </div>
           ))}
         </div>
 
         {/* Read more link */}
-        {char.slug !== 'rex' && (
+        {char.slug !== 'rex' && !isIncoming && (
           <div style={{ marginTop: 20, pointerEvents: 'auto' }}>
             <Link
               href={`/characters/${char.slug}`}
@@ -321,7 +359,7 @@ function CharacterSection({ char, component, progress, index }: {
                 fontFamily: 'var(--font-bungee, Bungee, sans-serif)',
                 fontSize: 12, textTransform: 'uppercase', letterSpacing: 1,
                 color: char.color, textDecoration: 'none',
-                opacity: enterPhase > 0.5 ? 1 : 0,
+                opacity: progress > 0.25 && progress < 0.7 ? 1 : 0,
                 transition: 'opacity 0.3s ease',
               }}
             >
