@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CHARACTERS } from '@/lib/characters';
 import { Kid, Dad, Mom, Grandma, Grandpa, Dinosaur } from '@/components/Characters';
+import ScrollReveal from '@/components/ScrollReveal';
+import CharacterGrid from '@/components/CharacterGrid';
 
 export const metadata: Metadata = {
   title: 'Meet the Gang — Kid Chaos Characters',
@@ -29,6 +31,7 @@ export default function CharactersPage() {
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-neon-blue/8 rounded-full blur-[120px]" />
         </div>
         <div className="max-w-4xl mx-auto text-center relative z-10">
+          <ScrollReveal direction="none" delay={0}>
           <span className="font-space text-neon-green text-xs uppercase tracking-widest">Kid Chaos Universe</span>
           <h1 className="font-bungee text-4xl sm:text-6xl text-white mt-3 mb-4 leading-none">
             MEET THE <span className="text-neon-pink">GANG</span>
@@ -53,12 +56,13 @@ export default function CharactersPage() {
               Shop the Merch
             </Link>
           </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Character cards */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <CharacterGrid>
           {CHARACTERS.map((char) => (
             <Link
               key={char.slug}
@@ -134,12 +138,12 @@ export default function CharactersPage() {
               </div>
             </div>
           </div>
-        </div>
+        </CharacterGrid>
       </section>
 
       {/* Game CTA strip */}
       <section className="border-t border-dark-border bg-dark-surface/40 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center">
+        <ScrollReveal direction="up" className="max-w-3xl mx-auto text-center">
           <p className="font-bungee text-2xl sm:text-3xl text-white mb-2">
             Now you know the <span className="text-neon-pink">cast</span>.
           </p>
@@ -153,7 +157,7 @@ export default function CharactersPage() {
           >
             🎮 Play Kid Chaos
           </Link>
-        </div>
+        </ScrollReveal>
       </section>
     </div>
   );
