@@ -2,15 +2,17 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { CHARACTERS } from '@/lib/characters'
-import { Kid, Dad, Mom, Grandma, Grandpa, Dinosaur } from '@/components/Characters'
+import Image from 'next/image'
 
-const CHAR_COMPONENTS: Record<string, React.ReactNode> = {
-  guy:   <Kid size={140} />,
-  buddy: <span style={{ fontSize: 120, lineHeight: 1 }}>🐕</span>,
-  pap:   <Dad size={140} />,
-  mal:   <Mom size={140} />,
-  mimi:  <Grandma size={140} />,
-  barry: <Grandpa size={140} />,
+// 3D character images — transparent PNGs
+const CHAR_IMAGES: Record<string, string> = {
+  guy: '/characters/guy.png',
+  buddy: '/characters/buddy.png',
+  pap: '/characters/pap.png',
+  mal: '/characters/mal.png',
+  mimi: '/characters/mimi.png',
+  barry: '/characters/barry.png',
+  rex: '/characters/rex.png',
 }
 
 // Short punchy descriptions — just a few words each
@@ -151,7 +153,6 @@ export default function CharactersScroll() {
         {activeIndex > 0 && activeIndex <= ALL_CHARS.length && (
           <CharacterSection
             char={ALL_CHARS[activeIndex - 1]}
-            component={CHAR_COMPONENTS[ALL_CHARS[activeIndex - 1].slug]}
             progress={blend}
             index={activeIndex - 1}
             phase="current"
@@ -160,7 +161,6 @@ export default function CharactersScroll() {
         {activeIndex > 0 && activeIndex < ALL_CHARS.length && blend > 0.55 && (
           <CharacterSection
             char={ALL_CHARS[activeIndex]}
-            component={CHAR_COMPONENTS[ALL_CHARS[activeIndex].slug]}
             progress={(blend - 0.55) / 0.45}
             index={activeIndex}
             phase="incoming"
@@ -169,7 +169,6 @@ export default function CharactersScroll() {
         {activeIndex === 0 && blend > 0.6 && (
           <CharacterSection
             char={ALL_CHARS[0]}
-            component={CHAR_COMPONENTS[ALL_CHARS[0].slug]}
             progress={(blend - 0.6) / 0.4}
             index={0}
             phase="incoming"
@@ -250,8 +249,8 @@ function IntroSection({ progress }: { progress: number }) {
   )
 }
 
-function CharacterSection({ char, component, progress, index, phase }: {
-  char: CharSection; component?: React.ReactNode; progress: number; index: number;
+function CharacterSection({ char, progress, index, phase }: {
+  char: CharSection; progress: number; index: number;
   phase: 'current' | 'incoming';
 }) {
   const isIncoming = phase === 'incoming'
@@ -307,42 +306,46 @@ function CharacterSection({ char, component, progress, index, phase }: {
         {tagline}
       </p>
 
-      {/* Avatar with dramatic 3D blow-up */}
+      {/* 3D Character Image with dramatic blow-up */}
       <div style={{ perspective: 800, marginBottom: 32 }}>
         <div style={{
           transform: `rotateY(${avatarRotateY}deg) rotateX(${avatarRotateX}deg) scale(${avatarScale}) translateY(${avatarY}px)`,
           transformStyle: 'preserve-3d', willChange: 'transform',
         }}>
-          <div style={{
-            width: 200, height: 200, borderRadius: 36,
-            background: char.color + '18',
-            border: `2px solid ${char.color}55`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: `0 24px 80px ${char.color}44, inset 0 0 50px ${char.color}15`,
-            margin: '0 auto',
-          }}>
-            {component || <span style={{ fontSize: 90 }}>🦕</span>}
+          <div style={{ width: 220, height: 280, margin: '0 auto', position: 'relative' }}>
+            {CHAR_IMAGES[char.slug] ? (
+              <img
+                src={CHAR_IMAGES[char.slug]}
+                alt={char.name}
+                style={{
+                  width: '100%', height: '100%', objectFit: 'contain',
+                  filter: `drop-shadow(0 8px 24px ${char.color}66)`,
+                }}
+              />
+            ) : (
+              <span style={{ fontSize: 90 }}>🦕</span>
+            )}
           </div>
           {/* Glow shadow beneath */}
           <div style={{
-            width: 160, height: 24, margin: '14px auto 0', borderRadius: '50%',
-            background: `radial-gradient(ellipse, ${char.color}44 0%, transparent 70%)`,
-            filter: 'blur(6px)', opacity: Math.min(1, avatarScale),
+            width: 160, height: 24, margin: '8px auto 0', borderRadius: '50%',
+            background: `radial-gradient(ellipse, ${char.color}55 0%, transparent 70%)`,
+            filter: 'blur(8px)', opacity: Math.min(1, avatarScale),
           }} />
         </div>
       </div>
 
-      {/* Short facts — punchy one-liners */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', maxWidth: 480 }}>
+      {/* Short facts — punchy one-liners, fixed height to prevent overlap */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', maxWidth: 480, minHeight: facts.length * 48 }}>
         {facts.map((fact, i) => (
           <div key={i} style={{
             fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-            fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5,
-            padding: '10px 18px', borderRadius: 12, textAlign: 'left',
+            fontSize: 14, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5,
+            padding: '8px 16px', borderRadius: 10, textAlign: 'left',
             background: i < visibleFacts ? `${char.color}10` : 'transparent',
             borderLeft: i < visibleFacts ? `3px solid ${char.color}` : '3px solid transparent',
             opacity: i < visibleFacts ? 1 : 0,
-            transform: i < visibleFacts ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)',
+            transform: i < visibleFacts ? 'none' : 'translateY(12px)',
             transition: `all 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.1}s`,
           }}>
             {fact}
