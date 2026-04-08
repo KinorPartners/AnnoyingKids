@@ -10,24 +10,14 @@ interface Props {
 
 export default function ScrollReveal({ children, delay = 0, direction = 'up', className = '' }: Props) {
   const ref = useRef<HTMLDivElement>(null)
-  const [mounted, setMounted] = useState(false)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const el = ref.current
     if (!el) return
-
-    // Check if already in viewport on mount
-    const rect = el.getBoundingClientRect()
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      setVisible(true)
-      return
-    }
-
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.unobserve(el) } },
-      { threshold: 0.1, rootMargin: '50px' }
+      { threshold: 0.15 }
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -39,11 +29,6 @@ export default function ScrollReveal({ children, delay = 0, direction = 'up', cl
     left: 'translateX(-40px)',
     right: 'translateX(40px)',
     none: 'none',
-  }
-
-  // Before hydration, show content normally (no flash of invisible content)
-  if (!mounted) {
-    return <div className={className}>{children}</div>
   }
 
   return (

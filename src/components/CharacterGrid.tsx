@@ -7,31 +7,18 @@ interface Props {
 
 function RevealCard({ children, index }: { children: ReactNode; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
-  const [mounted, setMounted] = useState(false)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const el = ref.current
     if (!el) return
-
-    const rect = el.getBoundingClientRect()
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      setVisible(true)
-      return
-    }
-
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.unobserve(el) } },
-      { threshold: 0.1, rootMargin: '50px' }
+      { threshold: 0.1 }
     )
     observer.observe(el)
     return () => observer.disconnect()
   }, [])
-
-  if (!mounted) {
-    return <div>{children}</div>
-  }
 
   return (
     <div
