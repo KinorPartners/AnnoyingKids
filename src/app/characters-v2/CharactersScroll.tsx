@@ -228,29 +228,29 @@ function CharacterSection({ char, component, progress, index, phase }: {
   let avatarX: number, avatarY: number, infoX: number, infoOpacity: number
 
   if (isIncoming) {
-    // Incoming: sweep in from opposite side with 3D rotation
+    // Incoming: rise up from below with 3D rotation
     const ease = 1 - Math.pow(1 - progress, 3) // ease-out cubic
     opacity = progress
-    avatarRotateY = (1 - ease) * (isFlipped ? -120 : 120)
-    avatarRotateX = (1 - ease) * 15
-    avatarScale = 0.4 + ease * 0.6
-    avatarX = (1 - ease) * (isFlipped ? -300 : 300)
-    avatarY = (1 - ease) * 50
-    infoX = (1 - ease) * (isFlipped ? -120 : 120)
+    avatarRotateY = (1 - ease) * 60
+    avatarRotateX = (1 - ease) * 20
+    avatarScale = 0.5 + ease * 0.5
+    avatarX = 0
+    avatarY = (1 - ease) * 120
+    infoX = 0
     infoOpacity = Math.max(0, (progress - 0.3) / 0.7)
   } else {
-    // Current: visible, then exit with opposing motion
-    const enterDone = Math.min(progress / 0.2, 1) // quick settle at start
-    const exitStart = Math.max(0, (progress - 0.55) / 0.45) // exit during last 45%
-    const exitEase = exitStart * exitStart // ease-in for exit (accelerate away)
+    // Current: visible, then drift upward and fade
+    const enterDone = Math.min(progress / 0.2, 1)
+    const exitStart = Math.max(0, (progress - 0.55) / 0.45)
+    const exitEase = exitStart * exitStart
 
     opacity = enterDone * (1 - exitEase * 0.8)
-    avatarRotateY = exitEase * (isFlipped ? 60 : -60)
-    avatarRotateX = exitEase * -10
-    avatarScale = 1 - exitEase * 0.3
-    avatarX = exitEase * (isFlipped ? 200 : -200)
-    avatarY = exitEase * -40
-    infoX = exitEase * (isFlipped ? 100 : -100)
+    avatarRotateY = exitEase * -30
+    avatarRotateX = exitEase * 15
+    avatarScale = 1 - exitEase * 0.2
+    avatarX = 0
+    avatarY = exitEase * -80
+    infoX = 0
     infoOpacity = enterDone * (1 - exitEase * 1.2)
   }
 
@@ -260,114 +260,108 @@ function CharacterSection({ char, component, progress, index, phase }: {
 
   return (
     <div style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      gap: 60, width: '100%', maxWidth: 1100, padding: '0 40px',
-      opacity: Math.max(0, opacity),
-      flexDirection: isFlipped ? 'row-reverse' : 'row',
-      position: 'absolute',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      textAlign: 'center', width: '100%', maxWidth: 600, padding: '0 24px',
+      opacity: Math.max(0, opacity), position: 'absolute',
     }}>
+      {/* Name */}
+      <h2 style={{
+        fontFamily: 'var(--font-bungee, Bungee, sans-serif)',
+        fontSize: 'clamp(44px, 7vw, 80px)', color: '#fff',
+        textTransform: 'uppercase', lineHeight: 0.95, margin: '0 0 6px',
+        transform: `translateY(${isIncoming ? (1 - Math.min(1, progress * 2)) * -30 : avatarY * 0.3}px)`,
+      }}>
+        {char.name}
+      </h2>
+
+      {/* Subtitle: role + tagline */}
+      <div style={{
+        fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
+        fontSize: 11, textTransform: 'uppercase', letterSpacing: 3,
+        color: char.color, marginBottom: 4,
+      }}>
+        {char.role} · Age {char.age}
+      </div>
+      <p style={{
+        fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
+        fontSize: 15, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6,
+        marginBottom: 20, maxWidth: 420,
+      }}>
+        {char.tagline}
+      </p>
+
       {/* Avatar with 3D perspective */}
-      <div style={{ flex: '0 0 auto', perspective: 1000 }}>
+      <div style={{ perspective: 1000, marginBottom: 24 }}>
         <div style={{
-          transform: `rotateY(${avatarRotateY}deg) rotateX(${avatarRotateX}deg) scale(${avatarScale}) translate(${avatarX}px, ${avatarY}px)`,
-          transformStyle: 'preserve-3d',
-          willChange: 'transform',
+          transform: `rotateY(${avatarRotateY}deg) rotateX(${avatarRotateX}deg) scale(${avatarScale}) translateY(${avatarY}px)`,
+          transformStyle: 'preserve-3d', willChange: 'transform',
         }}>
           <div style={{
-            width: 200, height: 200, borderRadius: 32,
+            width: 180, height: 180, borderRadius: 32,
             background: char.color + '15',
             border: `2px solid ${char.color}44`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: `0 20px 60px ${char.color}33, inset 0 0 40px ${char.color}11`,
+            margin: '0 auto',
           }}>
             {component || <span style={{ fontSize: 80 }}>🦕</span>}
           </div>
           <div style={{
-            width: 140, height: 20, margin: '16px auto 0', borderRadius: '50%',
+            width: 120, height: 16, margin: '12px auto 0', borderRadius: '50%',
             background: `radial-gradient(ellipse, ${char.color}33 0%, transparent 70%)`,
             filter: 'blur(4px)', opacity: avatarScale,
           }} />
         </div>
       </div>
 
-      {/* Info panel */}
-      <div style={{
-        flex: '1 1 auto', maxWidth: 500,
-        transform: `translateX(${infoX}px)`,
-        opacity: Math.max(0, infoOpacity),
-        willChange: 'transform, opacity',
-      }}>
-        <div style={{
-          fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-          fontSize: 11, textTransform: 'uppercase', letterSpacing: 3,
-          color: char.color, marginBottom: 6,
-        }}>
-          {char.role} · Age {char.age}
-        </div>
-        <h2 style={{
-          fontFamily: 'var(--font-bungee, Bungee, sans-serif)',
-          fontSize: 'clamp(40px, 6vw, 72px)', color: '#fff',
-          textTransform: 'uppercase', lineHeight: 0.95, margin: '0 0 12px',
-        }}>
-          {char.name}
-        </h2>
+      {/* Origin snippet */}
+      {char.origin && !isIncoming && (
         <p style={{
           fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-          fontSize: 16, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7,
-          marginBottom: 20, maxWidth: 440,
+          fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7,
+          marginBottom: 16, maxWidth: 460,
+          opacity: Math.max(0, Math.min(1, (progress - 0.15) / 0.2)),
+          transform: `translateY(${Math.max(0, (1 - Math.min(1, (progress - 0.15) / 0.2))) * 12}px)`,
         }}>
-          {char.tagline}
+          {char.origin.split('\n')[0].slice(0, 180)}...
         </p>
+      )}
 
-        {/* Origin snippet */}
-        {char.origin && !isIncoming && (
-          <p style={{
+      {/* Facts staggered in */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%', maxWidth: 460 }}>
+        {(char.facts || []).slice(0, 3).map((fact, i) => (
+          <div key={i} style={{
             fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-            fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7,
-            marginBottom: 20, maxWidth: 440,
-            opacity: Math.max(0, Math.min(1, (progress - 0.15) / 0.2)),
-            transform: `translateY(${Math.max(0, (1 - Math.min(1, (progress - 0.15) / 0.2))) * 15}px)`,
+            fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5,
+            padding: '8px 16px', borderRadius: 10, textAlign: 'left',
+            background: i < visibleFacts ? `${char.color}12` : 'transparent',
+            borderLeft: i < visibleFacts ? `3px solid ${char.color}` : '3px solid transparent',
+            opacity: i < visibleFacts ? 1 : 0,
+            transform: i < visibleFacts ? 'translateY(0)' : 'translateY(15px)',
+            transition: `all 0.4s ease ${i * 0.12}s`,
           }}>
-            {char.origin.split('\n')[0].slice(0, 200)}...
-          </p>
-        )}
-
-        {/* Facts */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {(char.facts || []).slice(0, 3).map((fact, i) => (
-            <div key={i} style={{
-              fontFamily: 'var(--font-space, "Space Grotesk", sans-serif)',
-              fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5,
-              padding: '8px 14px', borderRadius: 10,
-              background: i < visibleFacts ? `${char.color}12` : 'transparent',
-              borderLeft: i < visibleFacts ? `3px solid ${char.color}` : '3px solid transparent',
-              opacity: i < visibleFacts ? 1 : 0,
-              transform: i < visibleFacts ? 'translateX(0) translateY(0)' : 'translateX(20px) translateY(10px)',
-              transition: `all 0.4s ease ${i * 0.12}s`,
-            }}>
-              {fact}
-            </div>
-          ))}
-        </div>
-
-        {/* Read more link */}
-        {char.slug !== 'rex' && !isIncoming && (
-          <div style={{ marginTop: 20, pointerEvents: 'auto' }}>
-            <Link
-              href={`/characters/${char.slug}`}
-              style={{
-                fontFamily: 'var(--font-bungee, Bungee, sans-serif)',
-                fontSize: 12, textTransform: 'uppercase', letterSpacing: 1,
-                color: char.color, textDecoration: 'none',
-                opacity: progress > 0.25 && progress < 0.7 ? 1 : 0,
-                transition: 'opacity 0.3s ease',
-              }}
-            >
-              Read their story →
-            </Link>
+            {fact}
           </div>
-        )}
+        ))}
       </div>
+
+      {/* Read more link */}
+      {char.slug !== 'rex' && !isIncoming && (
+        <div style={{ marginTop: 16, pointerEvents: 'auto' }}>
+          <Link
+            href={`/characters/${char.slug}`}
+            style={{
+              fontFamily: 'var(--font-bungee, Bungee, sans-serif)',
+              fontSize: 12, textTransform: 'uppercase', letterSpacing: 1,
+              color: char.color, textDecoration: 'none',
+              opacity: progress > 0.25 && progress < 0.7 ? 1 : 0,
+              transition: 'opacity 0.3s ease',
+            }}
+          >
+            Read their story →
+          </Link>
+        </div>
+      )}
     </div>
   )
 }
