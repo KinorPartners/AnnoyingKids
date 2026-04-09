@@ -166,7 +166,7 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
   const isSwapped = useMemo(() => {
     if (!hasColorSize) return false;
     const first = product.variants[0].title.split('/')[0].trim().toLowerCase();
-    return /^\d+\s*oz$/.test(first);
+    return /^\d+\s*oz$/.test(first) || /^\d+[""]\s*[×x×]\s*\d+/.test(first);
   }, [product.variants, hasColorSize]);
 
   // Extract color (index 0 normally, index 1 if swapped) and size (vice versa)

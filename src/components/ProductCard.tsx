@@ -8,21 +8,36 @@ import { useCart } from '@/context/CartContext';
 
 /** Map color names (lowercase) to display hex values */
 const COLOR_HEX: Record<string, string> = {
-  'white':       '#FFFFFF',
-  'black':       '#1a1a1a',
-  'sand':        '#C2A96E',
-  'sport grey':  '#8A8A8A',
-  'navy':        '#1C2D5A',
-  'red':         '#CC2222',
-  'royal blue':  '#1C47A3',
-  'forest green':'#2D6A2D',
-  'maroon':      '#7B1E1E',
-  'purple':      '#6B2FA0',
-  'gold':        '#C9A227',
-  'light blue':  '#7EC8E3',
-  'charcoal':    '#3D3D3D',
-  'heather grey':'#B0B0B0',
-  'ash grey':    '#B0B0B0',
+  'white':              '#FFFFFF',
+  'black':              '#1a1a1a',
+  'sand':               '#C2A96E',
+  'sport grey':         '#8A8A8A',
+  'navy':               '#1C2D5A',
+  'red':                '#CC2222',
+  'pink':               '#FF8FAB',
+  'light blue':         '#7EC8E3',
+  'orange':             '#FF8C00',
+  'yellow':             '#FFD700',
+  'light green':        '#7DC97D',
+  'purple':             '#7B2FBE',
+  'spruce':             '#2E5941',
+  'stone':              '#8B8377',
+  'khaki':              '#C3B091',
+  'cranberry':          '#9C1830',
+  'orchid':             '#B76FBF',
+  'chambray':           '#4F7CAC',
+  'violet':             '#8A2BE2',
+  'berry':              '#872657',
+  'blossom':            '#FFB7C5',
+  'heather ice blue':   '#B0C4DE',
+  'heather prism lilac':'#C8A2C8',
+  'royal blue':         '#1C47A3',
+  'forest green':       '#2D6A2D',
+  'maroon':             '#7B1E1E',
+  'gold':               '#C9A227',
+  'charcoal':           '#3D3D3D',
+  'heather grey':       '#B0B0B0',
+  'ash grey':           '#B0B0B0',
 };
 
 /** Extract unique colors from product variants. Returns [] for size-only products. */
@@ -30,8 +45,11 @@ function getProductColors(product: Product): string[] {
   if (!product.variants.length) return [];
   const first = product.variants[0].title;
   if (!first.includes('/')) return [];
-  // Detect swapped format: "Size / Color" (e.g. "11oz / Black")
-  const isSwapped = /^\d+\s*oz$/.test(first.split('/')[0].trim().toLowerCase());
+  const firstPart = first.split('/')[0].trim().toLowerCase();
+  // Detect "Size / Color" format: oz-based (mugs) or dimension-based (stickers: 3" × 3")
+  const isSwapped =
+    /^\d+\s*oz$/.test(firstPart) ||
+    /^\d+[""]\s*[×x×]\s*\d+/.test(firstPart);
   const seen = new Set<string>();
   const colors: string[] = [];
   for (const v of product.variants) {
