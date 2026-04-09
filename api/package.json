@@ -2,6 +2,7 @@
   "name": "annoyingkids-api",
   "version": "1.0.0",
   "dependencies": {
+    "@azure/storage-blob": "^12.26.0",
     "stripe": "^16.2.0"
   }
 }

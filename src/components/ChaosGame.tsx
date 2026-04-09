@@ -293,12 +293,33 @@ function ChaserChar({ chaser, size }: { chaser: Chaser; size: number }) {
 interface LeaderEntry { name: string; score: number; level: number; ts?: number; }
 const LB_KEY = 'ak_chaos_leaderboard';
 
-function loadLeaderboard(): LeaderEntry[] {
+function loadLeaderboardLocal(): LeaderEntry[] {
   try { return JSON.parse(localStorage.getItem(LB_KEY) || '[]'); }
   catch { return []; }
 }
-function saveLeaderboard(lb: LeaderEntry[]) {
+function saveLeaderboardLocal(lb: LeaderEntry[]) {
   try { localStorage.setItem(LB_KEY, JSON.stringify(lb)); } catch {}
+}
+async function fetchLeaderboardAPI(): Promise<LeaderEntry[]> {
+  try {
+    const r = await fetch('/api/leaderboard');
+    if (!r.ok) return loadLeaderboardLocal();
+    const data = await r.json();
+    if (Array.isArray(data) && data.length > 0) { saveLeaderboardLocal(data); return data; }
+    return loadLeaderboardLocal();
+  } catch { return loadLeaderboardLocal(); }
+}
+async function postScoreAPI(entry: LeaderEntry): Promise<LeaderEntry[]|null> {
+  try {
+    const r = await fetch('/api/leaderboard', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: entry.name, score: entry.score, level: entry.level }),
+    });
+    if (!r.ok) return null;
+    const data = await r.json();
+    return Array.isArray(data) ? data : null;
+  } catch { return null; }
 }
 function isNewRecord(score: number, lb: LeaderEntry[]): boolean {
   if (score === 0) return false;
@@ -386,7 +407,10 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
   const [awaitingName, setAwaitingName] = useState(false);
   const [pendingEntry, setPendingEntry] = useState<{score:number;level:number}|null>(null);
 
-  useEffect(() => { setLeaderboard(loadLeaderboard()); }, []);
+  useEffect(() => {
+    setLeaderboard(loadLeaderboardLocal());
+    fetchLeaderboardAPI().then(lb => setLeaderboard(lb));
+  }, []);
 
   const resetPositions = (level: number) => {
     kidRef.current     = { x:7, y:7 };
@@ -544,7 +568,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
       // Level complete?
       if (maze.flat().filter(c=>c===0||c===3).length===0) {
         gameStateRef.current = 'levelup';
-        const lb = loadLeaderboard();
+        const lb = loadLeaderboardLocal();
         if (isNewRecord(scoreRef.current, lb)) {
           setPendingEntry({ score:scoreRef.current, level:levelRef.current });
           setAwaitingName(true); setNameInput('');
@@ -589,7 +613,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
         livesRef.current--;
         if (livesRef.current<=0) {
           gameStateRef.current='gameover';
-          const lb = loadLeaderboard();
+          const lb = loadLeaderboardLocal();
           if (isNewRecord(scoreRef.current, lb)) {
             setPendingEntry({ score:scoreRef.current, level:levelRef.current });
             setAwaitingName(true); setNameInput('');
@@ -653,10 +677,15 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
       level: pendingEntry.level,
       ts: Date.now(),
     };
-    const updated = [...leaderboard, entry].sort((a,b)=>b.score-a.score).slice(0,10);
-    saveLeaderboard(updated);
-    setLeaderboard(updated);
+    // Optimistic local update
+    const localUpdated = [...leaderboard, entry].sort((a,b)=>b.score-a.score).slice(0,50);
+    saveLeaderboardLocal(localUpdated);
+    setLeaderboard(localUpdated);
     setAwaitingName(false); setPendingEntry(null); setNameInput('');
+    // Sync to API in background
+    postScoreAPI(entry).then(remote => {
+      if (remote) { saveLeaderboardLocal(remote); setLeaderboard(remote); }
+    });
   };
 
   const resetToIdle = useCallback(() => {
