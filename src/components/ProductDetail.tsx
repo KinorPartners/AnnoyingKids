@@ -201,9 +201,18 @@ export default function ProductDetail({ product, allProducts }: ProductDetailPro
     });
   }, [product.variants, hasColorSize, isSwapped]);
 
-  const [selectedColor, setSelectedColor] = useState(() =>
-    hasColorSize ? getColor(product.variants[0].title) : ''
-  );
+  const [selectedColor, setSelectedColor] = useState(() => {
+    if (!hasColorSize) return '';
+    // Pre-select color from ?color= URL param if present and valid
+    if (typeof window !== 'undefined') {
+      const param = new URLSearchParams(window.location.search).get('color');
+      if (param) {
+        const match = product.variants.find(v => getColor(v.title) === param);
+        if (match) return param;
+      }
+    }
+    return getColor(product.variants[0].title);
+  });
   const [selectedSize, setSelectedSize] = useState(() =>
     hasColorSize ? getSize(product.variants[0].title) : ''
   );

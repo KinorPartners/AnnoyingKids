@@ -2,8 +2,48 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
+
+/** Map color names (lowercase) to display hex values */
+const COLOR_HEX: Record<string, string> = {
+  'white':       '#FFFFFF',
+  'black':       '#1a1a1a',
+  'sand':        '#C2A96E',
+  'sport grey':  '#8A8A8A',
+  'navy':        '#1C2D5A',
+  'red':         '#CC2222',
+  'royal blue':  '#1C47A3',
+  'forest green':'#2D6A2D',
+  'maroon':      '#7B1E1E',
+  'purple':      '#6B2FA0',
+  'gold':        '#C9A227',
+  'light blue':  '#7EC8E3',
+  'charcoal':    '#3D3D3D',
+  'heather grey':'#B0B0B0',
+  'ash grey':    '#B0B0B0',
+};
+
+/** Extract unique colors from product variants. Returns [] for size-only products. */
+function getProductColors(product: Product): string[] {
+  if (!product.variants.length) return [];
+  const first = product.variants[0].title;
+  if (!first.includes('/')) return [];
+  // Detect swapped format: "Size / Color" (e.g. "11oz / Black")
+  const isSwapped = /^\d+\s*oz$/.test(first.split('/')[0].trim().toLowerCase());
+  const seen = new Set<string>();
+  const colors: string[] = [];
+  for (const v of product.variants) {
+    const parts = v.title.split('/');
+    const color = (isSwapped ? parts[1] : parts[0])?.trim();
+    if (color && !seen.has(color)) {
+      seen.add(color);
+      colors.push(color);
+    }
+  }
+  return colors;
+}
 
 interface ProductCardProps {
   product: Product;
@@ -11,7 +51,9 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const router = useRouter();
   const [imgError, setImgError] = useState(false);
+  const productColors = getProductColors(product);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -119,7 +161,44 @@ export default function ProductCard({ product }: ProductCardProps) {
               Add to Cart
             </button>
           </div>
-          {product.variants.length > 1 && (
+          {productColors.length > 0 ? (
+            <div className="flex gap-2 justify-center mt-2 flex-wrap">
+              {productColors.map((color) => {
+                const hex = COLOR_HEX[color.toLowerCase()] ?? '#888888';
+                const isWhite = hex === '#FFFFFF';
+                return (
+                  <button
+                    key={color}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      router.push(`/products/${product.slug}?color=${encodeURIComponent(color)}`);
+                    }}
+                    title={color}
+                    aria-label={`View in ${color}`}
+                    style={{
+                      width: '22px',
+                      height: '22px',
+                      borderRadius: '50%',
+                      backgroundColor: hex,
+                      border: `2px solid ${isWhite ? 'rgba(180,180,180,0.9)' : 'rgba(255,255,255,0.3)'}`,
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s, border-color 0.2s',
+                      flexShrink: 0,
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.2)';
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#fff';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
+                      (e.currentTarget as HTMLButtonElement).style.borderColor = isWhite ? 'rgba(180,180,180,0.9)' : 'rgba(255,255,255,0.3)';
+                    }}
+                  />
+                );
+              })}
+            </div>
+          ) : product.variants.length > 1 && (
             <p className="text-gray-500 text-xs font-space mt-2">
               {product.variants.length} options available
             </p>
