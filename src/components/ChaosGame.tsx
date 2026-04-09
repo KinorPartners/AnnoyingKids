@@ -568,7 +568,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
       // Level complete?
       if (maze.flat().filter(c=>c===0||c===3).length===0) {
         gameStateRef.current = 'levelup';
-        const lb = loadLeaderboard();
+        const lb = loadLeaderboardLocal();
         if (isNewRecord(scoreRef.current, lb)) {
           setPendingEntry({ score:scoreRef.current, level:levelRef.current });
           setAwaitingName(true); setNameInput('');
@@ -613,7 +613,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
         livesRef.current--;
         if (livesRef.current<=0) {
           gameStateRef.current='gameover';
-          const lb = loadLeaderboard();
+          const lb = loadLeaderboardLocal();
           if (isNewRecord(scoreRef.current, lb)) {
             setPendingEntry({ score:scoreRef.current, level:levelRef.current });
             setAwaitingName(true); setNameInput('');
