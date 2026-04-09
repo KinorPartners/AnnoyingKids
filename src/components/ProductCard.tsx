@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
 
@@ -97,6 +97,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const router = useRouter();
   const [imgError, setImgError] = useState(false);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const productColors = getProductColors(product);
@@ -129,7 +130,14 @@ export default function ProductCard({ product }: ProductCardProps) {
     : `/products/${product.slug}`;
 
   return (
-    <Link href={productHref} className="group block">
+    <div
+      className="group block cursor-pointer"
+      onClick={() => router.push(productHref)}
+      role="link"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push(productHref); }}
+      aria-label={product.title}
+    >
       <div className="relative bg-dark-card border border-dark-border rounded-2xl overflow-hidden transition-all duration-500 hover:border-neon-pink/50 hover:shadow-[0_0_30px_rgba(255,45,120,0.2)]">
         {/* Product image */}
         <div className="relative aspect-square bg-dark-surface overflow-hidden">
@@ -266,6 +274,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
