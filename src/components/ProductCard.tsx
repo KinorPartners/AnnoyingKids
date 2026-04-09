@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
 
@@ -40,21 +39,26 @@ const COLOR_HEX: Record<string, string> = {
   'ash grey':           '#B0B0B0',
 };
 
+/** Detect if variant titles are in "Size / Color" order (mugs, stickers). */
+function isSwappedFormat(firstVariantTitle: string): boolean {
+  const firstPart = firstVariantTitle.split('/')[0].trim().toLowerCase();
+  return (
+    /^\d+\s*oz$/.test(firstPart) ||
+    /^\d+[""]\s*[×x×]\s*\d+/.test(firstPart)
+  );
+}
+
 /** Extract unique colors from product variants. Returns [] for size-only products. */
 function getProductColors(product: Product): string[] {
   if (!product.variants.length) return [];
   const first = product.variants[0].title;
   if (!first.includes('/')) return [];
-  const firstPart = first.split('/')[0].trim().toLowerCase();
-  // Detect "Size / Color" format: oz-based (mugs) or dimension-based (stickers: 3" × 3")
-  const isSwapped =
-    /^\d+\s*oz$/.test(firstPart) ||
-    /^\d+[""]\s*[×x×]\s*\d+/.test(firstPart);
+  const swapped = isSwappedFormat(first);
   const seen = new Set<string>();
   const colors: string[] = [];
   for (const v of product.variants) {
     const parts = v.title.split('/');
-    const color = (isSwapped ? parts[1] : parts[0])?.trim();
+    const color = (swapped ? parts[1] : parts[0])?.trim();
     if (color && !seen.has(color)) {
       seen.add(color);
       colors.push(color);
@@ -63,14 +67,38 @@ function getProductColors(product: Product): string[] {
   return colors;
 }
 
+/** Find the best front image src for a given color using imageData variant_ids. */
+function getImageForColor(product: Product, color: string): string | null {
+  if (!product.imageData?.length) return null;
+  const swapped = product.variants.length > 0 ? isSwappedFormat(product.variants[0].title) : false;
+  const matchingIds = product.variants
+    .filter(v => {
+      const parts = v.title.split('/');
+      const varColor = (swapped ? parts[1] : parts[0])?.trim();
+      return varColor?.toLowerCase() === color.toLowerCase();
+    })
+    .map(v => parseInt(v.id, 10));
+  if (!matchingIds.length) return null;
+  const matches = product.imageData.filter(img =>
+    img.variant_ids.some(id => matchingIds.includes(id))
+  );
+  // Prefer position=front, then is_default, then first match
+  return (
+    matches.find(img => img.position === 'front')?.src ??
+    matches.find(img => img.is_default)?.src ??
+    matches[0]?.src ??
+    null
+  );
+}
+
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
-  const router = useRouter();
   const [imgError, setImgError] = useState(false);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const productColors = getProductColors(product);
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -94,10 +122,14 @@ export default function ProductCard({ product }: ProductCardProps) {
     tees: '👕', hoodies: '🧥', mugs: '☕', stickers: '🎨', caps: '🧢',
   };
 
-  const primaryImage = !imgError && product.images[0] ? product.images[0] : null;
+  const colorImage = selectedColor ? getImageForColor(product, selectedColor) : null;
+  const primaryImage = !imgError && (colorImage ?? product.images[0]) ? (colorImage ?? product.images[0]) : null;
+  const productHref = selectedColor
+    ? `/products/${product.slug}?color=${encodeURIComponent(selectedColor)}`
+    : `/products/${product.slug}`;
 
   return (
-    <Link href={`/products/${product.slug}`} className="group block">
+    <Link href={productHref} className="group block">
       <div className="relative bg-dark-card border border-dark-border rounded-2xl overflow-hidden transition-all duration-500 hover:border-neon-pink/50 hover:shadow-[0_0_30px_rgba(255,45,120,0.2)]">
         {/* Product image */}
         <div className="relative aspect-square bg-dark-surface overflow-hidden">
@@ -184,33 +216,44 @@ export default function ProductCard({ product }: ProductCardProps) {
               {productColors.map((color) => {
                 const hex = COLOR_HEX[color.toLowerCase()] ?? '#888888';
                 const isWhite = hex === '#FFFFFF';
+                const isActive = selectedColor === color;
                 return (
                   <button
                     key={color}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      router.push(`/products/${product.slug}?color=${encodeURIComponent(color)}`);
+                      setSelectedColor(isActive ? null : color);
+                      setImgError(false);
                     }}
                     title={color}
                     aria-label={`View in ${color}`}
+                    aria-pressed={isActive}
                     style={{
                       width: '22px',
                       height: '22px',
                       borderRadius: '50%',
                       backgroundColor: hex,
-                      border: `2px solid ${isWhite ? 'rgba(180,180,180,0.9)' : 'rgba(255,255,255,0.3)'}`,
+                      border: isActive
+                        ? '2px solid #fff'
+                        : `2px solid ${isWhite ? 'rgba(180,180,180,0.9)' : 'rgba(255,255,255,0.3)'}`,
+                      boxShadow: isActive ? '0 0 0 2px rgba(255,255,255,0.6)' : 'none',
+                      transform: isActive ? 'scale(1.25)' : 'scale(1)',
                       cursor: 'pointer',
-                      transition: 'transform 0.2s, border-color 0.2s',
+                      transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
                       flexShrink: 0,
                     }}
                     onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.2)';
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = '#fff';
+                      if (!isActive) {
+                        (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.2)';
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = '#fff';
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
-                      (e.currentTarget as HTMLButtonElement).style.borderColor = isWhite ? 'rgba(180,180,180,0.9)' : 'rgba(255,255,255,0.3)';
+                      if (!isActive) {
+                        (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = isWhite ? 'rgba(180,180,180,0.9)' : 'rgba(255,255,255,0.3)';
+                      }
                     }}
                   />
                 );
