@@ -144,9 +144,9 @@ export default function CharactersScroll() {
         />
       </div>
 
-      {/* Fixed viewport */}
+      {/* Fixed viewport — top offset accounts for the fixed navbar (h-16 / h-20 = 64px/80px) */}
       <div style={{
-        position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        position: 'fixed', top: 80, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
         overflow: 'hidden', pointerEvents: 'none', zIndex: 1,
       }}>
         {activeIndex === 0 && <IntroSection progress={blend} />}
