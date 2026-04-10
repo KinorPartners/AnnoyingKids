@@ -66,7 +66,7 @@ export default function Header() {
               📸 Wall
             </Link>
             <Link
-              href="/characters"
+              href="/characters-v2"
               className="font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider"
             >
               🎮 The Gang
@@ -188,7 +188,7 @@ export default function Header() {
               📸 Wall of Chaos
             </Link>
             <Link
-              href="/characters"
+              href="/characters-v2"
               className="block font-space text-gray-400 hover:text-neon-pink transition-colors duration-300 text-sm uppercase tracking-wider py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
