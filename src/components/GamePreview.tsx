@@ -116,13 +116,13 @@ export default function GamePreview() {
               )))}
 
               {/* Animated characters */}
-              <div className="mini-mom absolute" style={{ zIndex:10, filter:'drop-shadow(0 0 4px #ff2d78)' }}>
+              <div className="mini-mom absolute" style={{ zIndex:10, filter:'drop-shadow(0 0 4px #ff2d78)', transform:'scale(0.7)', transformOrigin:'top left' }}>
                 <Mom size={MC} />
               </div>
-              <div className="mini-dad absolute" style={{ zIndex:10, filter:'drop-shadow(0 0 4px #00f0ff)' }}>
+              <div className="mini-dad absolute" style={{ zIndex:10, filter:'drop-shadow(0 0 4px #00f0ff)', transform:'scale(0.7)', transformOrigin:'top left' }}>
                 <Dad size={MC} />
               </div>
-              <div className="mini-kid absolute" style={{ zIndex:11, filter:'drop-shadow(0 0 5px rgba(255,255,255,0.6))' }}>
+              <div className="mini-kid absolute" style={{ zIndex:11, filter:'drop-shadow(0 0 5px rgba(255,255,255,0.6))', transform:'scale(0.7)', transformOrigin:'top left' }}>
                 <Kid size={MC} />
               </div>
             </div>
