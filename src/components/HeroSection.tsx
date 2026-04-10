@@ -62,19 +62,23 @@ export default function HeroSection() {
                 </NeonButton>
               </div>
               {/* Bouncing kid — absolutely positioned so it never affects button centering */}
-              <span
-                className="text-4xl animate-jump select-none pointer-events-none hidden sm:block"
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/characters/guy.png?v=4"
+                alt=""
+                aria-hidden="true"
+                className="animate-jump select-none pointer-events-none hidden sm:block"
                 style={{
                   position: 'absolute',
                   right: 0,
                   bottom: '100%',
+                  width: 56,
+                  height: 56,
+                  objectFit: 'contain',
                   animationDelay: '0.6s',
                   filter: 'drop-shadow(0 0 8px rgba(255,45,120,0.7))',
                 }}
-                aria-hidden="true"
-              >
-                🧒🏽
-              </span>
+              />
             </div>
 
             {/* Compact stats */}

@@ -6,13 +6,14 @@ import Image from 'next/image'
 
 // 3D character images — transparent PNGs
 const CHAR_IMAGES: Record<string, string> = {
-  guy: '/characters/guy.png?v=3',
-  buddy: '/characters/buddy.png?v=3',
-  pap: '/characters/pap.png?v=3',
-  mal: '/characters/mal.png?v=3',
-  mimi: '/characters/mimi.png?v=3',
-  barry: '/characters/barry.png?v=3',
-  rex: '/characters/rex.png?v=3',
+  guy: '/characters/guy.png?v=4',
+  buddy: '/characters/buddy.png?v=4',
+  pap: '/characters/pap.png?v=4',
+  mal: '/characters/mal.png?v=4',
+  mimi: '/characters/mimi.png?v=4',
+  barry: '/characters/barry.png?v=4',
+  rex: '/characters/rex.png?v=4',
+  yafa: '/characters/yafa.png?v=4',
 }
 
 // Short punchy descriptions — just a few words each

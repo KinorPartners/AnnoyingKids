@@ -3,15 +3,15 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-// Pixel art character images
+// 3D character images
 const GAME_SPRITES: Record<string, string> = {
-  guy: '/game/guy.png',
-  dad: '/game/pap.png',
-  mom: '/game/mal.png',
-  grandma: '/game/mimi.png',
-  grandpa: '/game/barry.png',
-  dinosaur: '/game/rex.png',
-  dog: '/game/buddy.png',
+  guy: '/game/guy.png?v=4',
+  dad: '/game/pap.png?v=4',
+  mom: '/game/mal.png?v=4',
+  grandma: '/game/mimi.png?v=4',
+  grandpa: '/game/barry.png?v=4',
+  dinosaur: '/game/rex.png?v=4',
+  dog: '/game/buddy.png?v=4',
 };
 
 type Pos = { x: number; y: number };
