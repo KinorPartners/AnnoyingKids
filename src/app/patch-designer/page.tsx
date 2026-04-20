@@ -33,7 +33,7 @@ export default function PatchDesignerPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-[1178px] mx-auto">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 font-space text-sm mb-8" aria-label="Breadcrumb">
           <Link href="/" className="text-gray-500 hover:text-neon-pink transition-colors">
