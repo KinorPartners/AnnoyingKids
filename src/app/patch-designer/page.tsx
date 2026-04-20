@@ -27,14 +27,14 @@ const breadcrumbSchema = {
 
 export default function PatchDesignerPage() {
   return (
-    <div className="min-h-screen py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-16 sm:py-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <div className="max-w-[1178px] mx-auto">
-        {/* Breadcrumbs */}
+      {/* Breadcrumbs + hero kept in a readable-width container */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center gap-2 font-space text-sm mb-8" aria-label="Breadcrumb">
           <Link href="/" className="text-gray-500 hover:text-neon-pink transition-colors">
             Home
@@ -43,7 +43,6 @@ export default function PatchDesignerPage() {
           <span className="text-neon-pink">Patch Designer</span>
         </nav>
 
-        {/* Hero */}
         <div className="text-center mb-10 sm:mb-14">
           <span className="font-space text-neon-green text-sm uppercase tracking-widest">
             Design Studio
@@ -56,15 +55,19 @@ export default function PatchDesignerPage() {
             design in seconds. Powered by PatchDesign.ai.
           </p>
         </div>
+      </div>
 
-        {/* Embed container */}
-        <div className="bg-dark-card border border-dark-border rounded-2xl p-4 sm:p-6 lg:p-8 shadow-[0_0_40px_rgba(255,16,240,0.08)]">
+      {/* Embed container — spans the full viewport with only minimal breathing room */}
+      <div className="w-full px-2 sm:px-3 lg:px-4">
+        <div className="bg-dark-card border border-dark-border rounded-2xl p-2 sm:p-3 lg:p-4 shadow-[0_0_40px_rgba(255,16,240,0.08)]">
           <div id="patchdesign-embed" className="min-h-[640px]">
             {/* PatchDesign.ai embed iframe mounts here via data-target */}
           </div>
         </div>
+      </div>
 
-        {/* Fallback note */}
+      {/* Fallback note */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-center font-space text-xs text-gray-600 mt-6">
           Having trouble loading the designer?{' '}
           <Link href="/contact" className="text-neon-blue hover:text-neon-pink transition-colors">
