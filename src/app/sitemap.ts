@@ -22,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/characters`,         lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/game`,               lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE}/chaos-lab`,          lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE}/patch-designer`,     lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/wall-of-chaos`,      lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE}/stories`,            lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE}/about`,              lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },

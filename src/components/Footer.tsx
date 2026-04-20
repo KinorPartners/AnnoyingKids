@@ -102,6 +102,7 @@ export default function Footer() {
                 { label: '💡 Chaos Lab', href: '/chaos-lab' },
                 { label: '📸 Wall of Chaos', href: '/wall-of-chaos' },
                 { label: '📖 Stories', href: '/stories' },
+                { label: '🎨 Patch Designer', href: '/patch-designer' },
                 { label: 'Contact', href: '/contact' },
                 { label: 'Shipping Info', href: '/shipping' },
                 { label: 'Returns', href: '/returns' },
