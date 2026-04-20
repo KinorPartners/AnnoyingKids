@@ -59,8 +59,8 @@ export default function PatchDesignerPage() {
 
         {/* Embed container */}
         <div className="bg-dark-card border border-dark-border rounded-2xl p-4 sm:p-6 lg:p-8 shadow-[0_0_40px_rgba(255,16,240,0.08)]">
-          <div id="patchdesign-embed" className="min-h-[600px]">
-            {/* PatchDesign.ai embed mounts here */}
+          <div id="patchdesign-embed" className="min-h-[640px]">
+            {/* PatchDesign.ai embed iframe mounts here via data-target */}
           </div>
         </div>
 
@@ -74,10 +74,16 @@ export default function PatchDesignerPage() {
         </p>
       </div>
 
-      {/* PatchDesign.ai embed script */}
+      {/* PatchDesign.ai embed script — mounts iframe inside #patchdesign-embed */}
       <Script
         src="https://patchdesign.ai/embed.js"
         data-client="mfr-annoyingkids-com-ba1d"
+        data-target="#patchdesign-embed"
+        data-height="auto"
+        data-min-height="640"
+        data-max-height="1800"
+        data-theme="dark"
+        data-referrer="annoyingkids-patch-designer"
         strategy="afterInteractive"
       />
     </div>
