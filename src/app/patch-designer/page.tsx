@@ -94,4 +94,18 @@ export default function PatchDesignerPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-center font-space text-xs text-gray-600 mt-6">
           Having trouble loading the designer?{' '}
-          <L
+          <Link href="/contact" className="text-neon-blue hover:text-neon-pink transition-colors">
+            Get in touch
+          </Link>{' '}
+          and we&apos;ll help you out.
+        </p>
+      </div>
+
+      {/* PatchDesign.AI SDK loader */}
+      <Script
+        src="https://patchdesign.ai/sdk/patch-designer.sdk.latest.js"
+        strategy="afterInteractive"
+      />
+    </div>
+  );
+}
