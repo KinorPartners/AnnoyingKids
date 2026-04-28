@@ -42,7 +42,12 @@ const breadcrumbSchema = {
 
 export default function PatchDesignerPage() {
   return (
-    <div className="min-h-screen py-16 sm:py-20">
+    // bg-dark-bg + text-white pinned explicitly: the PatchDesign.AI SDK
+    // overrides <html data-theme> and zeros out body backgroundColor as
+    // soon as it mounts, which breaks the site's bright-mode override and
+    // exposes the browser's default white. Pinning the wrapper keeps the
+    // hero readable regardless of what the SDK does to <body>/<html>.
+    <div className="min-h-screen py-16 sm:py-20 bg-dark-bg text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
@@ -89,18 +94,4 @@ export default function PatchDesignerPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-center font-space text-xs text-gray-600 mt-6">
           Having trouble loading the designer?{' '}
-          <Link href="/contact" className="text-neon-blue hover:text-neon-pink transition-colors">
-            Get in touch
-          </Link>{' '}
-          and we&apos;ll help you out.
-        </p>
-      </div>
-
-      {/* PatchDesign.AI SDK loader */}
-      <Script
-        src="https://patchdesign.ai/sdk/patch-designer.sdk.latest.js"
-        strategy="afterInteractive"
-      />
-    </div>
-  );
-}
+          <L
