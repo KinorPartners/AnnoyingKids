@@ -77,7 +77,36 @@ export default function PatchDesignerPage() {
         </div>
       </div>
 
-      {/* Embed container — spans the full viewport with only minimal breathing room */}
+      {/*
+        Embed container — spans the full viewport with only minimal breathing room.
+
+        The SDK ships two layouts: a "page" layout (used when a clientKey is
+        present) which hardcodes min-height: 100vh and an inner scrollable
+        messages area (max-height: 62vh; overflow-y: auto), and a
+        "pd-sdk-native" layout (used only when no clientKey is present) which
+        flows naturally inside the host page.
+
+        We want the native flow but with our clientKey active, so we override
+        the SDK's hashed classes via [class*="_page_"] / [class*="_messagesArea_"]
+        attribute-substring selectors — these survive SDK version bumps that
+        would otherwise change the hash suffix.
+      */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            patch-designer [class*="_page_"] {
+              min-height: 0 !important;
+              background: transparent !important;
+              overflow: visible !important;
+            }
+            patch-designer [class*="_messagesArea_"] {
+              min-height: 0 !important;
+              max-height: none !important;
+              overflow-y: visible !important;
+            }
+          `,
+        }}
+      />
       <div className="w-full px-2 sm:px-3 lg:px-4">
         <div className="bg-dark-card border border-dark-border rounded-2xl p-2 sm:p-3 lg:p-4 shadow-[0_0_40px_rgba(255,16,240,0.08)]">
           {/* PatchDesign.AI SDK */}
@@ -85,6 +114,7 @@ export default function PatchDesignerPage() {
             client-key="mfr-annoyingkids-com-ba1d"
             theme="auto"
             width="100%"
+            height="auto"
           ></patch-designer>
           {/* end PatchDesign.AI SDK */}
         </div>
