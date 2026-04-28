@@ -1,6 +1,21 @@
 import type { Metadata } from 'next';
+import type { DetailedHTMLProps, HTMLAttributes } from 'react';
 import Link from 'next/link';
 import Script from 'next/script';
+
+// Register the <patch-designer> custom element from the PatchDesign.AI SDK
+// so TSX accepts its hyphenated attributes.
+declare module 'react' {
+  namespace JSX {
+    interface IntrinsicElements {
+      'patch-designer': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> & {
+        'client-key'?: string;
+        theme?: string;
+        width?: string;
+      };
+    }
+  }
+}
 
 export const metadata: Metadata = {
   title: 'Patch Designer — Design Your Own Patch',
@@ -60,9 +75,13 @@ export default function PatchDesignerPage() {
       {/* Embed container — spans the full viewport with only minimal breathing room */}
       <div className="w-full px-2 sm:px-3 lg:px-4">
         <div className="bg-dark-card border border-dark-border rounded-2xl p-2 sm:p-3 lg:p-4 shadow-[0_0_40px_rgba(255,16,240,0.08)]">
-          <div id="patchdesign-embed" className="min-h-[640px]">
-            {/* PatchDesign.ai embed iframe mounts here via data-target */}
-          </div>
+          {/* PatchDesign.AI SDK */}
+          <patch-designer
+            client-key="mfr-annoyingkids-com-ba1d"
+            theme="auto"
+            width="100%"
+          ></patch-designer>
+          {/* end PatchDesign.AI SDK */}
         </div>
       </div>
 
@@ -77,16 +96,9 @@ export default function PatchDesignerPage() {
         </p>
       </div>
 
-      {/* PatchDesign.ai embed script — mounts iframe inside #patchdesign-embed */}
+      {/* PatchDesign.AI SDK loader */}
       <Script
-        src="https://patchdesign.ai/embed.js"
-        data-client="mfr-annoyingkids-com-ba1d"
-        data-target="#patchdesign-embed"
-        data-height="auto"
-        data-min-height="640"
-        data-max-height="1800"
-        data-theme="dark"
-        data-referrer="annoyingkids-patch-designer"
+        src="https://patchdesign.ai/sdk/patch-designer.sdk.latest.js"
         strategy="afterInteractive"
       />
     </div>
