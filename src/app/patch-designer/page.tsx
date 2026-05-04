@@ -12,6 +12,7 @@ declare module 'react' {
         'client-key'?: string;
         theme?: string;
         width?: string;
+        height?: string;
       };
     }
   }
