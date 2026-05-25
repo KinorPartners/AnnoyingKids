@@ -284,5 +284,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
+  <url>
+    <loc>https://www.annoyingkids.com/blog/back-to-school-checklist-kids-hate-supplies/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
 
 </urlset>
