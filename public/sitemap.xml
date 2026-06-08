@@ -289,5 +289,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
+  <url>
+    <loc>https://www.annoyingkids.com/blog/chaos-gremlin-or-stealth-troublemaker-quiz/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
 
 </urlset>
