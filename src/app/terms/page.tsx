@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description: 'AnnoyingKids terms of service — use of the site, purchases, and content.',
+  description:
+    'AnnoyingKids terms of service — how you may use the site, product and order terms, Stripe payments, intellectual property, returns and limitation of liability.',
   alternates: { canonical: 'https://annoyingkids.com/terms' },
 };
 

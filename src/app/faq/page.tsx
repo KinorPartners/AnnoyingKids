@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'FAQ — Shipping, Sizing & Returns',
   description:
-    'Answers to the most common questions about AnnoyingKids merch — shipping, sizing, returns, printing, and more.',
+    'Answers to the most common questions about AnnoyingKids merch — shipping times and costs, sizing and size charts, returns, print-on-demand quality and payment.',
   alternates: { canonical: 'https://annoyingkids.com/faq' },
 };
 

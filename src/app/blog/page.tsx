@@ -13,7 +13,8 @@ const breadcrumbSchema = {
 
 export const metadata: Metadata = {
   title: 'Blog — Pranks, School Survival & Chaos',
-  description: 'Articles for kids who live life at maximum chaos. Pranks, school survival guides, gaming tips and gift ideas.',
+  description:
+    'Articles for kids who live life at maximum chaos — pranks that are actually allowed, school survival guides, gaming tips, personality quizzes and gift ideas.',
   alternates: { canonical: 'https://annoyingkids.com/blog' },
 };
 

@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!char) return {};
   return {
     title: `${char.name} — ${char.role}`,
-    description: char.tagline,
+    description: char.metaDescription,
     alternates: { canonical: `https://annoyingkids.com/characters/${slug}` },
   };
 }

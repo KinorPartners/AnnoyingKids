@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ARTICLES, getArticle } from '@/lib/blog';
+import { articleMetaDescription } from '@/lib/meta';
 import type { Metadata } from 'next';
 
 export function generateStaticParams() {
@@ -15,13 +16,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) return {};
+  const description = articleMetaDescription(article);
   return {
     title: article.title,
-    description: article.excerpt,
+    description,
     alternates: { canonical: `https://annoyingkids.com/blog/${article.slug}` },
     openGraph: {
       title: article.title,
-      description: article.excerpt,
+      description,
       type: 'article',
       publishedTime: article.date,
       url: `https://annoyingkids.com/blog/${article.slug}`,

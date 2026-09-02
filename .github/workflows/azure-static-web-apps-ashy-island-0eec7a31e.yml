@@ -47,6 +47,11 @@ jobs:
           output_location: ""
           skip_app_build: true
 
+      - name: Notify IndexNow (Bing, Yandex, Seznam, Naver)
+        if: github.event_name == 'push'
+        continue-on-error: true
+        run: node scripts/indexnow-submit.mjs
+
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
     runs-on: ubuntu-latest

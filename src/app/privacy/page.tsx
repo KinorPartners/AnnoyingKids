@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'AnnoyingKids privacy policy — how we collect, use, and protect your data.',
+  description:
+    'How AnnoyingKids collects, uses and protects your data — orders, Stripe payments, cookies, analytics and your rights. We never sell your personal information.',
   alternates: { canonical: 'https://annoyingkids.com/privacy' },
 };
 

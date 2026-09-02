@@ -4,11 +4,11 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Press & Media Kit — AnnoyingKids',
   description:
-    'Press kit for AnnoyingKids — brand story, assets, key facts, and press contact. Bold, loud merch for kids 6-16.',
+    'Press kit for AnnoyingKids — brand story, logo and image assets, key facts, brand colours and press contact. Bold, loud print-on-demand merch for kids 6-16.',
   alternates: { canonical: 'https://annoyingkids.com/media' },
   openGraph: {
     title: 'Press & Media Kit — AnnoyingKids',
-    description: 'Brand story, assets, key facts, and press contact for AnnoyingKids.',
+    description: 'Brand story, logo and image assets, key facts, and press contact for AnnoyingKids.',
     url: 'https://annoyingkids.com/media',
     siteName: 'AnnoyingKids',
     type: 'website',

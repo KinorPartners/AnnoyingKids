@@ -3,11 +3,11 @@ import StoriesClient from './StoriesClient';
 
 export const metadata: Metadata = {
   title: 'Kid Stories — Naughty by Nature, Good at Heart',
-  description: 'Short stories about kids who cause chaos but always mean well. Every story ends with a smile.',
+  description: 'Short stories about kids who cause chaos but always mean well — pranks, misunderstandings and last-minute saves. Every story ends with a smile, not a lecture.',
   alternates: { canonical: 'https://annoyingkids.com/stories' },
   openGraph: {
     title: 'Kid Stories — Naughty by Nature, Good at Heart',
-    description: 'Short stories about kids who cause chaos but always mean well. Every story ends with a smile.',
+    description: 'Short stories about kids who cause chaos but always mean well — pranks, misunderstandings and last-minute saves. Every story ends with a smile, not a lecture.',
     url: 'https://annoyingkids.com/stories',
     siteName: 'AnnoyingKids',
     type: 'website',

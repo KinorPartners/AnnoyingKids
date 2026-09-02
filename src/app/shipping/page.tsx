@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Shipping Info — US & International Delivery',
   description:
-    'AnnoyingKids shipping details — US and international rates, print-on-demand timelines, and tracking information.',
+    'AnnoyingKids shipping info — US and international delivery rates, print-on-demand production timelines, tracking, and what to expect after you place an order.',
   alternates: { canonical: 'https://annoyingkids.com/shipping' },
 };
 

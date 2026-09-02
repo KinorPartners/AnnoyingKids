@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Contact AnnoyingKids — We Actually Respond',
   description:
-    'Get in touch with AnnoyingKids — order questions, returns, wholesale inquiries, or just to say hi.',
+    'Get in touch with AnnoyingKids about orders, sizing, returns, wholesale or press enquiries — or just to say hi. We read every message and reply within a day.',
   alternates: { canonical: 'https://annoyingkids.com/contact' },
 };
 

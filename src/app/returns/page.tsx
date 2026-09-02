@@ -4,7 +4,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Returns & Exchanges — 30-Day Hassle-Free Policy',
   description:
-    '30-day hassle-free returns on all AnnoyingKids orders. Damaged item? Wrong size? We make it right.',
+    '30-day hassle-free returns and exchanges on every AnnoyingKids order. Damaged item, wrong size or a printing fault? Here is exactly how we put it right.',
   alternates: { canonical: 'https://annoyingkids.com/returns' },
 };
 

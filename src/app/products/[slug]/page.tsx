@@ -2,6 +2,7 @@ export const dynamic = 'force-static';
 
 import type { Metadata } from 'next';
 import { getProductsForBuild } from '@/lib/products';
+import { productMetaDescription } from '@/lib/meta';
 import ProductDetailClient from './ProductDetailClient';
 
 interface ProductPageProps {
@@ -15,14 +16,15 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   if (!product) return { title: 'Product Not Found' };
 
   const imageUrl = product.images[0];
+  const description = productMetaDescription(product);
 
   return {
     title: `${product.title} — AnnoyingKids`,
-    description: product.description?.slice(0, 155),
+    description,
     alternates: { canonical: `https://annoyingkids.com/products/${slug}` },
     openGraph: {
       title: `${product.title} — AnnoyingKids`,
-      description: product.description?.slice(0, 155) ?? '',
+      description,
       url: `https://annoyingkids.com/products/${slug}`,
       siteName: 'AnnoyingKids',
       type: 'website',
@@ -33,7 +35,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
     twitter: {
       card: 'summary_large_image',
       title: product.title,
-      description: product.description?.slice(0, 155) ?? '',
+      description,
       images: imageUrl ? [imageUrl] : undefined,
     },
   };
