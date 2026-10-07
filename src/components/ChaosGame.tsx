@@ -14,6 +14,31 @@ const GAME_SPRITES: Record<string, string> = {
   dog: '/game/buddy.png?v=4',
 };
 
+// Square face crop per sprite, in source-image pixels (w/h = full image size)
+const FACE_CROPS: Record<string, { w: number; h: number; x: number; y: number; s: number }> = {
+  guy:      { w: 201, h: 658,  x: 40, y: 200, s: 165 },
+  mom:      { w: 201, h: 658,  x: 32, y: 72,  s: 170 },
+  dad:      { w: 233, h: 601,  x: 40, y: 0,   s: 150 },
+  grandma:  { w: 194, h: 553,  x: 0,  y: 0,   s: 194 },
+  grandpa:  { w: 309, h: 870,  x: 20, y: 0,   s: 240 },
+  dinosaur: { w: 640, h: 1618, x: 0,  y: 220, s: 450 },
+  dog:      { w: 158, h: 354,  x: 0,  y: 5,   s: 158 },
+};
+
+// Shows only the face of a full-body sprite so characters stay readable at small cell sizes
+function FaceSprite({ name, size }: { name: string; size: number }) {
+  const c = FACE_CROPS[name];
+  const k = size / c.s;
+  return (
+    <div style={{position:'relative',width:size,height:size,overflow:'hidden'}}>
+      <img src={GAME_SPRITES[name]} alt={name} draggable={false} style={{
+        position:'absolute', maxWidth:'none',
+        width:c.w*k, height:c.h*k, left:-c.x*k, top:-c.y*k,
+      }} />
+    </div>
+  );
+}
+
 type Pos = { x: number; y: number };
 type Dir = { x: number; y: number };
 type GameState = 'idle' | 'playing' | 'dead' | 'levelup' | 'won' | 'gameover';
@@ -274,18 +299,13 @@ function Kid({ size, dead }: { size: number; dead: boolean }) {
   );
   return (
     <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <img src={GAME_SPRITES.guy} alt="Guy" style={{width:size,height:size,objectFit:'contain',imageRendering:'pixelated'}} />
+      <FaceSprite name="guy" size={size} />
     </div>
   );
 }
 
 function ChaserChar({ chaser, size }: { chaser: Chaser; size: number }) {
-  const src = GAME_SPRITES[chaser.type]
-  return (
-    <div style={{position:'relative',width:size,height:size,display:'flex',alignItems:'center',justifyContent:'center'}}>
-      <img src={src} alt={chaser.type} style={{width:size,height:size,objectFit:'contain',imageRendering:'pixelated'}} />
-    </div>
-  );
+  return <FaceSprite name={chaser.type} size={size} />;
 }
 
 // ─── Leaderboard ─────────────────────────────────────────────────────
@@ -372,7 +392,8 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
   const isMobile = windowWidth > 0 && windowWidth < 640;
   const CS = (() => {
     if (windowWidth === 0) return BASE_CELL;
-    const widthCS = Math.max(18, Math.floor((windowWidth - 32) / COLS));
+    // Board has a 2px border each side; on mobile use nearly the full width
+    const widthCS = Math.max(18, Math.floor((windowWidth - (isMobile ? 6 : 32)) / COLS));
     if (fullPage && windowHeight > 0) {
       // Reserve: header (64px mobile / 80px desktop) + title+HUD (~80px) + d-pad (~160px) + padding (~24px)
       const reserved = isMobile ? 360 : 320;
@@ -730,7 +751,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
 
   return (
     <section className={fullPage
-      ? 'flex flex-col items-center justify-center h-[calc(100dvh-4rem)] sm:h-[calc(100dvh-5rem)] px-2 py-2 gap-2 overflow-hidden'
+      ? 'flex flex-col items-center justify-center h-[calc(100dvh-4rem)] sm:h-[calc(100dvh-5rem)] px-px sm:px-2 py-1 sm:py-2 gap-1 sm:gap-2 overflow-hidden'
       : 'py-12 px-4'
     }>
       <div className={fullPage ? 'flex flex-col items-center gap-2 w-full' : 'max-w-2xl mx-auto flex flex-col items-center gap-5'}>
@@ -836,7 +857,7 @@ export default function ChaosGame({ fullPage = false }: { fullPage?: boolean }) 
               transition: dogRef.current.state==='chasing' ? 'left 0.12s linear,top 0.12s linear' : 'none',
               filter:'drop-shadow(0 0 6px #fbbf24)',
             }}>
-              <img src={GAME_SPRITES.dog} alt="Buddy" style={{width:CS*0.85,height:CS*0.85,objectFit:'contain',imageRendering:'pixelated'}} />
+              <FaceSprite name="dog" size={CS*0.9} />
               {dogRef.current.state === 'available' && (
                 <div style={{
                   position:'absolute', top:-13, left:'50%', transform:'translateX(-50%)',
